@@ -6,8 +6,6 @@
 
 class EnvironmentalObject;
 
-constexpr int MAX_REQUESTS = 16;
-
 class LevelMgr
 {
 public:

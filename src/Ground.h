@@ -8,7 +8,7 @@ struct Texture;
 class Ground : public EnvironmentalObject
 {
 public:
-	Ground(float sz);
+	Ground(float sz, const char* texPath);
 	~Ground();
 
 	RayCollision GetRayCollision(Ray ray) const override;
@@ -18,8 +18,7 @@ protected:
 
 	float m_sz;
 
-	static Texture s_tex;
-	static bool s_texLoaded;
+	Texture m_tex;
 };
 
 #endif // !GROUND_H_INCLUDED
