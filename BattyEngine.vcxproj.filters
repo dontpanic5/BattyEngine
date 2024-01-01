@@ -53,49 +53,49 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BattyEngineHeaders\AnimationMgr.h">
+    <ClInclude Include="src\AnimationMgr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BattyEngineHeaders\BattyEngine.h">
+    <ClInclude Include="src\BattyEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BattyEngineHeaders\Building.h">
+    <ClInclude Include="src\Building.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BattyEngineHeaders\Constants.h">
+    <ClInclude Include="src\Constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BattyEngineHeaders\ControllerMgr.h">
+    <ClInclude Include="src\ControllerMgr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BattyEngineHeaders\Entity.h">
+    <ClInclude Include="src\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BattyEngineHeaders\EntityMgr.h">
+    <ClInclude Include="src\EntityMgr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BattyEngineHeaders\EnvironmentalObject.h">
+    <ClInclude Include="src\EnvironmentalObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BattyEngineHeaders\GameCamera.h">
+    <ClInclude Include="src\GameCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BattyEngineHeaders\Ground.h">
+    <ClInclude Include="src\Ground.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BattyEngineHeaders\LevelMgr.h">
+    <ClInclude Include="src\LevelMgr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BattyEngineHeaders\MathUtils.h">
+    <ClInclude Include="src\MathUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BattyEngineHeaders\RingBuffer.h">
+    <ClInclude Include="src\RingBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BattyEngineHeaders\Ui.h">
+    <ClInclude Include="src\Ui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BattyEngineHeaders\Utils.h">
+    <ClInclude Include="src\Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

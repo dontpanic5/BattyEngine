@@ -153,21 +153,21 @@
     <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BattyEngineHeaders\AnimationMgr.h" />
-    <ClInclude Include="BattyEngineHeaders\BattyEngine.h" />
-    <ClInclude Include="BattyEngineHeaders\Building.h" />
-    <ClInclude Include="BattyEngineHeaders\Constants.h" />
-    <ClInclude Include="BattyEngineHeaders\ControllerMgr.h" />
-    <ClInclude Include="BattyEngineHeaders\Entity.h" />
-    <ClInclude Include="BattyEngineHeaders\EntityMgr.h" />
-    <ClInclude Include="BattyEngineHeaders\EnvironmentalObject.h" />
-    <ClInclude Include="BattyEngineHeaders\GameCamera.h" />
-    <ClInclude Include="BattyEngineHeaders\Ground.h" />
-    <ClInclude Include="BattyEngineHeaders\LevelMgr.h" />
-    <ClInclude Include="BattyEngineHeaders\MathUtils.h" />
-    <ClInclude Include="BattyEngineHeaders\RingBuffer.h" />
-    <ClInclude Include="BattyEngineHeaders\Ui.h" />
-    <ClInclude Include="BattyEngineHeaders\Utils.h" />
+    <ClInclude Include="src\AnimationMgr.h" />
+    <ClInclude Include="src\BattyEngine.h" />
+    <ClInclude Include="src\Building.h" />
+    <ClInclude Include="src\Constants.h" />
+    <ClInclude Include="src\ControllerMgr.h" />
+    <ClInclude Include="src\Entity.h" />
+    <ClInclude Include="src\EntityMgr.h" />
+    <ClInclude Include="src\EnvironmentalObject.h" />
+    <ClInclude Include="src\GameCamera.h" />
+    <ClInclude Include="src\Ground.h" />
+    <ClInclude Include="src\LevelMgr.h" />
+    <ClInclude Include="src\MathUtils.h" />
+    <ClInclude Include="src\RingBuffer.h" />
+    <ClInclude Include="src\Ui.h" />
+    <ClInclude Include="src\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

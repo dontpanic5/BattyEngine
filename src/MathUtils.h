@@ -2,6 +2,10 @@
 
 #include <raymath.h>
 
+/*******************************************************************************
+ * This file taken from: https://github.com/brihernandez/Ergo
+ *******************************************************************************/
+
 // ==================================================================================
 // For more info on SmoothDamp see:
 // https://www.rorydriscoll.com/2016/03/07/frame-rate-independent-damping-using-lerp/
