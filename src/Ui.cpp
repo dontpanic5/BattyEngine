@@ -1,13 +1,18 @@
 #include "Ui.h"
 #include <string.h>
 #include "raylib.h"
-#include "screens.h"
+#include <cmath>
+#include "BattyEngine.h"
 
 constexpr float SPACING = 30.0f;
 
-void DrawUiText(Font& font, const char* text, float relX, float relY, FontSize fontSize, bool bg)
+void DrawUiText(const char* text, float relX, float relY, FontSize fontSize,
+    bool bg, Font* font)
 {
 	int actualFontSize;
+
+    if (font == nullptr)
+        font = &defaultFont;
 
 	switch (fontSize)
 	{
@@ -21,18 +26,56 @@ void DrawUiText(Font& font, const char* text, float relX, float relY, FontSize f
 	default:
 		actualFontSize = GetRenderHeight() / 5;
 		break;
-
 	}
 
 	int posX = GetRenderWidth() * relX;
 	int posY = GetRenderHeight() * relY;
 
-	Vector2 sz = MeasureTextEx(font, text, actualFontSize, actualFontSize / SPACING);
+	Vector2 sz = MeasureTextEx(*font, text, actualFontSize, actualFontSize / SPACING);
 
 	if (bg)
 	{
 		DrawRectangle(posX - 20, posY - 20, sz.x + 40, sz.y + 40, {0, 0, 0, 224});
 	}
 
-	DrawTextEx(font, text, { (float)posX, (float)posY }, actualFontSize, actualFontSize / SPACING, RED);
+	DrawTextEx(*font, text, { (float)posX, (float)posY }, actualFontSize, actualFontSize / SPACING, RED);
+}
+
+void DrawOrb(int centerX, int centerY, float amt, Color color)
+{
+    float radius = GetRenderWidth() / 20;
+    color.a = 200;
+
+    BeginScissorMode(
+        centerX - radius,
+        centerY - radius + ((1 - amt) * (radius * 2)),
+        radius * 2,
+        radius * 2
+    );
+    {
+        if (amt < 0.3f)
+        {
+            if (fmod(GetTime(), 0.25) > 0.125)
+            {
+                color.a = 0;
+            }
+            else
+            {
+                color.a = 255;
+            }
+        }
+        DrawCircle(centerX, centerY, radius, color);
+    }
+    EndScissorMode();
+
+    DrawCircleLines(
+        centerX,
+        centerY,
+        radius,
+        GRAY
+    );
+}
+
+void DrawFps()
+{
 }

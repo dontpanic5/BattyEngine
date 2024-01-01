@@ -193,11 +193,6 @@ void Entity::SetUid(int uid)
 	m_uid = uid;
 }
 
-void Entity::UnloadEntity()
-{
-	UnloadModel(m_model);
-}
-
 void Entity::Die()
 {
 	m_dead = true;

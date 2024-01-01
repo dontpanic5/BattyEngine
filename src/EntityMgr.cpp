@@ -23,11 +23,3 @@ void EntityMgr::AddEntity(Entity* entity)
     entity->SetUid(uidIdx++);
     m_entities.push_back(entity);
 }
-
-void EntityMgr::Unload()
-{
-    for (Entity* entity : m_entities)
-    {
-        entity->UnloadEntity();
-    }
-}

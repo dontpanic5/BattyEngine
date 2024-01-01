@@ -23,6 +23,16 @@ RayCollision Ground::GetRayCollision(Ray ray) const
 	return GetRayCollisionQuad(ray, { m_sz, 0, m_sz }, { m_sz, 0, -m_sz }, { -m_sz, 0, -m_sz }, { -m_sz, 0, m_sz });
 }
 
+void Ground::drawObj()
+{
+	EnvironmentalObject::drawObj();
+
+#ifdef DEBUG
+	constexpr float SPACING = 20.0f;
+	DrawGrid(m_sz / SPACING, SPACING);
+#endif // DEBUG
+}
+
 BoundingBox Ground::GetBoundingBox() const
 {
 	return { {-m_sz, 0, -m_sz}, {m_sz, 0, m_sz} };

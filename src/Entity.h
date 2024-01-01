@@ -16,6 +16,7 @@ class Entity
 public:
 	Entity(const char* modelPath, float scale,
 		bool drawBounds, bool spawn, bool calcRotBb = false, Vector3 pos = Vector3Zero());
+	virtual ~Entity() = default;
 
 	// NOTE: makes the assumption that the child will resolve
 	// all the movement and stuff before the parent method
@@ -47,14 +48,10 @@ public:
 
 	virtual bool collisionCheck(BoundingBox bb) = 0;
 
-	virtual ~Entity() = default;
-
 	bool isDead() const;
 	bool isSpawned() const;
 
 	void SetUid(int uid);
-
-	virtual void UnloadEntity();
 
 protected:
 	virtual void Die();

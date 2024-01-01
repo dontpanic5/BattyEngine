@@ -13,6 +13,8 @@ public:
 
 	RayCollision GetRayCollision(Ray ray) const override;
 
+	void drawObj() override;
+
 protected:
 	BoundingBox GetBoundingBox() const;
 

@@ -18,6 +18,8 @@ class AnimationMgr final
 public:
 	static AnimationMgr& Instance();
 
+	void LoadMultipleModelAnimations(const char** modelPaths, int numPaths);
+
 	void Unload();
 
 	std::unordered_map<const char*, AnimWrapper> m_animations;
