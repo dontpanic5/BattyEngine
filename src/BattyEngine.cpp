@@ -29,6 +29,7 @@ static void UpdateDrawFrame();
 
 void Init(const char* name)
 {
+    SetConfigFlags(FLAG_MSAA_4X_HINT);  // Enable Multi Sampling Anti Aliasing 4x (if available)
     // Initialization
     //---------------------------------------------------------
     InitWindow(screenWidth, screenHeight, name);
