@@ -2,11 +2,14 @@
 #define BATTY_ENGINE_H_INCLUDED
 
 struct Font;
+struct Shader;
 
 typedef void (*LogicCbType)();
 typedef void (*DrawCbType)();
 
 void Init(const char* name);
+
+extern Shader g_lighting;
 
 void RunMainLoop(void);
 

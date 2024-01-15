@@ -193,6 +193,12 @@ void Entity::SetUid(int uid)
 	m_uid = uid;
 }
 
+void Entity::SetMaterialShaders(Shader shader)
+{
+	for (int i = 0; i < m_model.materialCount; i++)
+		m_model.materials[i].shader = shader;
+}
+
 void Entity::Die()
 {
 	m_dead = true;

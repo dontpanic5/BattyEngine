@@ -5,6 +5,8 @@ static const int screenHeight = 490;
 #include "raylib.h"
 #include <math.h>
 #include "BattyEngine.h"
+#define RLIGHTS_IMPLEMENTATION
+#include "rlights.h"
 #include "Constants.h"
 #include "Utils.h"
 #include "Ui.h"
@@ -14,10 +16,18 @@ static const int screenHeight = 490;
 #include <emscripten/emscripten.h>
 #endif
 
+#if defined(PLATFORM_DESKTOP)
+#define GLSL_VERSION            330
+#else   // PLATFORM_ANDROID, PLATFORM_WEB
+#define GLSL_VERSION            100
+#endif
+
 static double frameTime;
 static double previousFrameTime;
 static double gameTime;
 Font defaultFont;
+
+Shader g_lighting;
 
 static LogicCbType s_logicCb;
 static DrawCbType s_drawCb;
@@ -37,6 +47,22 @@ void Init(const char* name)
     SetWindowState(FLAG_WINDOW_MAXIMIZED);
 
     InitAudioDevice();      // Initialize audio device
+
+    // Load basic lighting shader
+    g_lighting = LoadShader(
+        TextFormat("resources/shaders/glsl%i/lighting.vs", GLSL_VERSION),
+        TextFormat("resources/shaders/glsl%i/lighting.fs", GLSL_VERSION)
+    );
+    // Get some required shader locations
+    g_lighting.locs[SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(g_lighting, "viewPos");
+    // NOTE: "matModel" location name is automatically assigned on shader loading, 
+    // no need to get the location again if using that uniform name
+    //shader.locs[SHADER_LOC_MATRIX_MODEL] = GetShaderLocation(shader, "matModel");
+
+    // Ambient light level (some basic lighting)
+    int ambientLoc = GetShaderLocation(g_lighting, "ambient");
+    float value[4] = { 0.6f, 0.6f, 0.6f, 1.0f };
+    SetShaderValue(g_lighting, ambientLoc, value, SHADER_UNIFORM_VEC4);
 
     SetExitKey(KEY_BACKSPACE);
 

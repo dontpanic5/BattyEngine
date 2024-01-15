@@ -1,4 +1,5 @@
 #include "EntityMgr.h"
+#include "BattyEngine.h"
 
 EntityMgr& EntityMgr::Instance()
 {
@@ -21,5 +22,6 @@ void EntityMgr::ResetEntities()
 void EntityMgr::AddEntity(Entity* entity)
 {
     entity->SetUid(uidIdx++);
+    entity->SetMaterialShaders(g_lighting);
     m_entities.push_back(entity);
 }

@@ -19,6 +19,8 @@ public:
 
 	virtual RayCollision GetRayCollision(Ray ray) const = 0;
 
+	void SetMaterialShader(int mat, Shader shader);
+
 	virtual ~EnvironmentalObject();
 
 protected:

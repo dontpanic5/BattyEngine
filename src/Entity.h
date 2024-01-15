@@ -53,6 +53,8 @@ public:
 
 	void SetUid(int uid);
 
+	virtual void SetMaterialShaders(Shader shader);
+
 protected:
 	virtual void Die();
 

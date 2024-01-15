@@ -1,6 +1,7 @@
 #include "LevelMgr.h"
 
 #include <cstdlib>
+#include "BattyEngine.h"
 
 #include "Ground.h"
 #include "Building.h"
@@ -17,6 +18,7 @@ LevelMgr& LevelMgr::Instance()
 
 void LevelMgr::AddEnvObj(EnvironmentalObject* envObj)
 {
+	envObj->SetMaterialShader(0, g_lighting);
 	m_envObjs.push_back(envObj);
 }
 
