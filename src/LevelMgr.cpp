@@ -2,9 +2,7 @@
 
 #include <cstdlib>
 #include "BattyEngine.h"
-
-#include "Ground.h"
-#include "Building.h"
+#include "EnvironmentalObject.h"
 
 LevelMgr::LevelMgr()
 {

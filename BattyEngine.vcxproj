@@ -141,7 +141,6 @@
   <ItemGroup>
     <ClCompile Include="src\AnimationMgr.cpp" />
     <ClCompile Include="src\BattyEngine.cpp" />
-    <ClCompile Include="src\Building.cpp" />
     <ClCompile Include="src\ControllerMgr.cpp" />
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\EntityMgr.cpp" />
@@ -155,7 +154,6 @@
   <ItemGroup>
     <ClInclude Include="src\AnimationMgr.h" />
     <ClInclude Include="src\BattyEngine.h" />
-    <ClInclude Include="src\Building.h" />
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\ControllerMgr.h" />
     <ClInclude Include="src\Entity.h" />

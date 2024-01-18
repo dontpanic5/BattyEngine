@@ -14,8 +14,7 @@ EnvironmentalObject::EnvironmentalObject(Vector3 pos)
 
 void EnvironmentalObject::drawObj()
 {
-	unsigned char alpha = m_transparent ? 110 : 255;
-	DrawModel(m_model, m_pos, 1.0f, { 127, 127, 127, alpha });
+	DrawModel(m_model, m_pos, 1.0f, { 127, 127, 127, 255 });
 }
 
 void EnvironmentalObject::SetTransparent(bool transparent)
