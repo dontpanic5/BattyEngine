@@ -82,8 +82,6 @@ void UpdateLightValues(Shader shader, Light light);         // Send light proper
 }
 #endif
 
-#endif // RLIGHTS_H
-
 
 /***********************************************************************************
 *
@@ -169,3 +167,5 @@ void UpdateLightValues(Shader shader, Light light)
 }
 
 #endif // RLIGHTS_IMPLEMENTATION
+
+#endif // RLIGHTS_H
