@@ -70,14 +70,14 @@ BoundingBox GetMeshBoundingBoxEx(Mesh mesh, Matrix transform, bool useAnim)
 } 
 
 // Compute model bounding box limits (considers all meshes)
-BoundingBox BattyGetModelBoundingBox(Model model)
+BoundingBox BattyGetModelBoundingBox(Model model, bool anim)
 {
     BoundingBox bounds;
 
     if (model.meshCount > 0)
     {
         Vector3 temp = { 0 };
-        bounds = GetMeshBoundingBoxEx(model.meshes[0], model.transform, true);
+        bounds = GetMeshBoundingBoxEx(model.meshes[0], model.transform, anim);
 
         for (int i = 1; i < model.meshCount; i++)
         {

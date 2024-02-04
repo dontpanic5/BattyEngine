@@ -6,7 +6,7 @@ struct Model;
 
 float GetBattyFrameTime();
 
-BoundingBox BattyGetModelBoundingBox(Model model);
+BoundingBox BattyGetModelBoundingBox(Model model, bool anim = true);
 
 #define _batty_countof(array) (sizeof(array) / sizeof(array[0]))
 
