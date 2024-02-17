@@ -61,9 +61,9 @@ void Init(const char* name)
 
     // Ambient light level (some basic lighting)
     int ambientLoc = GetShaderLocation(g_lighting, "ambient");
-    // these are old ambient values
-    //float value[4] = { 1.25f, 1.25f, 1.25f, 1.0f };
-    float value[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    // TODO ambient light should be game specific or even level specific
+    float ambient = 0.01f;
+    float value[4] = { ambient, ambient, ambient, 1.0f };
     SetShaderValue(g_lighting, ambientLoc, value, SHADER_UNIFORM_VEC4);
 
     int transLoc = GetShaderLocation(g_lighting, "transparent");
