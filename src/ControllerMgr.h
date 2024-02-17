@@ -111,7 +111,7 @@ public:
 	{
 	}
 
-	bool GetInput() const
+	bool GetPressed() const
 	{
 		switch (m_controlDevice)
 		{
@@ -121,6 +121,32 @@ public:
 			return IsKeyPressed(m_num);
 		case CONTROL_DEVICE::MOUSE:
 			return IsMouseButtonPressed(m_num);
+		}
+	}
+
+	bool GetDown() const
+	{
+		switch (m_controlDevice)
+		{
+		case CONTROL_DEVICE::CONTROLLER:
+			return IsGamepadButtonDown(GetGamepad(), m_num);
+		case CONTROL_DEVICE::KEYBOARD:
+			return IsKeyDown(m_num);
+		case CONTROL_DEVICE::MOUSE:
+			return IsMouseButtonDown(m_num);
+		}
+	}
+
+	bool GetReleased() const
+	{
+		switch (m_controlDevice)
+		{
+		case CONTROL_DEVICE::CONTROLLER:
+			return IsGamepadButtonReleased(GetGamepad(), m_num);
+		case CONTROL_DEVICE::KEYBOARD:
+			return IsKeyReleased(m_num);
+		case CONTROL_DEVICE::MOUSE:
+			return IsMouseButtonReleased(m_num);
 		}
 	}
 };
@@ -173,7 +199,7 @@ public:
 		return Clamp(smoothInput / m_change, -1.0f, 1.0f);
 	}
 
-	float GetInput()
+	float GetPressed()
 	{
 		float val;
 		switch (m_controlDevice)
@@ -246,16 +272,42 @@ public:
 		m_name[63] = (char) '\0';
 	}
 
-	bool GetInput() const
+	bool GetPressed() const
 	{
 		switch (ControllerMgr::Instance().GetCurControlDevice())
 		{
 		case CONTROL_DEVICE::CONTROLLER:
-			return m_controllerControl->GetInput();
+			return m_controllerControl->GetPressed();
 		case CONTROL_DEVICE::KEYBOARD:
-			return m_keyboardControl->GetInput();
+			return m_keyboardControl->GetPressed();
 		case CONTROL_DEVICE::MOUSE:
-			return m_mouseControl->GetInput();
+			return m_mouseControl->GetPressed();
+		}
+	}
+
+	bool GetDown() const
+	{
+		switch (ControllerMgr::Instance().GetCurControlDevice())
+		{
+		case CONTROL_DEVICE::CONTROLLER:
+			return m_controllerControl->GetDown();
+		case CONTROL_DEVICE::KEYBOARD:
+			return m_keyboardControl->GetDown();
+		case CONTROL_DEVICE::MOUSE:
+			return m_mouseControl->GetDown();
+		}
+	}
+
+	bool GetReleased() const
+	{
+		switch (ControllerMgr::Instance().GetCurControlDevice())
+		{
+		case CONTROL_DEVICE::CONTROLLER:
+			return m_controllerControl->GetReleased();
+		case CONTROL_DEVICE::KEYBOARD:
+			return m_keyboardControl->GetReleased();
+		case CONTROL_DEVICE::MOUSE:
+			return m_mouseControl->GetReleased();
 		}
 	}
 
@@ -301,16 +353,16 @@ public:
 		m_name[63] = (char) '\0';
 	}
 
-	float GetInput()
+	float GetPressed()
 	{
 		switch (ControllerMgr::Instance().GetCurControlDevice())
 		{
 		case CONTROL_DEVICE::CONTROLLER:
-			return m_controllerControl->GetInput();
+			return m_controllerControl->GetPressed();
 		case CONTROL_DEVICE::KEYBOARD:
-			return m_keyboardControl->GetInput();
+			return m_keyboardControl->GetPressed();
 		case CONTROL_DEVICE::MOUSE:
-			return m_mouseControl->GetInput();
+			return m_mouseControl->GetPressed();
 		}
 	}
 
