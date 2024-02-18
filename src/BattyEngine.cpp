@@ -25,6 +25,7 @@ static const int screenHeight = 490;
 static double frameTime;
 static double previousFrameTime;
 static double gameTime;
+static bool windowShouldClose = false;
 Font defaultFont;
 
 Shader g_lighting;
@@ -96,7 +97,8 @@ static void startLoop(void)
     // Main game loop. PLATFORM_WEB doesn't use this because emscripten controls
     // when the function is called
 #ifndef PLATFORM_WEB
-    while (!WindowShouldClose())    // Detect window close button or ESC key
+    windowShouldClose = WindowShouldClose();
+    while (!windowShouldClose)    // Detect window close button or ESC key
     {
         // after the game logic runs, see if it's time to run the game logic
         // again. That needs to be the priority over the rendering.
@@ -104,10 +106,14 @@ static void startLoop(void)
         {
             //if (GetTime() - gameTime > 0.001)
             //    printf("running tick %f with delta %f\n", gameTime, GetTime() - gameTime);
-            gameTime = GetTime() + TICK;
+            double beforeTime = GetTime();
+            gameTime = beforeTime + TICK;
 #endif // !PLATFORM_WEB
             UpdateLogic();
 #ifndef PLATFORM_WEB
+            /*double afterTime = GetTime();
+            double delta = afterTime - beforeTime;
+            printf("delta logic: %f\n", delta);*/
         }
 #endif // !PLATFORM_WEB
 
@@ -166,6 +172,8 @@ void UpdateLogic()
 #ifdef PLATFORM_WEB
     PollInputEvents();
 #endif // PLATFORM_WEB
+    if (!windowShouldClose)
+        windowShouldClose = WindowShouldClose();
 }
 
 void UpdateDrawFrame()
