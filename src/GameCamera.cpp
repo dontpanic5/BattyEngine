@@ -34,7 +34,7 @@ void GameCamera::FollowEntity(const Entity& entity, float deltaTime)
 
 	Vector3 shipForwards; 
 
-	position = entity.TransformPoint({ 0.0f, 3.5f, -10.0f });
+	position = entity.TransformPoint({ 0.0f, 4.5f, -12.0f});
 	shipForwards = Vector3Scale(entity.GetForward(), 50.0f);
 
 	target = Vector3Add(entity.GetPos(), shipForwards);

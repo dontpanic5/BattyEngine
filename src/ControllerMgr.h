@@ -15,6 +15,8 @@ class AxisControl;
 class ButtonBinding;
 class AxisBinding;
 
+extern int chosenController;
+
 class ControllerMgr
 {
 public:
@@ -92,17 +94,6 @@ protected:
 	CONTROL_DEVICE m_controlDevice;
 };
 
-static int GetGamepad()
-{
-	int id = 0;
-	for (int i = 0; i < 32; i++)
-	{
-		if (IsGamepadAvailable(i))
-			id = i;
-	}
-	return id;
-}
-
 class ButtonControl : public Control
 {
 public:
@@ -116,7 +107,22 @@ public:
 		switch (m_controlDevice)
 		{
 		case CONTROL_DEVICE::CONTROLLER:
-			return IsGamepadButtonPressed(GetGamepad(), m_num);
+			if (chosenController == -1)
+			{
+				int id = 0;
+				for (int i = 0; i < 32; i++)
+				{
+					if (IsGamepadAvailable(i) && IsGamepadButtonPressed(i, m_num))
+					{
+						chosenController = i;
+						return true;
+					}
+				}
+			}
+			else
+			{
+				return IsGamepadButtonPressed(chosenController, m_num);
+			}
 		case CONTROL_DEVICE::KEYBOARD:
 			return IsKeyPressed(m_num);
 		case CONTROL_DEVICE::MOUSE:
@@ -129,7 +135,7 @@ public:
 		switch (m_controlDevice)
 		{
 		case CONTROL_DEVICE::CONTROLLER:
-			return IsGamepadButtonDown(GetGamepad(), m_num);
+			return IsGamepadButtonDown(chosenController, m_num);
 		case CONTROL_DEVICE::KEYBOARD:
 			return IsKeyDown(m_num);
 		case CONTROL_DEVICE::MOUSE:
@@ -142,7 +148,7 @@ public:
 		switch (m_controlDevice)
 		{
 		case CONTROL_DEVICE::CONTROLLER:
-			return IsGamepadButtonReleased(GetGamepad(), m_num);
+			return IsGamepadButtonReleased(chosenController, m_num);
 		case CONTROL_DEVICE::KEYBOARD:
 			return IsKeyReleased(m_num);
 		case CONTROL_DEVICE::MOUSE:
@@ -205,7 +211,10 @@ public:
 		switch (m_controlDevice)
 		{
 		case CONTROL_DEVICE::CONTROLLER:
-			return SmoothInput(GetGamepadAxisMovement(GetGamepad(), m_num), 0.8f);
+			if (chosenController != -1)
+				return SmoothInput(GetGamepadAxisMovement(chosenController, m_num), 0.1f);
+			else
+				return 0.0f;
 		case CONTROL_DEVICE::KEYBOARD:
 			if (IsKeyDown(m_num))
 			{
@@ -225,7 +234,7 @@ public:
 		case CONTROL_DEVICE::MOUSE:
 			Vector2 delta = GetMouseDelta();
 			//printf("delta %f %f\n", delta.x, delta.y);
-			val = SmoothInput(m_isX ? delta.x : delta.y, 0.5f);
+			val = SmoothInput(m_isX ? delta.x : delta.y, 0.1f);
 
 			// only check on one
 			if (m_trapCursor && !m_isX)
@@ -251,8 +260,8 @@ protected:
 
 	bool m_trapCursor = false;
 
-	RingBuffer<float> m_bufX = RingBuffer<float>(10);
-	RingBuffer<float> m_bufY = RingBuffer<float>(10);
+	RingBuffer<float> m_bufX = RingBuffer<float>(30);
+	RingBuffer<float> m_bufY = RingBuffer<float>(30);
 };
 
 class ButtonBinding

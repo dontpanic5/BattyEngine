@@ -1,5 +1,7 @@
 #include "ControllerMgr.h"
 
+int chosenController = -1;
+
 ButtonControl ControllerMgr::A = ButtonControl(7, "A", CONTROL_DEVICE::CONTROLLER);
 ButtonControl ControllerMgr::B = ButtonControl(6, "B", CONTROL_DEVICE::CONTROLLER);
 ButtonControl ControllerMgr::X = ButtonControl(8, "X", CONTROL_DEVICE::CONTROLLER);
