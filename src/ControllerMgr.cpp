@@ -12,6 +12,7 @@ ButtonControl ControllerMgr::BACKSPACE = ButtonControl(KEY_BACKSPACE, "BACKSPACE
 ButtonControl ControllerMgr::SPACEBAR = ButtonControl((int)KEY_SPACE, "SPACEBAR", CONTROL_DEVICE::KEYBOARD);
 ButtonControl ControllerMgr::ENTER = ButtonControl((int)KEY_ENTER, "ENTER", CONTROL_DEVICE::KEYBOARD);
 ButtonControl ControllerMgr::F = ButtonControl(KEY_F, "F", CONTROL_DEVICE::KEYBOARD);
+ButtonControl ControllerMgr::I = ButtonControl(KEY_I, "I", CONTROL_DEVICE::KEYBOARD);
 AxisControl ControllerMgr::UP_DOWN = AxisControl(KEY_UP, "UP/DOWN", CONTROL_DEVICE::KEYBOARD, 1.0f, false, KEY_DOWN);
 ButtonControl ControllerMgr::UP = ButtonControl(KEY_UP, "UP", CONTROL_DEVICE::KEYBOARD);
 ButtonControl ControllerMgr::DOWN = ButtonControl(KEY_DOWN, "DOWN", CONTROL_DEVICE::KEYBOARD);
