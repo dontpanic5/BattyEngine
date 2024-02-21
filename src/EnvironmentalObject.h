@@ -13,15 +13,15 @@ public:
 
 	void SetTransparent(bool transparent);
 
-	bool collisionCheck(BoundingBox bb);
-
-	virtual BoundingBox GetBoundingBox() const = 0;
+	virtual bool collisionCheck(BoundingBox bb) const = 0;
 
 	virtual RayCollision GetRayCollision(Ray ray) const = 0;
 
 	void SetMaterialShader(int mat, Shader shader);
 
 	virtual ~EnvironmentalObject();
+
+	virtual bool IsCollidable() const;
 
 protected:
 	Model m_model;

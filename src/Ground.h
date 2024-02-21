@@ -11,6 +11,7 @@ public:
 	Ground(float sz, const char* texPath);
 	~Ground();
 
+	bool collisionCheck(BoundingBox bb) const override;
 	RayCollision GetRayCollision(Ray ray) const override;
 
 	void drawObj() override;
@@ -19,6 +20,8 @@ protected:
 	BoundingBox GetBoundingBox() const;
 
 	float m_sz;
+
+	BoundingBox m_bb;
 
 	Texture m_tex;
 };

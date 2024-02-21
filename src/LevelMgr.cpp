@@ -26,4 +26,5 @@ void LevelMgr::Unload()
 	{
 		delete obj;
 	}
+	m_envObjs.clear();
 }

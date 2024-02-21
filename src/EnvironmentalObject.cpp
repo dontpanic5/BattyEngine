@@ -22,17 +22,19 @@ void EnvironmentalObject::SetTransparent(bool transparent)
 	m_transparent = transparent;
 }
 
-bool EnvironmentalObject::collisionCheck(BoundingBox bb)
-{
-	return CheckCollisionBoxes(GetBoundingBox(), bb);
-}
-
 void EnvironmentalObject::SetMaterialShader(int mat, Shader shader)
 {
-	m_model.materials[0].shader = shader;
+	if (m_model.materialCount != 0)
+		m_model.materials[0].shader = shader;
 }
 
 EnvironmentalObject::~EnvironmentalObject()
 {
-	UnloadModel(m_model);
+	if (m_model.materialCount != 0)
+		UnloadModel(m_model);
+}
+
+bool EnvironmentalObject::IsCollidable() const
+{
+	return true;
 }
