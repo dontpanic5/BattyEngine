@@ -21,7 +21,7 @@ public:
 	/// </summary>
 	void FollowEntity(const Entity& entity, float deltaTime);
 
-	void CinematicWatchEntity(const Entity& entity, float deltaTime);
+	void CinematicWatchEntity(const Entity& entity, float deltaTime, bool immediate = false);
 
 	/// <summary>
 	/// Moves the camera to the given positions. Smoothing is automatically applied.

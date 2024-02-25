@@ -44,7 +44,7 @@ void GameCamera::FollowEntity(const Entity& entity, float deltaTime)
 	MoveTo(position, target, up, deltaTime);
 }
 
-void GameCamera::CinematicWatchEntity(const Entity& entity, float deltaTime)
+void GameCamera::CinematicWatchEntity(const Entity& entity, float deltaTime, bool immediate)
 {
 	Vector3 position;
 	Vector3 target = entity.GetCamPos();
@@ -55,7 +55,10 @@ void GameCamera::CinematicWatchEntity(const Entity& entity, float deltaTime)
 	position = Vector3Transform({ 0, 2.5, 10 }, matrix);
 
 
-	MoveTo(position, target, entity.GetUp(), deltaTime);
+	if (!immediate)
+		MoveTo(position, target, entity.GetUp(), deltaTime);
+	else
+		SetPosition(position, target, entity.GetUp());
 }
 
 void GameCamera::MoveTo(Vector3 position, Vector3 target, Vector3 up, float deltaTime)
@@ -66,7 +69,7 @@ void GameCamera::MoveTo(Vector3 position, Vector3 target, Vector3 up, float delt
 
 	Camera.target = SmoothDamp(
 		Camera.target, target,
-		40, deltaTime);
+		10, deltaTime);
 
 	/*Camera.up = SmoothDamp(
 		Camera.up, up,
