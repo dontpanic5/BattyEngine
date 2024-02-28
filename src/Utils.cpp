@@ -99,9 +99,7 @@ BoundingBox BattyGetModelBoundingBox(Model model, bool anim)
 }
 
 
-#define FPS_CAPTURE_FRAMES_COUNT    30      // 30 captures
-#define FPS_AVERAGE_TIME_SECONDS   0.5f     // 500 millisecondes
-#define FPS_STEP (FPS_AVERAGE_TIME_SECONDS/FPS_CAPTURE_FRAMES_COUNT)
+#define FPS_CAPTURE_FRAMES_COUNT    90      // captures
 
 static int index = 0;
 static float history[FPS_CAPTURE_FRAMES_COUNT] = { 0 };
@@ -111,14 +109,11 @@ void setLastFrame(double frame)
 {
     if (frame == 0.0) return;
 
-    if ((GetTime() - last) > FPS_STEP)
-    {
-        last = (float)GetBattyFrameTime();
-        index = (index + 1) % FPS_CAPTURE_FRAMES_COUNT;
-        average -= history[index];
-        history[index] = frame / FPS_CAPTURE_FRAMES_COUNT;
-        average += history[index];
-    }
+    last = (float)GetBattyFrameTime();
+    index = (index + 1) % FPS_CAPTURE_FRAMES_COUNT;
+    average -= history[index];
+    history[index] = frame / FPS_CAPTURE_FRAMES_COUNT;
+    average += history[index];
 }
 
 int getFps()

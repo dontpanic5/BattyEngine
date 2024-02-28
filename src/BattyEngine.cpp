@@ -85,15 +85,26 @@ void Init(const char* name)
 void RunMainLoop()
 {
 #if defined(PLATFORM_WEB)
-    // TODO may want to bump this rate up to make higher framerates possible
-    emscripten_set_main_loop(startLoop, 1 / TICK, 1);
+    int isFirefox = EM_ASM_INT({
+        let firefox = navigator.userAgent.toLowerCase().includes('firefox');
+        let firefoxInt = firefox ? 1 : 0;
+        return firefoxInt;
+    });
+    int fps = (int) (1.0f / TICK);
+    if (isFirefox)
+        fps *= 2;
+    emscripten_set_main_loop(startLoop, fps, 1);
 #else
     startLoop();
 #endif
 }
 
 static void startLoop(void)
-{
+{    
+    static double lastLoop = -1.0;
+    double loopStart = GetTime();
+    //if (lastLoop != -1.0)
+    //    printf("loop gap: %f\n", loopStart - lastLoop);
     // Main game loop. PLATFORM_WEB doesn't use this because emscripten controls
     // when the function is called
 #ifndef PLATFORM_WEB
@@ -106,26 +117,29 @@ static void startLoop(void)
         {
             //if (GetTime() - gameTime > 0.001)
             //    printf("running tick %f with delta %f\n", gameTime, GetTime() - gameTime);
+#endif // !PLATFORM_WEB
             double beforeTime = GetTime();
             gameTime = beforeTime + TICK;
-#endif // !PLATFORM_WEB
             UpdateLogic();
-#ifndef PLATFORM_WEB
-            /*double afterTime = GetTime();
+            double afterTime = GetTime();
             double delta = afterTime - beforeTime;
-            printf("delta logic: %f\n", delta);*/
+            //printf("delta logic: %f\n", delta);
+#ifndef PLATFORM_WEB
         }
 #endif // !PLATFORM_WEB
 
         if (frameTime < GetTime())
         {
-            double frameDeltaTime = GetTime() - previousFrameTime;
+            double time = GetTime();
+            double frameDeltaTime = time - previousFrameTime;
+            //printf("frameDeltaTime: %f\n", frameDeltaTime);
             setLastFrame(frameDeltaTime);
             //printf("running frame %f with delta %f\n", frameTime, frameDeltaTime);
-            previousFrameTime = frameTime;
+            previousFrameTime = time;
             // TODO probably make the framerate settable as a user option
-            frameTime = GetTime() + 1.0 / 120.0;
+            frameTime = time + 1.0 / 120.0;
             UpdateDrawFrame();
+            //printf("delta draw: %f\n", GetTime() - time);
         }
 
 #ifndef PLATFORM_WEB
@@ -141,6 +155,7 @@ static void startLoop(void)
         }
     }
 #endif // !PLATFORM_WEB
+    lastLoop = GetTime();
 }
 
 void SetLogicCb(LogicCbType cb)
@@ -172,8 +187,11 @@ void UpdateLogic()
 #ifdef PLATFORM_WEB
     PollInputEvents();
 #endif // PLATFORM_WEB
+
+#ifndef PLATFORM_WEB
     if (!windowShouldClose)
         windowShouldClose = WindowShouldClose();
+#endif
 }
 
 void UpdateDrawFrame()
@@ -182,12 +200,12 @@ void UpdateDrawFrame()
 
     s_drawCb();
 
-#ifdef DEBUG
+//#ifdef DEBUG
     int fps = getFps();
     char fpsStr[8];
     snprintf(fpsStr, 8, "%d", fps);
     DrawUiText(fpsStr, 0, 0, FontSize::m, true);
-#endif // DEBUG
+//#endif // DEBUG
 
     EndDrawing();
 
