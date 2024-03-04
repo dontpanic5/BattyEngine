@@ -87,6 +87,11 @@ void GameCamera::SetPosition(Vector3 position, Vector3 target, Vector3 up)
 	SmoothUp = up;
 }
 
+void GameCamera::SetFoV(float fov)
+{
+	Camera.fovy = fov;
+}
+
 Vector3 GameCamera::GetPosition() const
 {
 	return Camera.position;

@@ -33,6 +33,8 @@ public:
 	/// </summary>
 	void SetPosition(Vector3 position, Vector3 target, Vector3 up);
 
+	void SetFoV(float fov);
+
 	/// <summary>
 	/// Required to tell raylib that any further 3D calls will be made with this camera.
 	/// Must be paired with EndDrawing().
