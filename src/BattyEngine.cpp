@@ -22,9 +22,9 @@ static const int screenHeight = 490;
 #define GLSL_VERSION            100
 #endif
 
-static double frameTime;
-static double previousFrameTime;
-static double gameTime;
+static double frameTime = -1.0;
+static double previousFrameTime = -1.0;
+static double gameTime = -1.0;
 static bool windowShouldClose = false;
 Font defaultFont;
 
@@ -85,15 +85,7 @@ void Init(const char* name)
 void RunMainLoop()
 {
 #if defined(PLATFORM_WEB)
-    int isFirefox = EM_ASM_INT({
-        let firefox = navigator.userAgent.toLowerCase().includes('firefox');
-        let firefoxInt = firefox ? 1 : 0;
-        return firefoxInt;
-    });
-    int fps = (int) (1.0f / TICK);
-    if (isFirefox)
-        fps *= 2;
-    emscripten_set_main_loop(startLoop, fps, 1);
+    emscripten_set_main_loop(startLoop, 999, 1);
 #else
     startLoop();
 #endif
@@ -111,22 +103,39 @@ static void startLoop(void)
     windowShouldClose = WindowShouldClose();
     while (!windowShouldClose)    // Detect window close button or ESC key
     {
+#endif // !PLATFORM_WEB
+        /*printf(
+            "time: %f\ngame time: %f\nframe time: %f\n",
+            GetTime(), gameTime, frameTime
+        );*/
+#ifndef PLATFORM_WEB
+        if (GetTime() < fmin(gameTime, frameTime))
+#else // !PLATFORM_WEB
+        if (GetTime() < gameTime)
+#endif
+        {
+#ifndef PLATFORM_WEB
+            double toWait = fmin(gameTime, frameTime) - GetTime();
+#else
+            double toWait = gameTime - GetTime();
+#endif
+            //printf("wait time: %f\n", toWait);
+            WaitTime(toWait);
+        }
+
         // after the game logic runs, see if it's time to run the game logic
         // again. That needs to be the priority over the rendering.
-        while (gameTime < GetTime())
+        while (gameTime <= GetTime())
         {
             //if (GetTime() - gameTime > 0.001)
             //    printf("running tick %f with delta %f\n", gameTime, GetTime() - gameTime);
-#endif // !PLATFORM_WEB
             double beforeTime = GetTime();
             gameTime = beforeTime + TICK;
             UpdateLogic();
             double afterTime = GetTime();
             double delta = afterTime - beforeTime;
             //printf("delta logic: %f\n", delta);
-#ifndef PLATFORM_WEB
         }
-#endif // !PLATFORM_WEB
 
         if (frameTime < GetTime())
         {
@@ -143,16 +152,6 @@ static void startLoop(void)
         }
 
 #ifndef PLATFORM_WEB
-        /*printf(
-            "time: %f\ngame time: %f\nframe time: %f\n",
-            GetTime(), gameTime, frameTime
-        );*/
-        if (GetTime() < fmin(gameTime, frameTime))
-        {
-            double toWait = fmin(gameTime, frameTime) - GetTime();
-            //printf("wait time: %f\n", toWait);
-            WaitTime(toWait);
-        }
     }
 #endif // !PLATFORM_WEB
     lastLoop = GetTime();
