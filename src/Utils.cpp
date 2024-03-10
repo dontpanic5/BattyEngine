@@ -134,7 +134,7 @@ float GetOverlapDistanceBoxBox(BoundingBox bb1, BoundingBox bb2, Vector3 normDir
     }
     else if (normDirection.z == 0.0f)
     {
-        toTravel.z == 0.0f;
+        toTravel.z = 0.0f;
     }
     else
     {
