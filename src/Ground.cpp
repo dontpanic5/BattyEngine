@@ -28,6 +28,11 @@ RayCollision Ground::GetRayCollision(Ray ray) const
 	return GetRayCollisionQuad(ray, { m_sz, 0, m_sz }, { m_sz, 0, -m_sz }, { -m_sz, 0, -m_sz }, { -m_sz, 0, m_sz });
 }
 
+float Ground::getOverlapDistance(BoundingBox bb, Vector3 direction) const
+{
+	return 0.0f;
+}
+
 void Ground::drawObj()
 {
 	EnvironmentalObject::drawObj();

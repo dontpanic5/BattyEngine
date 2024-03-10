@@ -15,6 +15,8 @@ public:
 
 	virtual bool collisionCheck(BoundingBox bb) const = 0;
 
+	virtual float getOverlapDistance(BoundingBox bb, Vector3 direction) const = 0;
+
 	virtual RayCollision GetRayCollision(Ray ray) const = 0;
 
 	void SetMaterialShader(int mat, Shader shader);
