@@ -1,4 +1,5 @@
 #include "Ground.h"
+#include "Utils.h"
 #include "raylib.h"
 #include "raymath.h"
 
@@ -30,7 +31,7 @@ RayCollision Ground::GetRayCollision(Ray ray) const
 
 float Ground::getOverlapDistance(BoundingBox bb, Vector3 direction) const
 {
-	return 0.0f;
+	return GetOverlapDistanceBoxBox(GetBoundingBox(), bb, direction);
 }
 
 void Ground::drawObj()

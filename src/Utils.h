@@ -3,10 +3,13 @@
 
 struct BoundingBox;
 struct Model;
+struct Vector3;
 
 float GetBattyFrameTime();
 
 BoundingBox BattyGetModelBoundingBox(Model model, bool anim = true);
+
+float GetOverlapDistanceBoxBox(BoundingBox bb1, BoundingBox bb2, Vector3 normDirection);
 
 #define _batty_countof(array) (sizeof(array) / sizeof(array[0]))
 

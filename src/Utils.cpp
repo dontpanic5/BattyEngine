@@ -98,6 +98,69 @@ BoundingBox BattyGetModelBoundingBox(Model model, bool anim)
     return bounds;
 }
 
+float GetOverlapDistanceBoxBox(BoundingBox bb1, BoundingBox bb2, Vector3 normDirection)
+{
+    Vector3 toTravel;
+
+    if (normDirection.x > 0.0f)
+    {
+        toTravel.x = bb1.max.x - bb2.min.x;
+    }
+    else if (normDirection.x == 0.0f)
+    {
+        toTravel.x = 0.0f;
+    }
+    else
+    {
+        toTravel.x = bb2.max.x - bb1.min.x;
+    }
+
+    if (normDirection.y > 0.0f)
+    {
+        toTravel.y = bb1.max.y - bb2.min.y;
+    }
+    else if (normDirection.y == 0.0f)
+    {
+        toTravel.y = 0.0f;
+    }
+    else
+    {
+        toTravel.y = bb2.max.y - bb1.min.y;
+    }
+
+    if (normDirection.z > 0.0f)
+    {
+        toTravel.z = bb1.max.z - bb2.min.z;
+    }
+    else if (normDirection.z == 0.0f)
+    {
+        toTravel.z == 0.0f;
+    }
+    else
+    {
+        toTravel.z = bb2.max.z - bb1.min.z;
+    }
+
+    toTravel.x /= normDirection.x;
+    toTravel.y /= normDirection.y;
+    toTravel.z /= normDirection.z;
+    toTravel.x = fabs(toTravel.x);
+    toTravel.y = fabs(toTravel.y);
+    toTravel.z = fabs(toTravel.z);
+
+    if (toTravel.y < toTravel.x)
+    {
+        if (toTravel.z < toTravel.y)
+            return toTravel.z;
+        return toTravel.y;
+    }
+    else if (toTravel.z < toTravel.x)
+    {
+        return toTravel.z;
+    }
+    return toTravel.x;
+}
+
 
 #define FPS_CAPTURE_FRAMES_COUNT    90      // captures
 
