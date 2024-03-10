@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include "raylib.h"
 #include "raymath.h"
-#include "Utils.h"
+#include "BattyUtils.h"
 #include "RingBuffer.h"
 
 enum class CONTROL_DEVICE { CONTROLLER, KEYBOARD, MOUSE };

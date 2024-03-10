@@ -149,7 +149,7 @@
     <ClCompile Include="src\Ground.cpp" />
     <ClCompile Include="src\LevelMgr.cpp" />
     <ClCompile Include="src\Ui.cpp" />
-    <ClCompile Include="src\Utils.cpp" />
+    <ClCompile Include="src\BattyUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AnimationMgr.h" />
@@ -166,7 +166,7 @@
     <ClInclude Include="src\RingBuffer.h" />
     <ClInclude Include="src\rlights.h" />
     <ClInclude Include="src\Ui.h" />
-    <ClInclude Include="src\Utils.h" />
+    <ClInclude Include="src\BattyUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

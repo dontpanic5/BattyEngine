@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Utils.cpp">
+    <ClCompile Include="src\BattyUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Ui.cpp">
@@ -89,7 +89,7 @@
     <ClInclude Include="src\Ui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Utils.h">
+    <ClInclude Include="src\BattyUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\rlights.h">

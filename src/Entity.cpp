@@ -4,7 +4,7 @@
 
 #include "Entity.h"
 #include "AnimationMgr.h"
-#include "Utils.h"
+#include "BattyUtils.h"
 #include "MathUtils.h"
 
 Entity::Entity(const char* modelPath, float scale,

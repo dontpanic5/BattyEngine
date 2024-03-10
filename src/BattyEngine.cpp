@@ -8,7 +8,7 @@ static const int screenHeight = 490;
 #define RLIGHTS_IMPLEMENTATION
 #include "rlights.h"
 #include "Constants.h"
-#include "Utils.h"
+#include "BattyUtils.h"
 #include "Ui.h"
 #include "AnimationMgr.h"
 #include "LevelMgr.h"
