@@ -39,7 +39,7 @@ void Ground::drawObj()
 	EnvironmentalObject::drawObj();
 
 #ifdef DEBUG
-	constexpr float SPACING = 20.0f;
+	constexpr float SPACING = 40.0f;
 	DrawGrid(m_sz / SPACING, SPACING);
 #endif // DEBUG
 }
