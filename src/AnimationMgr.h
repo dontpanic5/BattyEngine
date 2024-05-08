@@ -23,6 +23,11 @@ public:
 	void Unload();
 
 	std::unordered_map<const char*, AnimWrapper> m_animations;
+
+private:
+	AnimationMgr();
+	AnimationMgr(AnimationMgr const&) = delete;
+	AnimationMgr& operator=(AnimationMgr const&) = delete;
 };
 
 #endif
