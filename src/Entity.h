@@ -51,6 +51,9 @@ public:
 	bool isDead() const;
 	bool isSpawned() const;
 
+	void makeNoise(int id, bool overwrite = true);
+	int getCurNoise() const;
+
 	void SetUid(int uid);
 
 	virtual void SetMaterialShaders(Shader shader);
@@ -89,6 +92,9 @@ protected:
 	bool			m_dead			= false;
 
 	bool			m_spawned		= false;
+
+	int				m_curNoise		= 0;
+	double			m_curNoiseTimer	= -1.0;
 
 	int				m_uid				= -1;
 };

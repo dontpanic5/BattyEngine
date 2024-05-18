@@ -12,6 +12,7 @@ static const int screenHeight = 490;
 #include "Ui.h"
 #include "AnimationMgr.h"
 #include "LevelMgr.h"
+#include "AudioMgr.h"
 #if defined(PLATFORM_WEB)
 #include <emscripten/emscripten.h>
 #endif
@@ -216,6 +217,8 @@ void DeInit()
     LevelMgr::Instance().Unload();
 
     AnimationMgr::Instance().Unload();
+
+    AudioMgr::Instance().Unload();
 
     CloseAudioDevice();     // Close audio context
 
