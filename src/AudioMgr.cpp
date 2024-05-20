@@ -28,6 +28,10 @@ bool Noise::PlayNoise(double& length, bool overwrite)
 	return true;
 }
 
+AudioMgr::AudioMgr()
+{
+}
+
 AudioMgr& AudioMgr::Instance()
 {
 	static AudioMgr instance;
@@ -41,7 +45,7 @@ void AudioMgr::AddNoise(Noise noise)
 
 bool AudioMgr::PlayNoise(int id, double& length, bool overwrite)
 {
-	m_noises.at(id).PlayNoise(length, overwrite);
+	return m_noises.at(id).PlayNoise(length, overwrite);
 }
 
 void AudioMgr::Unload()

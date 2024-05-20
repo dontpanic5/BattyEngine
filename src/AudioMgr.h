@@ -23,6 +23,8 @@ struct Noise
 class AudioMgr final
 {
 public:
+	AudioMgr();
+
 	static AudioMgr& Instance();
 
 	void AddNoise(Noise noise);
@@ -32,7 +34,6 @@ public:
 	std::unordered_map<int, Noise> m_noises;
 
 private:
-	AudioMgr();
 	AudioMgr(AudioMgr const&) = delete;
 	AudioMgr& operator=(AudioMgr const&) = delete;
 };
