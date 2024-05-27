@@ -66,7 +66,7 @@ void Entity::UpdateEntity(bool doNotMove, bool doNotAnimate)
 	if (m_curNoiseTimer < 0.0)
 	{
 		m_curNoiseTimer = -1.0;
-		m_curNoise = 0;
+		m_curNoise = -1;
 	}
 }
 

@@ -23,6 +23,13 @@ bool Noise::PlayNoise(double& length, bool overwrite)
 	}
 
 	int random = rand() % m_numSounds;
+
+	if (m_pitchShift)
+	{
+		float pitch = (rand() * 0.5f / (float)RAND_MAX) + 0.75f;
+		SetSoundPitch(m_sound[random], pitch);
+	}
+
 	PlaySound(m_sound[random]);
 	length = m_length[random];
 	return true;

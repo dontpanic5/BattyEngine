@@ -93,7 +93,7 @@ protected:
 
 	bool			m_spawned		= false;
 
-	int				m_curNoise		= 0;
+	int				m_curNoise		= -1;
 	double			m_curNoiseTimer	= -1.0;
 
 	int				m_uid				= -1;
