@@ -69,6 +69,8 @@ protected:
 
 	void SetTransformAndBb();
 
+	void SetupModel();
+
 	Model			m_model;
 	bool			m_drawBounds;
 	bool			m_calcRotBb				= false;

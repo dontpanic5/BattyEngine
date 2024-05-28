@@ -1,4 +1,5 @@
 #include "raylib.h"
+#include "rlgl.h"
 
 #include <stdio.h>
 
@@ -31,6 +32,8 @@ Entity::Entity(const char* modelPath, float scale,
 	SetPos(pos);
 
 	SetTransformAndBb();
+
+
 
 	if (AnimationMgr::Instance().m_animations.count(modelPath) > 0)
 	{
@@ -281,4 +284,56 @@ void Entity::SetTransformAndBb()
 
 	m_bb.min = Vector3Scale(m_bb.min, GetScale());
 	m_bb.max = Vector3Scale(m_bb.max, GetScale());
+}
+
+void Entity::SetupModel()
+{
+	for (int i = 0; i < m_model.meshCount; i++)
+	{
+		Mesh& mesh = m_model.meshes[i];
+
+		mesh.tangents = (float*)MemAlloc(sizeof(float) * 4 * mesh.vertexCount);
+		memcpy(mesh.tangents, mesh.boneWeights, sizeof(float) * 4 * mesh.vertexCount);
+
+		if (mesh.vboId[RL_DEFAULT_SHADER_ATTRIB_LOCATION_TANGENT] != 0)
+		{
+			// Update existing vertex buffer
+			rlUpdateVertexBuffer(mesh.vboId[RL_DEFAULT_SHADER_ATTRIB_LOCATION_TANGENT], mesh.tangents, mesh.vertexCount * 4 * sizeof(float), 0);
+		}
+		else
+		{
+			// Load a new tangent attributes buffer
+			mesh.vboId[RL_DEFAULT_SHADER_ATTRIB_LOCATION_TANGENT] = rlLoadVertexBuffer(mesh.tangents, mesh.vertexCount * 4 * sizeof(float), false);
+		}
+
+		rlEnableVertexArray(mesh.vaoId);
+		rlSetVertexAttribute(RL_DEFAULT_SHADER_ATTRIB_LOCATION_TANGENT, 4, RL_FLOAT, 0, 0, 0);
+		rlEnableVertexAttribute(RL_DEFAULT_SHADER_ATTRIB_LOCATION_TANGENT);
+		rlDisableVertexArray();
+
+		mesh.texcoords2 = (float*)MemAlloc(sizeof(float) * 2 * mesh.vertexCount);
+		for (int vert = 0; vert < mesh.vertexCount; vert++)
+		{
+			float u = mesh.boneIds[vert * 4 + 0] * 1000.0f + mesh.boneIds[vert * 4 + 1];
+			float v = mesh.boneIds[vert * 4 + 2] * 1000.0f + mesh.boneIds[vert * 4 + 3];
+			mesh.texcoords2[vert * 2 + 0] = u;
+			mesh.texcoords2[vert * 2 + 1] = v;
+		}
+
+		if (mesh.vboId[RL_DEFAULT_SHADER_ATTRIB_LOCATION_TEXCOORD2] != 0)
+		{
+			// Update existing vertex buffer
+			rlUpdateVertexBuffer(mesh.vboId[RL_DEFAULT_SHADER_ATTRIB_LOCATION_TEXCOORD2], mesh.texcoords2, mesh.vertexCount * 2 * sizeof(float), 0);
+		}
+		else
+		{
+			// Load a new tangent attributes buffer
+			mesh.vboId[RL_DEFAULT_SHADER_ATTRIB_LOCATION_TEXCOORD2] = rlLoadVertexBuffer(mesh.texcoords2, mesh.vertexCount * 2 * sizeof(float), false);
+		}
+
+		rlEnableVertexArray(mesh.vaoId);
+		rlSetVertexAttribute(RL_DEFAULT_SHADER_ATTRIB_LOCATION_TEXCOORD2, 2, RL_FLOAT, 0, 0, 0);
+		rlEnableVertexAttribute(RL_DEFAULT_SHADER_ATTRIB_LOCATION_TEXCOORD2);
+		rlDisableVertexArray();
+	}
 }

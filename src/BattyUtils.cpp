@@ -1,5 +1,7 @@
 #include "raylib.h"
 #include "raymath.h"
+#include "rlgl.h"
+#include "external/glad.h"
 #include "BattyUtils.h"
 
 float GetBattyFrameTime()
@@ -182,4 +184,13 @@ void setLastFrame(double frame)
 int getFps()
 {
     return (int)roundf(1.0f / average);
+}
+
+// upload an array of matrices
+void SetUniformMatrixTransposeV(Shader& shader, int locIndex, Matrix* mats, int count)
+{
+    rlEnableShader(shader.id);
+#if defined(GRAPHICS_API_OPENGL_33) || defined(GRAPHICS_API_OPENGL_ES2)
+    glUniformMatrix4fv(locIndex, count, true, &mats[0].m0);
+#endif
 }

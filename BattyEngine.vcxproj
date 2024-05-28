@@ -154,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AnimationMgr.h" />
+    <ClInclude Include="src\AnimationShader.h" />
     <ClInclude Include="src\AudioMgr.h" />
     <ClInclude Include="src\BattyEngine.h" />
     <ClInclude Include="src\Constants.h" />

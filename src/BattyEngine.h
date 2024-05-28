@@ -4,12 +4,16 @@
 struct Font;
 struct Shader;
 
+class AnimationShader;
+
 typedef void (*LogicCbType)();
 typedef void (*DrawCbType)();
 
 void Init(const char* name);
 
 extern Shader g_lighting;
+
+extern AnimationShader AnimShader;
 
 void RunMainLoop(void);
 
