@@ -1,5 +1,6 @@
 #include "raylib.h"
 #include "rlgl.h"
+#include "config.h"
 
 #include <stdio.h>
 
@@ -25,6 +26,8 @@ Entity::Entity(const char* modelPath, float scale,
 	m_velocity = { 0.0f, 0.0f, 0.0f };
 
 	m_model = LoadModel(modelPath);
+
+	m_boneTransforms.resize(m_model.boneCount);
 
 	//Texture2D texture = LoadTexture("resources/anim_vamp_bat/bat_tex.jpg");         // Load model texture and set material
 	//SetMaterialTexture(&m_model.materials[0], MATERIAL_MAP_DIFFUSE, texture);     // Set model material map texture

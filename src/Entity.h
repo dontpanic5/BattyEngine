@@ -81,6 +81,7 @@ protected:
 	bool			m_resetToFirstAnimFrame	= false;
 	AnimWrapper*	m_anims;
 	float			m_scale = 1.0f;
+	std::vector<Matrix>	m_boneTransforms;
 
 	BoundingBox		m_bb;
 
