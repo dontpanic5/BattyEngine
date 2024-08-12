@@ -6,8 +6,10 @@
 
 #include "Entity.h"
 #include "AnimationMgr.h"
+#include "AnimationShader.h"
 #include "AudioMgr.h"
 #include "BattyUtils.h"
+#include "BattyEngine.h"
 #include "MathUtils.h"
 #include "Constants.h"
 
@@ -339,4 +341,7 @@ void Entity::SetupModel()
 		rlEnableVertexAttribute(RL_DEFAULT_SHADER_ATTRIB_LOCATION_TEXCOORD2);
 		rlDisableVertexArray();
 	}
+
+	for (int shader = 0; shader < m_model.materialCount; shader++)
+		m_model.materials[shader].shader = AnimShader.BaseShader;
 }

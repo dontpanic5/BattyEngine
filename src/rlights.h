@@ -6,7 +6,7 @@
 *
 *   #define RLIGHTS_IMPLEMENTATION
 *       Generates the implementation of the library into the included file.
-*       If not defined, the library is in header only mode and can be included in other headers 
+*       If not defined, the library is in header only mode and can be included in other headers
 *       or source files without problems. But only ONE file should hold the implementation.
 *
 *   LICENSE: zlib/libpng
@@ -33,8 +33,6 @@
 #ifndef RLIGHTS_H
 #define RLIGHTS_H
 
-#include "raylib.h"
-
 //----------------------------------------------------------------------------------
 // Defines and Macros
 //----------------------------------------------------------------------------------
@@ -45,14 +43,15 @@
 //----------------------------------------------------------------------------------
 
 // Light data
-typedef struct {   
+typedef struct {
     int type;
     bool enabled;
     Vector3 position;
     Vector3 target;
     Color color;
     float attenuation;
-    
+    float shine;
+
     // Shader locations
     int enabledLoc;
     int typeLoc;
@@ -60,6 +59,7 @@ typedef struct {
     int targetLoc;
     int colorLoc;
     int attenuationLoc;
+    int shineLoc;
 } Light;
 
 // Light type
@@ -72,17 +72,17 @@ typedef enum {
 extern "C" {            // Prevents name mangling of functions
 #endif
 
-//----------------------------------------------------------------------------------
-// Module Functions Declaration
-//----------------------------------------------------------------------------------
-Light CreateLight(int type, Vector3 position, Vector3 target, Color color, Shader shader);   // Create a light and get shader locations
-void UpdateLightValues(Shader shader, Light light);         // Send light properties to shader
+    //----------------------------------------------------------------------------------
+    // Module Functions Declaration
+    //----------------------------------------------------------------------------------
+    Light CreateLight(int type, Vector3 position, Vector3 target, Color color, Shader shader);   // Create a light and get shader locations
+    void UpdateLightValues(Shader shader, Light light);         // Send light properties to shader
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif
+#endif // RLIGHTS_H
 
 
 /***********************************************************************************
@@ -93,6 +93,7 @@ void UpdateLightValues(Shader shader, Light light);         // Send light proper
 
 #if defined(RLIGHTS_IMPLEMENTATION)
 
+#include "raylib.h"
 
 //----------------------------------------------------------------------------------
 // Defines and Macros
@@ -130,6 +131,8 @@ Light CreateLight(int type, Vector3 position, Vector3 target, Color color, Shade
         light.position = position;
         light.target = target;
         light.color = color;
+        light.attenuation = -1;
+        light.shine = 16;
 
         // NOTE: Lighting shader naming must be the provided ones
         light.enabledLoc = GetShaderLocation(shader, TextFormat("lights[%i].enabled", lightsCount));
@@ -137,9 +140,11 @@ Light CreateLight(int type, Vector3 position, Vector3 target, Color color, Shade
         light.positionLoc = GetShaderLocation(shader, TextFormat("lights[%i].position", lightsCount));
         light.targetLoc = GetShaderLocation(shader, TextFormat("lights[%i].target", lightsCount));
         light.colorLoc = GetShaderLocation(shader, TextFormat("lights[%i].color", lightsCount));
+        light.attenuationLoc = GetShaderLocation(shader, TextFormat("lights[%i].attenuation", lightsCount));
+        light.shineLoc = GetShaderLocation(shader, TextFormat("lights[%i].shine", lightsCount));
 
         UpdateLightValues(shader, light);
-        
+
         lightsCount++;
     }
 
@@ -163,9 +168,15 @@ void UpdateLightValues(Shader shader, Light light)
     SetShaderValue(shader, light.targetLoc, target, SHADER_UNIFORM_VEC3);
 
     // Send to shader light color values
-    float color[4] = { (float)light.color.r/(float)255, (float)light.color.g/(float)255, 
-                       (float)light.color.b/(float)255, (float)light.color.a/(float)255 };
+    float color[4] = { (float)light.color.r / (float)255, (float)light.color.g / (float)255,
+                       (float)light.color.b / (float)255, (float)light.color.a / (float)255 };
     SetShaderValue(shader, light.colorLoc, color, SHADER_UNIFORM_VEC4);
+
+    // Send to shader light attenuation value
+    SetShaderValue(shader, light.attenuationLoc, &light.attenuation, SHADER_UNIFORM_FLOAT);
+
+    // Send to shader light shine value
+    SetShaderValue(shader, light.shineLoc, &light.shine, SHADER_UNIFORM_FLOAT);
 }
 
 #endif // RLIGHTS_IMPLEMENTATION
