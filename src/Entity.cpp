@@ -4,8 +4,10 @@
 
 #include "Entity.h"
 #include "AnimationMgr.h"
+#include "AudioMgr.h"
 #include "BattyUtils.h"
 #include "MathUtils.h"
+#include "Constants.h"
 
 Entity::Entity(const char* modelPath, float scale,
 	bool drawBounds, bool spawn, bool calcRotBb, Vector3 pos)
@@ -59,6 +61,13 @@ void Entity::UpdateEntity(bool doNotMove, bool doNotAnimate)
 
 	m_prevPos		= GetPos();
 	m_prevVisualRot	= m_visualRot;
+
+	m_curNoiseTimer -= TICK;
+	if (m_curNoiseTimer < 0.0)
+	{
+		m_curNoiseTimer = -1.0;
+		m_curNoise = -1;
+	}
 }
 
 void Entity::DrawEntity()
@@ -186,6 +195,21 @@ bool Entity::isDead() const
 bool Entity::isSpawned() const
 {
 	return m_spawned;
+}
+
+void Entity::makeNoise(int id, bool overwrite)
+{
+	double length = -1.0;
+	if (AudioMgr::Instance().PlayNoise(id, length, overwrite))
+	{
+		m_curNoise = id;
+		m_curNoiseTimer = length;
+	}
+}
+
+int Entity::getCurNoise() const
+{
+	return m_curNoise;
 }
 
 void Entity::SetUid(int uid)

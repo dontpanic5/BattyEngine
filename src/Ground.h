@@ -12,7 +12,7 @@ public:
 	~Ground();
 
 	bool collisionCheck(BoundingBox bb) const override;
-	RayCollision GetRayCollision(Ray ray) const override;
+	RayCollision GetRayCollision(Ray ray, bool) const override;
 	float getOverlapDistance(BoundingBox bb, Vector3 direction) const override;
 
 	void drawObj() override;

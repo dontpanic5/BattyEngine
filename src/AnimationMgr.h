@@ -16,6 +16,9 @@ struct AnimWrapper
 class AnimationMgr final
 {
 public:
+
+	AnimationMgr();
+
 	static AnimationMgr& Instance();
 
 	void LoadMultipleModelAnimations(const char** modelPaths, int numPaths);
@@ -25,7 +28,6 @@ public:
 	std::unordered_map<const char*, AnimWrapper> m_animations;
 
 private:
-	AnimationMgr();
 	AnimationMgr(AnimationMgr const&) = delete;
 	AnimationMgr& operator=(AnimationMgr const&) = delete;
 };

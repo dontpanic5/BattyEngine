@@ -24,7 +24,7 @@ bool Ground::collisionCheck(BoundingBox bb) const
 	return CheckCollisionBoxes(bb, m_bb);
 }
 
-RayCollision Ground::GetRayCollision(Ray ray) const
+RayCollision Ground::GetRayCollision(Ray ray, bool) const
 {
 	return GetRayCollisionQuad(ray, { m_sz, 0, m_sz }, { m_sz, 0, -m_sz }, { -m_sz, 0, -m_sz }, { -m_sz, 0, m_sz });
 }

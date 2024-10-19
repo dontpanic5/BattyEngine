@@ -6,6 +6,10 @@ AnimWrapper::AnimWrapper(ModelAnimation* anims, int numOfAnims)
 {
 }
 
+AnimationMgr::AnimationMgr()
+{
+}
+
 AnimationMgr& AnimationMgr::Instance()
 {
 	static AnimationMgr instance;
