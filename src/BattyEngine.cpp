@@ -30,6 +30,7 @@ static bool windowShouldClose = false;
 Font defaultFont;
 
 Shader g_lighting;
+Shader g_skinning;
 
 static LogicCbType s_logicCb;
 static DrawCbType s_drawCb;
@@ -71,6 +72,12 @@ void Init(const char* name)
     int transLoc = GetShaderLocation(g_lighting, "transparent");
     int transparent = 0;
     SetShaderValue(g_lighting, transLoc, &transparent, SHADER_UNIFORM_INT);
+
+    // Load skinning shader
+    g_skinning = LoadShader(
+        TextFormat("resources/shaders/glsl%i/skinning.vs", GLSL_VERSION),
+        TextFormat("resources/shaders/glsl%i/skinning.fs", GLSL_VERSION)
+    );
 
     SetExitKey(KEY_BACKSPACE);
 
@@ -219,6 +226,9 @@ void DeInit()
     AnimationMgr::Instance().Unload();
 
     AudioMgr::Instance().Unload();
+
+    UnloadShader(g_lighting);
+    UnloadShader(g_skinning);
 
     CloseAudioDevice();     // Close audio context
 

@@ -22,6 +22,6 @@ void EntityMgr::ResetEntities()
 void EntityMgr::AddEntity(Entity* entity)
 {
     entity->SetUid(uidIdx++);
-    entity->SetMaterialShaders(g_lighting);
+    entity->SetMaterialShaders(g_skinning);
     m_entities.push_back(entity);
 }

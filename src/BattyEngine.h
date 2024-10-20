@@ -10,6 +10,7 @@ typedef void (*DrawCbType)();
 void Init(const char* name);
 
 extern Shader g_lighting;
+extern Shader g_skinning;
 
 void RunMainLoop(void);
 
