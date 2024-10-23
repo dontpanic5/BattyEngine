@@ -110,7 +110,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>DEBUG;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;PLATFORM_DESKTOP</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>BattyEngineHeaders;$(RAYLIB_DIR)\src;$(RAYLIB_DIR)\src\external;$(RAYLIB_DIR)\src\external\glfw\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(RAYLIB_DIR)\src;$(RAYLIB_DIR)\src\external;$(RAYLIB_DIR)\src\external\glfw\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
