@@ -264,6 +264,7 @@ void Entity::Animate(Model mdl, int& frame)
 
 void Entity::SetPos(Vector3 pos)
 {
+	_ASSERT(!isnan(pos.x));
 	m_pos = pos;
 }
 
