@@ -11,6 +11,14 @@
 
 #include "AnimationMgr.h"
 
+constexpr int MAX_CUR_NOISES = 4;
+
+struct NoiseTracker
+{
+	int id = -1;
+	double timeLength = -1.0;
+};
+
 class Entity
 {
 public:
@@ -51,8 +59,9 @@ public:
 	bool isDead() const;
 	bool isSpawned() const;
 
-	void makeNoise(int id, bool overwrite = true);
+	void makeNoise(int id, float pitch = 1.0f);
 	int getCurNoise() const;
+
 
 	void SetUid(int uid);
 
@@ -93,8 +102,7 @@ protected:
 
 	bool			m_spawned		= false;
 
-	int				m_curNoise		= -1;
-	double			m_curNoiseTimer	= -1.0;
+	NoiseTracker	m_curNoises[MAX_CUR_NOISES];
 
 	int				m_uid				= -1;
 };

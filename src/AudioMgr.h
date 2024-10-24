@@ -4,20 +4,24 @@
 #include <unordered_map>
 #include "raylib.h"
 
-constexpr int MAX_SOUNDS = 8;
+constexpr int MAX_SOUNDS		= 8;
+constexpr int MAX_ALIAS_SOUNDS	= 32;
 
 struct Noise
 {
-	Noise(Sound* sound, double* lengths, int numSounds, float audibleRange, int id, bool pitchShift = false);
+	Noise(Sound* sound, double* lengths, int numSounds, float audibleRange, int id, int entityId);
 
-	bool PlayNoise(double& length, bool overwrite);
+	Sound& PlayNoise(double& length, float pitch = 1.0f);
 
 	Sound m_sound[MAX_SOUNDS] = { 0 };
+	Sound m_aliasSounds[MAX_SOUNDS][32] = { 0 };
 	double m_length[MAX_SOUNDS] = { 0 };
+	int m_curIdx[MAX_SOUNDS];
 	int m_numSounds;
 	float m_audibleRange;
 	int m_id;
-	bool m_pitchShift;
+	int m_entityId;
+	bool m_speakingNoise;
 };
 
 class AudioMgr final
@@ -28,7 +32,8 @@ public:
 	static AudioMgr& Instance();
 
 	void AddNoise(Noise noise);
-	bool PlayNoise(int id, double& length, bool overwrite = true);
+	Sound& PlayNoise(int id, double& length, float pitch = 1.0f);
+	const Noise& GetNoise(int id);
 	void Unload();
 
 	std::unordered_map<int, Noise> m_noises;

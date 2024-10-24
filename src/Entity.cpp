@@ -62,11 +62,17 @@ void Entity::UpdateEntity(bool doNotMove, bool doNotAnimate)
 	m_prevPos		= GetPos();
 	m_prevVisualRot	= m_visualRot;
 
-	m_curNoiseTimer -= TICK;
-	if (m_curNoiseTimer < 0.0)
+	for (int i = 0; i < MAX_CUR_NOISES; i++)
 	{
-		m_curNoiseTimer = -1.0;
-		m_curNoise = -1;
+		if (m_curNoises[i].id == -1)
+			continue;
+
+		m_curNoises[i].timeLength -= TICK;
+		if (m_curNoises[i].timeLength < 0.0)
+		{
+			m_curNoises[i].id = -1;
+			m_curNoises[i].timeLength = -1.0;
+		}
 	}
 }
 
@@ -197,13 +203,30 @@ bool Entity::isSpawned() const
 	return m_spawned;
 }
 
-void Entity::makeNoise(int id, bool overwrite)
+void Entity::makeNoise(int id, float pitch)
 {
+	const Noise& noise = AudioMgr::Instance().GetNoise(id);
+	bool speakingNoise;
+	if (noise.m_speakingNoise)
+		speakingNoise = true;
 	double length = -1.0;
-	if (AudioMgr::Instance().PlayNoise(id, length, overwrite))
+	if (AudioMgr::Instance().PlayNoise(id, length, pitch))
 	{
-		m_curNoise = id;
-		m_curNoiseTimer = length;
+		bool placed = false;
+		for (int i = 0; i < MAX_CUR_NOISES; i++)
+		{
+			if (m_curNoises[i].id != -1 && !placed)
+			{
+				m_curNoises[i].id = id;
+				m_curNoises[i].timeLength = length;
+				placed = true;
+			}
+			else
+			{
+				// check this noise out and stop it if it's a speaking noise and we're playing a speaking noise
+			}
+		}
+		_ASSERT(placed);
 	}
 }
 
