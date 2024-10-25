@@ -18,6 +18,7 @@ struct NoiseTracker
 {
 	int id = -1;
 	double timeLength = -1.0;
+	const Sound* pSound;
 };
 
 class Entity
@@ -61,7 +62,8 @@ public:
 	bool isSpawned() const;
 
 	void makeNoise(int id, float pitch = 1.0f);
-	int getCurNoise() const;
+	// TODO get all noises
+	//int getCurNoise() const;
 
 
 	void SetUid(int uid);

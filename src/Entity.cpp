@@ -206,31 +206,28 @@ bool Entity::isSpawned() const
 void Entity::makeNoise(int id, float pitch)
 {
 	double length = -1.0;
-	Sound& playedSound = AudioMgr::Instance().PlayNoise(id, length, pitch);
+	const Sound& playedSound = AudioMgr::Instance().PlayNoise(id, length, pitch);
 	
 	bool placed = false;
 	for (int i = 0; i < MAX_CUR_NOISES; i++)
 	{
-		if (m_curNoises[i].id != -1 && !placed)
+		if (m_curNoises[i].id == -1 && !placed)
 		{
 			m_curNoises[i].id = id;
 			m_curNoises[i].timeLength = length;
+			m_curNoises[i].pSound = &playedSound;
 			placed = true;
-		}
-		else
-		{
-			// check this noise out and stop it if it's a speaking noise and we're playing a speaking noise
 		}
 	}
 	_ASSERT(placed);
 }
 
-int Entity::getCurNoise() const
-{
-	//return m_curNoise;
-	// TODO
-	return -1;
-}
+//int Entity::getCurNoise() const
+//{
+//	//return m_curNoise;
+//	// TODO
+//	return -1;
+//}
 
 void Entity::SetUid(int uid)
 {

@@ -1,8 +1,8 @@
 #include "AudioMgr.h"
 #include "raylib.h"
 
-Noise::Noise(Sound* sound, double* lengths, int numSounds, float audibleRange, int id, int entityId)
-	: m_numSounds(numSounds), m_audibleRange(audibleRange), m_id(id), m_entityId(entityId)
+Noise::Noise(Sound* sound, double* lengths, int numSounds, float audibleRange, int id)
+	: m_numSounds(numSounds), m_audibleRange(audibleRange), m_id(id)
 {
 	for (int i = 0; i < numSounds; i++)
 	{

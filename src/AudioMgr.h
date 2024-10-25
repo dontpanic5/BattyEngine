@@ -9,7 +9,7 @@ constexpr int MAX_ALIAS_SOUNDS	= 32;
 
 struct Noise
 {
-	Noise(Sound* sound, double* lengths, int numSounds, float audibleRange, int id, int entityId);
+	Noise(Sound* sound, double* lengths, int numSounds, float audibleRange, int id);
 
 	Sound& PlayNoise(double& length, float pitch = 1.0f);
 
@@ -20,7 +20,6 @@ struct Noise
 	int m_numSounds;
 	float m_audibleRange;
 	int m_id;
-	int m_entityId;
 	bool m_speakingNoise;
 };
 
