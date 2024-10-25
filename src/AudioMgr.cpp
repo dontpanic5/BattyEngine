@@ -45,7 +45,7 @@ void AudioMgr::AddNoise(Noise noise)
 	m_noises.insert({noise.m_id, noise});
 }
 
-bool AudioMgr::PlayNoise(int id, double& length, float pitch)
+Sound& AudioMgr::PlayNoise(int id, double& length, float pitch)
 {
 	return m_noises.at(id).PlayNoise(length, pitch);
 }
@@ -57,6 +57,10 @@ void AudioMgr::Unload()
 		for (int i = 0; i < pair.second.m_numSounds; i++)
 		{
 			UnloadSound(pair.second.m_sound[i]);
+			for (int j = 0; j < MAX_ALIAS_SOUNDS; j++)
+			{
+				UnloadSoundAlias(pair.second.m_aliasSounds[i][j]);
+			}
 		}
 	}
 }

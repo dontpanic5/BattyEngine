@@ -13,6 +13,7 @@
 
 constexpr int MAX_CUR_NOISES = 4;
 
+// TODO need to save Sound reference in here
 struct NoiseTracker
 {
 	int id = -1;
