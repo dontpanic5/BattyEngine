@@ -13,7 +13,6 @@
 
 constexpr int MAX_CUR_NOISES = 4;
 
-// TODO need to save Sound reference in here
 struct NoiseTracker
 {
 	int id = -1;
@@ -62,8 +61,7 @@ public:
 	bool isSpawned() const;
 
 	void makeNoise(int id, float pitch = 1.0f);
-	// TODO get all noises
-	//int getCurNoise() const;
+	void getCurNoises(int* ids, int& numNoises) const;
 
 
 	void SetUid(int uid);

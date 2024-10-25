@@ -222,12 +222,19 @@ void Entity::makeNoise(int id, float pitch)
 	_ASSERT(placed);
 }
 
-//int Entity::getCurNoise() const
-//{
-//	//return m_curNoise;
-//	// TODO
-//	return -1;
-//}
+void Entity::getCurNoises(int* ids, int& numNoises) const
+{
+	int myNumNoises = 0;
+	for (int i = 0; i < MAX_CUR_NOISES; i++)
+	{
+		if (m_curNoises[i].id != -1)
+		{
+			ids[myNumNoises] = m_curNoises[i].id;
+			myNumNoises++;
+		}
+	}
+	numNoises = myNumNoises;
+}
 
 void Entity::SetUid(int uid)
 {
