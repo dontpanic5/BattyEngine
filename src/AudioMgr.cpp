@@ -21,7 +21,14 @@ Sound& Noise::PlayNoise(double& length, float pitch)
 	int random = rand() % m_numSounds;
 
 	Sound& pickedSound = m_aliasSounds[random][m_curIdx[random]];
-	m_curIdx[random]++;
+	if (m_curIdx[random] < MAX_ALIAS_SOUNDS - 1)
+	{
+		m_curIdx[random]++;
+	}
+	else
+	{
+		m_curIdx[random] = 0;
+	}
 
 	SetSoundPitch(pickedSound, pitch);
 
