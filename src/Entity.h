@@ -66,6 +66,8 @@ public:
 
 	void SetUid(int uid);
 
+	virtual int GetTypeId() const = 0;
+
 	virtual void SetMaterialShaders(Shader shader);
 
 protected:

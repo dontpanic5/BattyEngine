@@ -2,6 +2,7 @@
 #include "BattyUtils.h"
 #include "raylib.h"
 #include "raymath.h"
+#include <crtdbg.h>
 
 Ground::Ground(float sz, const char* texPath)
 	: EnvironmentalObject(), m_sz(sz)
@@ -31,7 +32,9 @@ RayCollision Ground::GetRayCollision(Ray ray, bool) const
 
 float Ground::getOverlapDistance(BoundingBox bb, Vector3 direction) const
 {
-	return GetOverlapDistanceBoxBox(GetBoundingBox(), bb, direction);
+	float toRet = GetOverlapDistanceBoxBox(GetBoundingBox(), bb, direction);
+	_ASSERT(!isnan(toRet));
+	return toRet;
 }
 
 void Ground::drawObj()
