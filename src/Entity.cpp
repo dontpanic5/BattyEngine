@@ -67,11 +67,10 @@ void Entity::UpdateEntity(bool doNotMove, bool doNotAnimate)
 		if (m_curNoises[i].id == -1)
 			continue;
 
-		m_curNoises[i].timeLength -= TICK;
-		if (m_curNoises[i].timeLength < 0.0)
+		if (!IsSoundPlaying(*m_curNoises[i].pSound))
 		{
 			m_curNoises[i].id = -1;
-			m_curNoises[i].timeLength = -1.0;
+			m_curNoises[i].pSound = nullptr;
 		}
 	}
 }
@@ -211,8 +210,7 @@ bool Entity::isSpawned() const
 
 void Entity::makeNoise(int id, float pitch)
 {
-	double length = -1.0;
-	const Sound& playedSound = AudioMgr::Instance().PlayNoise(id, length, pitch);
+	const Sound& playedSound = AudioMgr::Instance().PlayNoise(id, pitch);
 	
 	bool placed = false;
 	for (int i = 0; i < MAX_CUR_NOISES; i++)
@@ -220,7 +218,6 @@ void Entity::makeNoise(int id, float pitch)
 		if (m_curNoises[i].id == -1 && !placed)
 		{
 			m_curNoises[i].id = id;
-			m_curNoises[i].timeLength = length;
 			m_curNoises[i].pSound = &playedSound;
 			placed = true;
 		}

@@ -11,7 +11,7 @@ struct Noise
 {
 	Noise(Sound* sound, double* lengths, int numSounds, float audibleRange, int id);
 
-	Sound& PlayNoise(double& length, float pitch = 1.0f);
+	Sound& PlayNoise(float pitch = 1.0f);
 
 	Sound m_sound[MAX_SOUNDS] = { 0 };
 	Sound m_aliasSounds[MAX_SOUNDS][32] = { 0 };
@@ -31,7 +31,7 @@ public:
 	static AudioMgr& Instance();
 
 	void AddNoise(Noise noise);
-	Sound& PlayNoise(int id, double& length, float pitch = 1.0f);
+	Sound& PlayNoise(int id, float pitch = 1.0f);
 	const Noise& GetNoise(int id);
 	void Unload();
 

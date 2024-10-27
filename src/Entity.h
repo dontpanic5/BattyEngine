@@ -16,8 +16,7 @@ constexpr int MAX_CUR_NOISES = 4;
 struct NoiseTracker
 {
 	int id = -1;
-	double timeLength = -1.0;
-	const Sound* pSound;
+	const Sound* pSound = nullptr;
 };
 
 class Entity
