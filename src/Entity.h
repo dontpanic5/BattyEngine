@@ -45,6 +45,8 @@ public:
 	bool		GetDrawBounds() const;
 	BoundingBox	GetBoundingBox() const;
 
+	void		SetAllRot(Quaternion rot);
+
 	// can be overridden for entities that spin
 	virtual Vector3 GetForward() const;
 	Vector3 GetLeft() const;

@@ -156,6 +156,12 @@ BoundingBox Entity::GetBoundingBox() const
 	return m_bb;
 }
 
+void Entity::SetAllRot(Quaternion rot)
+{
+	m_visualRot	= rot;
+	m_rot		= rot;
+}
+
 Vector3 Entity::GetForward() const
 {
 	return Vector3RotateByQuaternion(
