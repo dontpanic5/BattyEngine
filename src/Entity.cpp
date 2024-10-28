@@ -222,7 +222,9 @@ void Entity::makeNoise(int id, float pitch)
 			placed = true;
 		}
 	}
+#if PLATFORM_DESKTOP
 	_ASSERT(placed);
+#endif // PLATFORM_DESKTOP
 }
 
 void Entity::getCurNoises(int* ids, int& numNoises) const
@@ -291,7 +293,9 @@ void Entity::Animate(Model mdl, int& frame)
 
 void Entity::SetPos(Vector3 pos)
 {
+#if PLATFORM_DESKTOP
 	_ASSERT(!isnan(pos.x));
+#endif // PLATFORM_DESKTOP
 	m_pos = pos;
 }
 

@@ -18,9 +18,9 @@ static const int screenHeight = 490;
 #endif
 
 #if defined(PLATFORM_DESKTOP)
-#define GLSL_VERSION            330
+#define GLSL_VERSION            "330"
 #else   // PLATFORM_ANDROID, PLATFORM_WEB
-#define GLSL_VERSION            100
+#define GLSL_VERSION            "300es"
 #endif
 
 static double frameTime = -1.0;
@@ -53,8 +53,8 @@ void Init(const char* name)
 
     // Load basic lighting shader
     g_lighting = LoadShader(
-        TextFormat("resources/shaders/glsl%i/lighting.vs", GLSL_VERSION),
-        TextFormat("resources/shaders/glsl%i/lighting.fs", GLSL_VERSION)
+        TextFormat("resources/shaders/glsl%s/lighting.vs", GLSL_VERSION),
+        TextFormat("resources/shaders/glsl%s/lighting.fs", GLSL_VERSION)
     );
     // Get some required shader locations
     g_lighting.locs[SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(g_lighting, "viewPos");
@@ -75,8 +75,8 @@ void Init(const char* name)
 
     // Load skinning shader
     g_skinning = LoadShader(
-        TextFormat("resources/shaders/glsl%i/skinning.vs", GLSL_VERSION),
-        TextFormat("resources/shaders/glsl%i/skinning.fs", GLSL_VERSION)
+        TextFormat("resources/shaders/glsl%s/skinning.vs", GLSL_VERSION),
+        TextFormat("resources/shaders/glsl%s/skinning.fs", GLSL_VERSION)
     );
 
     SetExitKey(KEY_BACKSPACE);
