@@ -4,8 +4,8 @@
 #include <unordered_map>
 #include "raylib.h"
 
-constexpr int MAX_SOUNDS		= 8;
-constexpr int MAX_ALIAS_SOUNDS	= 32;
+constexpr int MAX_SOUNDS		= 4;
+constexpr int MAX_ALIAS_SOUNDS	= 4;
 
 struct Noise
 {
@@ -14,7 +14,7 @@ struct Noise
 	Sound& PlayNoise(float pitch = 1.0f);
 
 	Sound m_sound[MAX_SOUNDS] = { 0 };
-	Sound m_aliasSounds[MAX_SOUNDS][32] = { 0 };
+	Sound m_aliasSounds[MAX_SOUNDS][MAX_ALIAS_SOUNDS] = { 0 };
 	double m_length[MAX_SOUNDS] = { 0 };
 	int m_curIdx[MAX_SOUNDS];
 	int m_numSounds;
