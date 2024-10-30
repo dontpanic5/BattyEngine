@@ -15,11 +15,11 @@ public:
 	RayCollision GetRayCollision(Ray ray, bool) const override;
 	float getOverlapDistance(BoundingBox bb, Vector3 direction) const override;
 
+	BoundingBox GetBoundingBox() const override;
+
 	void drawObj() override;
 
 protected:
-	BoundingBox GetBoundingBox() const;
-
 	float m_sz;
 
 	BoundingBox m_bb;

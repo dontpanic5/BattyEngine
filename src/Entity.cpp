@@ -116,6 +116,9 @@ void Entity::ResetEntity()
 
 void Entity::SetCurAnim(int animNum)
 {
+	if (m_curAnim == animNum)
+		return;
+
 	m_curAnim = animNum;
 	m_animFrameCounter = 0;
 }
@@ -196,6 +199,10 @@ void Entity::RotateLocalEuler(Vector3 axis, float degrees)
 	m_rot = QuaternionMultiply(
 		m_rot,
 		QuaternionFromAxisAngle(axis, radians));
+}
+
+void Entity::HitByProjectile()
+{
 }
 
 bool Entity::isDead() const

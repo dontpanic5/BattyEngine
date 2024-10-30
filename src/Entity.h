@@ -58,6 +58,8 @@ public:
 
 	virtual bool collisionCheck(BoundingBox bb) = 0;
 
+	virtual void HitByProjectile();
+
 	bool isDead() const;
 	bool isSpawned() const;
 
