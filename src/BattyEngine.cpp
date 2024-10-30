@@ -2,6 +2,7 @@ static const int screenWidth = 980;
 static const int screenHeight = 490;
 
 #include <cstdio>
+#include <ctime>
 #include "raylib.h"
 #include <math.h>
 #include "BattyEngine.h"
@@ -48,6 +49,8 @@ void Init(const char* name)
     InitWindow(screenWidth, screenHeight, name);
     SetWindowState(FLAG_WINDOW_RESIZABLE);
     SetWindowState(FLAG_WINDOW_MAXIMIZED);
+
+    srand(std::time(0));
 
     InitAudioDevice();      // Initialize audio device
 
