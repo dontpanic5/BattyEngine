@@ -289,7 +289,7 @@ void Entity::Animate(Model mdl, int& frame)
  			return;
 		}
 
-		UpdateModelAnimationBoneMatrices(mdl, m_anims->m_anims[m_curAnim], frame);
+		UpdateModelAnimationBones(mdl, m_anims->m_anims[m_curAnim], frame);
 
 		if (reset)
 		{
