@@ -21,12 +21,14 @@ public:
 	/// </summary>
 	void FollowEntity(const Entity& entity, float deltaTime, Vector3 transform);
 
+	void FollowEntity3rdPerson(const Entity& entity, float deltaTime, Vector3 transform);
+
 	void CinematicWatchEntity(const Entity& entity, float deltaTime, bool immediate = false);
 
 	/// <summary>
 	/// Moves the camera to the given positions. Smoothing is automatically applied.
 	/// </summary>
-	void MoveTo(Vector3 position, Vector3 target, Vector3 up, float deltaTime);
+	void MoveTo(Vector3 position, Vector3 target, Vector3 up, float deltaTime, float speed = 30.0f, bool updatePosition = true);
 
 	/// <summary>
 	/// Immediately moves the camera to the given positions with no smoothing.
@@ -47,6 +49,8 @@ public:
 	void EndDrawing() const;
 
 	Vector3 GetPosition() const;
+
+	Vector3 GetForward() const;
 
 private:
 	Camera3D Camera;

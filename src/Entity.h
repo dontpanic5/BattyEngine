@@ -39,6 +39,7 @@ public:
 
 	Vector3		GetPos() const;
 	virtual Vector3 GetCamPos() const;
+	bool		DidMove() const;
 	Quaternion	GetRot() const;
 	float		GetScale() const;
 	bool		GetDrawBounds() const;
@@ -54,7 +55,7 @@ public:
 	// can be overridden for entities that spin
 	virtual Vector3 TransformPoint(Vector3 point) const;
 
-	void RotateLocalEuler(Vector3 axis, float degrees);
+	void RotateLocalEuler(Vector3 axis, float degrees, bool visuallyRot = true);
 
 	virtual bool collisionCheck(BoundingBox bb) = 0;
 

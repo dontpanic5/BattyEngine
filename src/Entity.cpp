@@ -58,7 +58,6 @@ void Entity::UpdateEntity(bool doNotMove, bool doNotAnimate)
 	if (!doNotAnimate)
 		Animate(m_model, m_animFrameCounter);
 
-	m_prevPos		= GetPos();
 	m_prevVisualRot	= m_visualRot;
 
 	for (int i = 0; i < MAX_CUR_NOISES; i++)
@@ -137,6 +136,18 @@ Vector3 Entity::GetCamPos() const
 	return GetPos();
 }
 
+bool Entity::DidMove() const
+{
+	//printf("getpos x %f y %f z %f\n", GetPos().x, GetPos().y, GetPos().z);
+	//printf("prevpos x %f y %f z %f\n", m_prevPos.x, m_prevPos.y, m_prevPos.z);
+
+	float magnitude = Vector3Distance(GetPos(), m_prevPos);
+	bool didMove = magnitude > 0.3f;
+
+	//printf("did move %d\n", didMove);
+	return didMove;
+}
+
 Quaternion Entity::GetRot() const
 {
 	return m_rot;
@@ -192,12 +203,17 @@ Vector3 Entity::TransformPoint(Vector3 point) const
 	return Vector3Transform(point, matrix);
 }
 
-void Entity::RotateLocalEuler(Vector3 axis, float degrees)
+void Entity::RotateLocalEuler(Vector3 axis, float degrees, bool visuallyRot)
 {
 	auto radians = degrees * DEG2RAD;
-	m_rot = QuaternionMultiply(
+	Quaternion toSet = QuaternionMultiply(
 		m_rot,
 		QuaternionFromAxisAngle(axis, radians));
+
+	if (visuallyRot)
+		SetAllRot(toSet);
+	else
+		m_rot = toSet;
 }
 
 void Entity::HitByProjectile()
@@ -302,6 +318,7 @@ void Entity::SetPos(Vector3 pos)
 #if PLATFORM_DESKTOP
 	_ASSERT(!isnan(pos.x));
 #endif // PLATFORM_DESKTOP
+	m_prevPos = m_pos;
 	m_pos = pos;
 }
 

@@ -44,6 +44,28 @@ void GameCamera::FollowEntity(const Entity& entity, float deltaTime, Vector3 tra
 	MoveTo(position, target, up, deltaTime);
 }
 
+void GameCamera::FollowEntity3rdPerson(const Entity& entity, float deltaTime, Vector3 transform)
+{
+	static bool init = true;
+
+	Vector3 position;
+	Vector3 target = entity.GetPos();
+	Vector3 up = entity.GetUp();
+
+	position = entity.TransformPoint(transform);
+
+	// put entity at the bottom of the view
+	target = Vector3Add(target, { 0.0f, 10.0f, 0.0f });
+
+	if (init)
+	{
+		init = false;
+		SetPosition(position, target, up);
+	}
+	else
+		MoveTo(position, target, up, deltaTime, 1.0f, entity.DidMove());
+}
+
 void GameCamera::CinematicWatchEntity(const Entity& entity, float deltaTime, bool immediate)
 {
 	Vector3 position;
@@ -61,11 +83,12 @@ void GameCamera::CinematicWatchEntity(const Entity& entity, float deltaTime, boo
 		SetPosition(position, target, entity.GetUp());
 }
 
-void GameCamera::MoveTo(Vector3 position, Vector3 target, Vector3 up, float deltaTime)
+void GameCamera::MoveTo(Vector3 position, Vector3 target, Vector3 up, float deltaTime, float speed, bool setPosition)
 {
-	Camera.position = SmoothDamp(
-		Camera.position, position,
-		30, deltaTime);
+	if (setPosition)
+		Camera.position = SmoothDamp(
+			Camera.position, position,
+			speed, deltaTime);
 
 	Camera.target = SmoothDamp(
 		Camera.target, target,
@@ -95,6 +118,12 @@ void GameCamera::SetFoV(float fov)
 Vector3 GameCamera::GetPosition() const
 {
 	return Camera.position;
+}
+
+Vector3 GameCamera::GetForward() const
+{
+	Vector3 diff = Camera.target - Camera.position;
+	return Vector3Normalize(diff);
 }
 
 void GameCamera::Begin3DDrawing() const
