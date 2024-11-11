@@ -19,7 +19,7 @@ public:
 	/// <summary>
 	/// Automatically moves the camera to follow a target.
 	/// </summary>
-	void FollowEntity(const Entity& entity, float deltaTime);
+	void FollowEntity(const Entity& entity, float deltaTime, Vector3 transform);
 
 	void CinematicWatchEntity(const Entity& entity, float deltaTime, bool immediate = false);
 

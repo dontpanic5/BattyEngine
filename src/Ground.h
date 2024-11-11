@@ -8,7 +8,7 @@ struct Texture;
 class Ground : public EnvironmentalObject
 {
 public:
-	Ground(float sz, const char* texPath);
+	Ground(float sz, const char* texPath = nullptr, Color color = RAYWHITE);
 	~Ground();
 
 	bool collisionCheck(BoundingBox bb) const override;

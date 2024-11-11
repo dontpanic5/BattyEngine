@@ -23,7 +23,7 @@ class Entity
 {
 public:
 	Entity(const char* modelPath, float scale,
-		bool drawBounds, bool spawn, bool calcRotBb = false, Vector3 pos = Vector3Zero());
+		bool drawBounds, bool spawn, Vector3 pos = Vector3Zero());
 	virtual ~Entity() = default;
 
 	// NOTE: makes the assumption that the child will resolve
@@ -86,7 +86,6 @@ protected:
 
 	Model			m_model;
 	bool			m_drawBounds;
-	bool			m_calcRotBb				= false;
 	int				m_curAnim				= -1;
 	int				m_animFrameCounter		= 0;
 	int				m_animFrameToStopAt		= -1;

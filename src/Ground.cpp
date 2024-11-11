@@ -6,14 +6,20 @@
 #include <crtdbg.h>
 #endif
 
-Ground::Ground(float sz, const char* texPath)
+Ground::Ground(float sz, const char* texPath, Color color)
 	: EnvironmentalObject(), m_sz(sz)
 {
 	Mesh mesh = GenMeshPlane(m_sz, m_sz, 2, 2);
 	m_bb = GetMeshBoundingBox(mesh);
 	m_model = LoadModelFromMesh(mesh);
 
-	m_tex = LoadTexture(texPath);
+	if (texPath)
+		m_tex = LoadTexture(texPath);
+	else
+	{
+		Image toMakeTexture = GenImageColor(1024, 1024, color);
+		m_tex = LoadTextureFromImage(toMakeTexture);
+	}
 	SetMaterialTexture(&m_model.materials[0], MATERIAL_MAP_DIFFUSE, m_tex);
 }
 

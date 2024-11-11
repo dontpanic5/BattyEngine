@@ -10,14 +10,13 @@
 #include "Constants.h"
 
 Entity::Entity(const char* modelPath, float scale,
-	bool drawBounds, bool spawn, bool calcRotBb, Vector3 pos)
+	bool drawBounds, bool spawn, Vector3 pos)
 	:
 #ifdef DEBUG
 	m_drawBounds(drawBounds),
 #else // DEBUG
 	m_drawBounds(false),
 #endif
-	m_calcRotBb(calcRotBb),
 	m_scale(scale),
 	m_spawned(spawn)
 {

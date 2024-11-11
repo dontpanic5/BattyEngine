@@ -26,7 +26,7 @@ GameCamera::GameCamera(bool isPerspective, float fieldOfView)
 	SmoothUp = Vector3Zero();
 }
 
-void GameCamera::FollowEntity(const Entity& entity, float deltaTime)
+void GameCamera::FollowEntity(const Entity& entity, float deltaTime, Vector3 transform)
 {
 	Vector3 position;
 	Vector3 target = entity.GetPos();
@@ -34,7 +34,7 @@ void GameCamera::FollowEntity(const Entity& entity, float deltaTime)
 
 	Vector3 shipForwards; 
 
-	position = entity.TransformPoint({ 0.0f, 4.5f, -12.0f});
+	position = entity.TransformPoint(transform);
 	shipForwards = Vector3Scale(entity.GetForward(), 50.0f);
 
 	target = Vector3Add(entity.GetPos(), shipForwards);
