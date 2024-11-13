@@ -1,0 +1,4 @@
+1. Get Visual Studio (preferrably 2022)
+2. Get Batty Engine repo on github and game project
+3. Get raylib
+3. set env variables RAYLIB_DIR and BATTY_ENGINE_DIR
