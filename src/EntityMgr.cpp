@@ -25,3 +25,8 @@ void EntityMgr::AddEntity(Entity* entity)
     entity->SetMaterialShaders(g_skinning);
     m_entities.push_back(entity);
 }
+
+void EntityMgr::Unload()
+{
+    m_entities.clear();
+}

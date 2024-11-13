@@ -126,6 +126,11 @@ Vector3 GameCamera::GetForward() const
 	return Vector3Normalize(diff);
 }
 
+Camera GameCamera::GetCamera() const
+{
+	return Camera;
+}
+
 void GameCamera::Begin3DDrawing() const
 {
 	BeginMode3D(Camera);

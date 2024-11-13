@@ -52,6 +52,8 @@ public:
 
 	Vector3 GetForward() const;
 
+	Camera GetCamera() const;
+
 private:
 	Camera3D Camera;
 

@@ -8,6 +8,7 @@
 #include "BattyUtils.h"
 #include "MathUtils.h"
 #include "Constants.h"
+#include "GameCamera.h"
 
 Entity::Entity(const char* modelPath, float scale,
 	bool drawBounds, bool spawn, Vector3 pos)
@@ -20,9 +21,15 @@ Entity::Entity(const char* modelPath, float scale,
 	m_scale(scale),
 	m_spawned(spawn)
 {
+	memset(m_billboardAnims, 0, sizeof(Texture2D*) * MAX_BILLBOARD_ANIMS * MAX_BILLBOARD_FRAMES);
+	memset(m_numBillboardFrames, 0, sizeof(int) * MAX_BILLBOARD_ANIMS);
+
 	m_velocity = { 0.0f, 0.0f, 0.0f };
 
-	m_model = LoadModel(modelPath);
+	if (modelPath != nullptr)
+		m_model = LoadModel(modelPath);
+	else
+		m_hasModel = false;
 
 	//Texture2D texture = LoadTexture("resources/anim_vamp_bat/bat_tex.jpg");         // Load model texture and set material
 	//SetMaterialTexture(&m_model.materials[0], MATERIAL_MAP_DIFFUSE, texture);     // Set model material map texture
@@ -31,13 +38,16 @@ Entity::Entity(const char* modelPath, float scale,
 
 	SetTransformAndBb();
 
-	if (AnimationMgr::Instance().m_animations.count(modelPath) > 0)
+	if (m_hasModel)
 	{
-		m_anims = &AnimationMgr::Instance().m_animations.at(modelPath);
-	}
-	else
-	{
-		m_anims = nullptr;
+		if (AnimationMgr::Instance().m_animations.count(modelPath) > 0)
+		{
+			m_anims = &AnimationMgr::Instance().m_animations.at(modelPath);
+		}
+		else
+		{
+			m_anims = nullptr;
+		}
 	}
 }
 
@@ -48,17 +58,39 @@ void Entity::UpdateEntity(bool doNotMove, bool doNotAnimate)
 
 	// TODO the if statement here needs to account for animations as well
 	if (
-		!Vector3Equals(m_prevPos, GetPos()) ||
-		!QuaternionEquals(m_prevVisualRot, m_visualRot)
+		m_hasModel &&
+		(!Vector3Equals(m_prevPos, GetPos()) ||
+		!QuaternionEquals(m_prevVisualRot, m_visualRot))
 		)
 	{
 		SetTransformAndBb();
 	}
 
-	if (!doNotAnimate)
-		Animate(m_model, m_animFrameCounter);
+	if (m_hasModel)
+	{
+		if (!doNotAnimate)
+			Animate(m_model, m_animFrameCounter);
 
-	m_prevVisualRot	= m_visualRot;
+		m_prevVisualRot = m_visualRot;
+	}
+	else
+	{
+		if (!doNotAnimate)
+			Animate(m_animFrameCounter);
+
+		if (DidMove())
+		{
+			Vector3 calcPos = GetPos() - m_cam->GetPosition();
+			Vector2 pos = { calcPos.x, calcPos.z };
+			Vector3 calcPrevPos = m_prevPos - m_cam->GetPosition();
+			Vector2 prevPos = { calcPrevPos.x, calcPrevPos.z };
+			float angle = Vector2Angle(prevPos, pos);
+			if (fabs(angle) > 0.001f)
+			{
+				m_facingRight = Vector2Angle(prevPos, pos) > 0;
+			}
+		}
+	}
 
 	for (int i = 0; i < MAX_CUR_NOISES; i++)
 	{
@@ -78,10 +110,22 @@ void Entity::DrawEntity()
 	if (!m_spawned)
 		return;
 
-	DrawModel(GetModel(), Vector3Zero(), GetScale(), WHITE);
-	if (GetDrawBounds())
+	if (m_hasModel)
 	{
-		DrawBoundingBox(GetBoundingBox(), GREEN);
+		DrawModel(GetModel(), Vector3Zero(), GetScale(), WHITE);
+		if (GetDrawBounds())
+		{
+			DrawBoundingBox(GetBoundingBox(), GREEN);
+		}
+	}
+	else
+	{
+		Texture2D toDraw = m_billboardAnims[m_curAnim][m_animFrameCounter];
+		Rectangle source = { m_facingRight ? 0.0f : -10.0f, 0.0f, (float)toDraw.width, (float)toDraw.height };
+		Vector3 myPos = GetPos();
+		myPos.y += ((float)toDraw.height) / 2.0f;
+		Vector2 size = { m_scale * fabsf((float)source.width / source.height) * (m_facingRight ? 1.0f : -1.0f), m_scale };
+		DrawBillboardRec(m_cam->GetCamera(), toDraw, source, myPos, size, WHITE);
 	}
 }
 
@@ -101,15 +145,48 @@ void Entity::ResetEntity()
 	m_pos				= Vector3Zero();
 	m_prevPos			= Vector3Zero();
 
-	SetTransformAndBb();
+	if (m_hasModel)
+		SetTransformAndBb();
 
 	m_velocity			= Vector3Zero();
-	m_rot				= QuaternionIdentity();
-	m_visualRot			= QuaternionIdentity();
-	m_prevVisualRot		= QuaternionIdentity();
+	if (m_hasModel)
+	{
+		m_rot = QuaternionIdentity();
+		m_visualRot = QuaternionIdentity();
+		m_prevVisualRot = QuaternionIdentity();
+	}
 
 	m_dead				= false;
 	m_spawned			= false;
+}
+
+void Entity::SetCamera(GameCamera* cam)
+{
+	m_cam = cam;
+}
+
+void Entity::SetBillboardAnim(const char* animPath, int id, int frames)
+{
+	constexpr int BUF_SZ = 256;
+	char buf[BUF_SZ];
+	memset(buf, 0, sizeof(char) * BUF_SZ);
+
+	_ASSERT(frames < MAX_BILLBOARD_FRAMES);
+
+	m_numBillboardFrames[id] = frames;
+
+	for (int i = 1; i <= frames; i++)
+	{
+		snprintf(buf, sizeof(char) * BUF_SZ, animPath, i);
+		Image image = LoadImage(buf);
+		Rectangle rec;
+		rec.x = 112.0f;
+		rec.y = 74.0f;
+		rec.width = 170.0f - 112.0f;
+		rec.height = 128.0f - 74.0f;
+		image = ImageFromImage(image, rec);
+		m_billboardAnims[id][i - 1] = LoadTextureFromImage(image);
+	}
 }
 
 void Entity::SetCurAnim(int animNum)
@@ -138,13 +215,8 @@ Vector3 Entity::GetCamPos() const
 
 bool Entity::DidMove() const
 {
-	//printf("getpos x %f y %f z %f\n", GetPos().x, GetPos().y, GetPos().z);
-	//printf("prevpos x %f y %f z %f\n", m_prevPos.x, m_prevPos.y, m_prevPos.z);
-
 	float magnitude = Vector3Distance(GetPos(), m_prevPos);
 	bool didMove = magnitude > 0.3f;
-
-	//printf("did move %d\n", didMove);
 	return didMove;
 }
 
@@ -313,6 +385,38 @@ void Entity::Animate(Model mdl, int& frame)
 	}
 }
 
+void Entity::Animate(int& frame)
+{
+	if (m_curAnim >= 0)
+	{
+		frame++;
+
+		bool reset = false;
+
+		if (
+			frame >= m_numBillboardFrames[m_curAnim] ||
+			(m_animFrameToStopAt != -1 && frame >= m_animFrameToStopAt)
+			)
+		{
+			frame = 0;
+			if (!m_animLoop)
+				reset = true;
+		}
+
+		// if it's time to reset and we don't want to reset, leave early
+		if (reset && !m_resetToFirstAnimFrame)
+		{
+			m_curAnim = -1;
+			return;
+		}
+
+		if (reset)
+		{
+			m_curAnim = -1;
+		}
+	}
+}
+
 void Entity::SetPos(Vector3 pos)
 {
 #if PLATFORM_DESKTOP
@@ -324,6 +428,9 @@ void Entity::SetPos(Vector3 pos)
 
 void Entity::SetTransformAndBb()
 {
+	if (!m_hasModel)
+		return;
+
 	auto transform = MatrixTranslate(
 		GetPos().x / GetScale(),
 		GetPos().y / GetScale(),

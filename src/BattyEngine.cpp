@@ -11,6 +11,7 @@ static const int screenHeight = 490;
 #include "Constants.h"
 #include "BattyUtils.h"
 #include "Ui.h"
+#include "EntityMgr.h"
 #include "AnimationMgr.h"
 #include "LevelMgr.h"
 #include "AudioMgr.h"
@@ -229,6 +230,8 @@ void DeInit()
     AnimationMgr::Instance().Unload();
 
     AudioMgr::Instance().Unload();
+
+    EntityMgr::Instance().Unload();
 
     UnloadShader(g_lighting);
     UnloadShader(g_skinning);

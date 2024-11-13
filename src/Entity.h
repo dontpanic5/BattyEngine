@@ -8,8 +8,8 @@
 
 #include "raylib.h"
 #include "raymath.h"
-
 #include "AnimationMgr.h"
+class GameCamera;
 
 constexpr int MAX_CUR_NOISES = 4;
 
@@ -35,6 +35,9 @@ public:
 	virtual void SpawnEntity();
 	virtual void ResetEntity();
 
+	void SetCamera(GameCamera* cam);
+
+	void		SetBillboardAnim(const char* animPath, int id, int frames);
 	void		SetCurAnim(int animNum);
 
 	Vector3		GetPos() const;
@@ -78,6 +81,7 @@ protected:
 	virtual void Die();
 
 	void Animate(Model mdl, int& frame);
+	void Animate(int& frame);
 
 	Model GetModel() const;
 
@@ -86,7 +90,18 @@ protected:
 	void SetTransformAndBb();
 
 	Model			m_model;
+	bool			m_hasModel				= true;
 	bool			m_drawBounds;
+
+	static constexpr int MAX_BILLBOARD_ANIMS = 8;
+	static constexpr int MAX_BILLBOARD_FRAMES = 64;
+	Texture2D		m_billboardAnims[MAX_BILLBOARD_ANIMS][MAX_BILLBOARD_FRAMES];
+	int				m_numBillboardFrames[MAX_BILLBOARD_ANIMS];
+
+	bool			m_facingRight			= true;
+
+	GameCamera*		m_cam;
+
 	int				m_curAnim				= -1;
 	int				m_animFrameCounter		= 0;
 	int				m_animFrameToStopAt		= -1;

@@ -14,6 +14,8 @@ public:
 
 	void AddEntity(Entity* entity);
 
+	void Unload();
+
 	std::vector<Entity*> m_entities;
 
 private:
