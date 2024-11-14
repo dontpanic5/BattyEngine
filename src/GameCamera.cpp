@@ -107,7 +107,11 @@ void GameCamera::MoveTo(Vector3 position, Vector3 target, Vector3 up, float delt
 			float scalar = transformLength / desiredDistance;
 			desiredPosRelativeToTarget = Vector2Scale(desiredPosRelativeToTarget, scalar);
 			Vector3 desiredPosRelativeToTarget3 = { desiredPosRelativeToTarget.x, desiredPosition.y, desiredPosRelativeToTarget.y };
-			desiredPosition = desiredPosRelativeToTarget3 + target;
+			Vector3 newDesiredPosition = desiredPosRelativeToTarget3 + target;
+			desiredPosition = SmoothDamp(
+				desiredPosition, newDesiredPosition,
+				30.0f, deltaTime
+			);
 		}
 		Camera.position = desiredPosition;
 	}
