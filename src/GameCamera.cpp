@@ -63,7 +63,7 @@ void GameCamera::FollowEntity3rdPerson(const Entity& entity, float deltaTime, Ve
 		SetPosition(position, target, up);
 	}
 	else
-		MoveTo(position, target, up, deltaTime, 1.0f, entity.DidMove());
+		MoveTo(position, target, up, deltaTime, 1.0f, entity.DidMove(), true, transform);
 }
 
 void GameCamera::CinematicWatchEntity(const Entity& entity, float deltaTime, bool immediate)
@@ -83,12 +83,34 @@ void GameCamera::CinematicWatchEntity(const Entity& entity, float deltaTime, boo
 		SetPosition(position, target, entity.GetUp());
 }
 
-void GameCamera::MoveTo(Vector3 position, Vector3 target, Vector3 up, float deltaTime, float speed, bool setPosition)
+void GameCamera::MoveTo(Vector3 position, Vector3 target, Vector3 up, float deltaTime, float speed,
+	bool setPosition, bool enforceTrans, Vector3 transform)
 {
 	if (setPosition)
-		Camera.position = SmoothDamp(
+	{
+		Vector3 desiredPosition = SmoothDamp(
 			Camera.position, position,
 			speed, deltaTime);
+
+		if (enforceTrans && desiredPosition.y > transform.y)
+		{
+			desiredPosition.y = transform.y;
+		}
+
+		Vector2 desiredPosition2 = { desiredPosition.x, desiredPosition.z };
+		Vector2 target2 = { target.x, target.z };
+		float desiredDistance = Vector2Distance(desiredPosition2, target2);
+		float transformLength = Vector2Length({ transform.x, transform.z });
+		if (enforceTrans && desiredDistance < transformLength)
+		{
+			Vector2 desiredPosRelativeToTarget = desiredPosition2 - target2;
+			float scalar = transformLength / desiredDistance;
+			desiredPosRelativeToTarget = Vector2Scale(desiredPosRelativeToTarget, scalar);
+			Vector3 desiredPosRelativeToTarget3 = { desiredPosRelativeToTarget.x, desiredPosition.y, desiredPosRelativeToTarget.y };
+			desiredPosition = desiredPosRelativeToTarget3 + target;
+		}
+		Camera.position = desiredPosition;
+	}
 
 	Camera.target = SmoothDamp(
 		Camera.target, target,

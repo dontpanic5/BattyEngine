@@ -28,7 +28,8 @@ public:
 	/// <summary>
 	/// Moves the camera to the given positions. Smoothing is automatically applied.
 	/// </summary>
-	void MoveTo(Vector3 position, Vector3 target, Vector3 up, float deltaTime, float speed = 30.0f, bool updatePosition = true);
+	void MoveTo(Vector3 position, Vector3 target, Vector3 up, float deltaTime, float speed = 30.0f,
+		bool updatePosition = true, bool enforceTrans = false, Vector3 transform = { 0.0f, 0.0f, 0.0f});
 
 	/// <summary>
 	/// Immediately moves the camera to the given positions with no smoothing.
