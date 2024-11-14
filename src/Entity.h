@@ -37,7 +37,7 @@ public:
 
 	void SetCamera(GameCamera* cam);
 
-	void		SetBillboardAnim(const char* animPath, int id, int frames);
+	void		SetBillboardAnim(const char* animPath, int id, int frames, int speed = 1);
 	void		SetCurAnim(int animNum);
 
 	Vector3		GetPos() const;
@@ -97,6 +97,7 @@ protected:
 	static constexpr int MAX_BILLBOARD_FRAMES = 64;
 	Texture2D		m_billboardAnims[MAX_BILLBOARD_ANIMS][MAX_BILLBOARD_FRAMES];
 	int				m_numBillboardFrames[MAX_BILLBOARD_ANIMS];
+	int				m_billboardAnimSpeed[MAX_BILLBOARD_ANIMS];
 
 	bool			m_facingRight			= true;
 
@@ -107,6 +108,7 @@ protected:
 	int				m_animFrameToStopAt		= -1;
 	bool			m_animLoop				= false;
 	bool			m_resetToFirstAnimFrame	= false;
+	int				m_ticksSinceLastFrame	= 0;
 	AnimWrapper*	m_anims;
 	float			m_scale = 1.0f;
 

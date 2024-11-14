@@ -165,7 +165,7 @@ void Entity::SetCamera(GameCamera* cam)
 	m_cam = cam;
 }
 
-void Entity::SetBillboardAnim(const char* animPath, int id, int frames)
+void Entity::SetBillboardAnim(const char* animPath, int id, int frames, int speed)
 {
 	constexpr int BUF_SZ = 256;
 	char buf[BUF_SZ];
@@ -174,6 +174,7 @@ void Entity::SetBillboardAnim(const char* animPath, int id, int frames)
 	_ASSERT(frames < MAX_BILLBOARD_FRAMES);
 
 	m_numBillboardFrames[id] = frames;
+	m_billboardAnimSpeed[id] = speed;
 
 	for (int i = 1; i <= frames; i++)
 	{
@@ -387,8 +388,15 @@ void Entity::Animate(Model mdl, int& frame)
 
 void Entity::Animate(int& frame)
 {
+	m_ticksSinceLastFrame++;
+
 	if (m_curAnim >= 0)
 	{
+		if (m_billboardAnimSpeed[m_curAnim] > m_ticksSinceLastFrame)
+			return;
+		else
+			m_ticksSinceLastFrame = 0;
+
 		frame++;
 
 		bool reset = false;
