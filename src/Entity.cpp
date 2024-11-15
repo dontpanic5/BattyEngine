@@ -21,22 +21,15 @@ Entity::Entity(const char* modelPath, float scale,
 	m_scale(scale),
 	m_spawned(spawn)
 {
-	memset(m_billboardAnims, 0, sizeof(Texture2D*) * MAX_BILLBOARD_ANIMS * MAX_BILLBOARD_FRAMES);
-	memset(m_numBillboardFrames, 0, sizeof(int) * MAX_BILLBOARD_ANIMS);
-
-	m_velocity = { 0.0f, 0.0f, 0.0f };
-
 	if (modelPath != nullptr)
 		m_model = LoadModel(modelPath);
 	else
 		m_hasModel = false;
 
+	Init(pos);
+
 	//Texture2D texture = LoadTexture("resources/anim_vamp_bat/bat_tex.jpg");         // Load model texture and set material
 	//SetMaterialTexture(&m_model.materials[0], MATERIAL_MAP_DIFFUSE, texture);     // Set model material map texture
-
-	SetPos(pos);
-
-	SetTransformAndBb();
 
 	if (m_hasModel)
 	{
@@ -49,6 +42,31 @@ Entity::Entity(const char* modelPath, float scale,
 			m_anims = nullptr;
 		}
 	}
+}
+
+Entity::Entity(Mesh mesh, float scale,
+	bool drawBounds, bool spawn, bool isSphere, Vector3 pos)
+	:
+#ifdef DEBUG
+	m_drawBounds(drawBounds),
+#else
+	m_drawBounds(false)
+#endif
+	m_scale(scale),
+	m_spawned(spawn),
+	m_isSphere(isSphere)
+{
+	m_model = LoadModelFromMesh(mesh);
+
+	Init(pos);
+
+	auto transform = MatrixTranslate(
+		GetPos().x / GetScale(),
+		GetPos().y / GetScale(),
+		GetPos().z / GetScale()
+	);
+	transform = MatrixMultiply(QuaternionToMatrix(m_visualRot), transform);
+	m_model.transform = transform;
 }
 
 void Entity::UpdateEntity(bool doNotMove, bool doNotAnimate)
@@ -347,6 +365,18 @@ void Entity::SetMaterialShaders(Shader shader)
 		m_model.materials[i].shader = shader;
 }
 
+void Entity::Init(Vector3 pos)
+{
+	memset(m_billboardAnims, 0, sizeof(Texture2D*) * MAX_BILLBOARD_ANIMS * MAX_BILLBOARD_FRAMES);
+	memset(m_numBillboardFrames, 0, sizeof(int) * MAX_BILLBOARD_ANIMS);
+
+	m_velocity = { 0.0f, 0.0f, 0.0f };
+
+	SetPos(pos);
+
+	SetTransformAndBb();
+}
+
 void Entity::Die()
 {
 	m_dead = true;
@@ -447,8 +477,11 @@ void Entity::SetTransformAndBb()
 	transform = MatrixMultiply(QuaternionToMatrix(m_visualRot), transform);
 	m_model.transform = transform;
 
-	m_bb = BattyGetModelBoundingBox(GetModel());
+	if (!m_isSphere)
+	{
+		m_bb = BattyGetModelBoundingBox(GetModel());
 
-	m_bb.min = Vector3Scale(m_bb.min, GetScale());
-	m_bb.max = Vector3Scale(m_bb.max, GetScale());
+		m_bb.min = Vector3Scale(m_bb.min, GetScale());
+		m_bb.max = Vector3Scale(m_bb.max, GetScale());
+	}
 }

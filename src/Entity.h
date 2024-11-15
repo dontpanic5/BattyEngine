@@ -24,6 +24,8 @@ class Entity
 public:
 	Entity(const char* modelPath, float scale,
 		bool drawBounds, bool spawn, Vector3 pos = Vector3Zero());
+	Entity(Mesh mesh, float scale,
+		bool drawBounds, bool spawn, bool isSphere, Vector3 pos = Vector3Zero());
 	virtual ~Entity() = default;
 
 	// NOTE: makes the assumption that the child will resolve
@@ -78,6 +80,8 @@ public:
 	virtual void SetMaterialShaders(Shader shader);
 
 protected:
+	void Init(Vector3 pos);
+
 	virtual void Die();
 
 	void Animate(Model mdl, int& frame);
@@ -113,6 +117,7 @@ protected:
 	float			m_scale = 1.0f;
 
 	BoundingBox		m_bb;
+	bool			m_isSphere = false;
 
 	Vector3			m_pos			= {0.0f, 0.0f, 0.0f};
 	Vector3			m_prevPos		= {0.0f, 0.0f, 0.0f};
