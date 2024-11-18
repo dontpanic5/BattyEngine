@@ -143,14 +143,17 @@ float GetOverlapDistanceBoxBox(BoundingBox bb1, BoundingBox bb2, Vector3 normDir
         toTravel.z = bb2.max.z - bb1.min.z;
     }
 
-    toTravel.x /= normDirection.x;
-    toTravel.y /= normDirection.y;
-    toTravel.z /= normDirection.z;
+    if (normDirection.x != 0.0f)
+        toTravel.x /= normDirection.x;
+    if (normDirection.y != 0.0f)
+        toTravel.y /= normDirection.y;
+    if (normDirection.z != 0.0f)
+        toTravel.z /= normDirection.z;
     toTravel.x = fabs(toTravel.x);
     toTravel.y = fabs(toTravel.y);
     toTravel.z = fabs(toTravel.z);
 
-    if (toTravel.y < toTravel.x)
+    /*if (toTravel.y < toTravel.x)
     {
         if (toTravel.z < toTravel.y)
             return toTravel.z;
@@ -160,7 +163,8 @@ float GetOverlapDistanceBoxBox(BoundingBox bb1, BoundingBox bb2, Vector3 normDir
     {
         return toTravel.z;
     }
-    return toTravel.x;
+    return toTravel.x;*/
+    return Vector3Length(toTravel);
 }
 
 inline static float squared(float v) { return v * v; }
