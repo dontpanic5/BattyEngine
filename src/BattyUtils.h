@@ -10,6 +10,7 @@ float GetBattyFrameTime();
 BoundingBox BattyGetModelBoundingBox(Model model, bool anim = true);
 
 float GetOverlapDistanceBoxBox(BoundingBox bb1, BoundingBox bb2, Vector3 normDirection);
+float GetOverlapDistanceBoxSphere(BoundingBox bb, Vector3 pos, float radius);
 
 #define _batty_countof(array) (sizeof(array) / sizeof(array[0]))
 

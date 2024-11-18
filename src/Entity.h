@@ -23,16 +23,16 @@ class Entity
 {
 public:
 	Entity(const char* modelPath, float scale,
-		bool drawBounds, bool spawn, Vector3 pos = Vector3Zero());
+		bool drawBounds, bool spawn, bool isSphere = false, Vector3 pos = Vector3Zero());
 	Entity(Mesh mesh, float scale,
-		bool drawBounds, bool spawn, bool isSphere, Vector3 pos = Vector3Zero());
+		bool drawBounds, bool spawn, bool isSphere = false, Vector3 pos = Vector3Zero());
 	virtual ~Entity() = default;
 
 	// NOTE: makes the assumption that the child will resolve
 	// all the movement and stuff before the parent method
 	// is called.
 	virtual void UpdateEntity(bool doNotMove = false, bool doNotAnimation = false);
-	virtual void DrawEntity();
+	virtual void DrawEntity(float offsetY = 0.0f);
 
 	virtual void SpawnEntity();
 	virtual void ResetEntity();
@@ -63,6 +63,7 @@ public:
 	void RotateLocalEuler(Vector3 axis, float degrees, bool visuallyRot = true);
 
 	virtual bool collisionCheck(BoundingBox bb) = 0;
+	virtual bool collisionCheck(Vector3 pos, float radius) = 0;
 
 	virtual void HitByProjectile();
 

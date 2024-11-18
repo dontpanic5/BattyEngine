@@ -1,6 +1,8 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "BattyUtils.h"
+#include <crtdbg.h>
+#include <stdio.h>
 
 float GetBattyFrameTime()
 {
@@ -159,6 +161,66 @@ float GetOverlapDistanceBoxBox(BoundingBox bb1, BoundingBox bb2, Vector3 normDir
         return toTravel.z;
     }
     return toTravel.x;
+}
+
+inline static float squared(float v) { return v * v; }
+
+float GetOverlapDistanceBoxSphere(BoundingBox bb, Vector3 pos, float radius)
+{
+    Ray ray;
+    ray.position = pos;
+    RayCollision rc;
+
+    ray.direction = {1.0f, 0.0f, 0.0f};
+    rc = GetRayCollisionBox(ray, bb);
+    if (rc.hit)
+    {
+        return radius - rc.distance;
+    }
+
+    ray.direction = {-1.0f, 0.0f, 0.0f};
+    rc = GetRayCollisionBox(ray, bb);
+    if (rc.hit)
+    {
+        return radius - rc.distance;
+    }
+
+    ray.direction = {0.0f, 1.0f, 0.0f};
+    rc = GetRayCollisionBox(ray, bb);
+    if (rc.hit)
+    {
+        return radius - rc.distance;
+    }
+
+    ray.direction = { 0.0f, -1.0f, 0.0f };
+    rc = GetRayCollisionBox(ray, bb);
+    if (rc.hit)
+    {
+        return radius - rc.distance;
+    }
+
+    ray.direction = { 0.0f, 0.0f, 1.0f };
+    rc = GetRayCollisionBox(ray, bb);
+    if (rc.hit)
+    {
+        return radius - rc.distance;
+    }
+
+    ray.direction = { -1.0f, 0.0f, -1.0f };
+    rc = GetRayCollisionBox(ray, bb);
+    if (rc.hit)
+    {
+        return radius - rc.distance;
+    }
+
+    printf("bad! Not good! Bad!\n");
+    return 0.0f;
+}
+
+
+float GetOverlapDistanceBoxSphere(Vector3 center, float radius, Vector3 normDirection)
+{
+    return 0.0f;
 }
 
 

@@ -14,6 +14,9 @@ public:
 	bool collisionCheck(BoundingBox bb) const override;
 	RayCollision GetRayCollision(Ray ray, bool) const override;
 	float getOverlapDistance(BoundingBox bb, Vector3 direction) const override;
+	float getOverlapDistance(Vector3 center, float radius) const override;
+
+	bool IsCollidable() const override;
 
 	BoundingBox GetBoundingBox() const override;
 

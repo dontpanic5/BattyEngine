@@ -19,10 +19,11 @@ void EntityMgr::ResetEntities()
     }
 }
 
-void EntityMgr::AddEntity(Entity* entity)
+void EntityMgr::AddEntity(Entity* entity, bool skinning)
 {
     entity->SetUid(uidIdx++);
-    entity->SetMaterialShaders(g_skinning);
+    if (skinning)
+        entity->SetMaterialShaders(g_skinning);
     m_entities.push_back(entity);
 }
 

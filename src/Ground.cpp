@@ -47,6 +47,16 @@ float Ground::getOverlapDistance(BoundingBox bb, Vector3 direction) const
 	return toRet;
 }
 
+float Ground::getOverlapDistance(Vector3 center, float radius) const
+{
+	return GetOverlapDistanceBoxSphere(GetBoundingBox(), center, radius);
+}
+
+bool Ground::IsCollidable() const
+{
+	return false;
+}
+
 void Ground::drawObj()
 {
 	EnvironmentalObject::drawObj();

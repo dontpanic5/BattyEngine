@@ -12,7 +12,7 @@ public:
 
 	void ResetEntities();
 
-	void AddEntity(Entity* entity);
+	void AddEntity(Entity* entity, bool skinning = true);
 
 	void Unload();
 

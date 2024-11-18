@@ -44,7 +44,7 @@ void GameCamera::FollowEntity(const Entity& entity, float deltaTime, Vector3 tra
 	MoveTo(position, target, up, deltaTime);
 }
 
-void GameCamera::FollowEntity3rdPerson(const Entity& entity, float deltaTime, Vector3 transform)
+void GameCamera::FollowEntity3rdPerson(const Entity& entity, float deltaTime, Vector3 transform, bool immediate)
 {
 	static bool init = true;
 
@@ -57,7 +57,7 @@ void GameCamera::FollowEntity3rdPerson(const Entity& entity, float deltaTime, Ve
 	// put entity at the bottom of the view
 	target = Vector3Add(target, { 0.0f, 10.0f, 0.0f });
 
-	if (init)
+	if (init || immediate)
 	{
 		init = false;
 		SetPosition(position, target, up);

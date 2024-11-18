@@ -11,7 +11,7 @@
 #include "GameCamera.h"
 
 Entity::Entity(const char* modelPath, float scale,
-	bool drawBounds, bool spawn, Vector3 pos)
+	bool drawBounds, bool spawn, bool isSphere, Vector3 pos)
 	:
 #ifdef DEBUG
 	m_drawBounds(drawBounds),
@@ -19,7 +19,8 @@ Entity::Entity(const char* modelPath, float scale,
 	m_drawBounds(false),
 #endif
 	m_scale(scale),
-	m_spawned(spawn)
+	m_spawned(spawn),
+	m_isSphere(isSphere)
 {
 	if (modelPath != nullptr)
 		m_model = LoadModel(modelPath);
@@ -123,14 +124,16 @@ void Entity::UpdateEntity(bool doNotMove, bool doNotAnimate)
 	}
 }
 
-void Entity::DrawEntity()
+void Entity::DrawEntity(float offsetY)
 {
 	if (!m_spawned)
 		return;
 
 	if (m_hasModel)
 	{
-		DrawModel(GetModel(), Vector3Zero(), GetScale(), WHITE);
+		Vector3 place = Vector3Zero();
+		place.y += offsetY;
+		DrawModel(GetModel(), place, GetScale(), WHITE);
 		if (GetDrawBounds())
 		{
 			DrawBoundingBox(GetBoundingBox(), GREEN);
@@ -477,11 +480,11 @@ void Entity::SetTransformAndBb()
 	transform = MatrixMultiply(QuaternionToMatrix(m_visualRot), transform);
 	m_model.transform = transform;
 
-	if (!m_isSphere)
-	{
+	if (m_anims != nullptr)
 		m_bb = BattyGetModelBoundingBox(GetModel());
+	else
+		m_bb = GetModelBoundingBox(GetModel());
 
-		m_bb.min = Vector3Scale(m_bb.min, GetScale());
-		m_bb.max = Vector3Scale(m_bb.max, GetScale());
-	}
+	m_bb.min = Vector3Scale(m_bb.min, GetScale());
+	m_bb.max = Vector3Scale(m_bb.max, GetScale());
 }
