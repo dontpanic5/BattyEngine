@@ -80,14 +80,14 @@ void Entity::UpdateEntity(bool doNotMove, bool doNotAnimate)
 	if (m_hasModel)
 	{
 		if (!doNotAnimate)
-			Animate(m_model, m_animFrameCounter);
+			//Animate(m_model, m_animFrameCounter);
 
 		m_prevVisualRot = m_visualRot;
 	}
 	else
 	{
 		if (!doNotAnimate)
-			Animate(m_animFrameCounter);
+			//Animate(m_animFrameCounter);
 
 		if (DidMove())
 		{
