@@ -9,6 +9,8 @@ float GetBattyFrameTime();
 
 BoundingBox BattyGetModelBoundingBox(Model model, bool anim = true);
 
+Vector3 ClosestPointBox(Vector3 point, BoundingBox bb);
+
 float GetOverlapDistanceBoxBox(BoundingBox bb1, BoundingBox bb2, Vector3 normDirection);
 float GetOverlapDistanceBoxSphere(BoundingBox bb, Vector3 pos, float radius);
 

@@ -1,7 +1,9 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "BattyUtils.h"
+#ifndef PLATFORM_WEB
 #include <crtdbg.h>
+#endif // !PLATFORM_WEB
 #include <stdio.h>
 
 float GetBattyFrameTime()
@@ -83,7 +85,7 @@ BoundingBox BattyGetModelBoundingBox(Model model, bool anim)
 
         for (int i = 1; i < model.meshCount; i++)
         {
-            BoundingBox tempBounds = GetMeshBoundingBoxEx(model.meshes[i], model.transform, true);
+            BoundingBox tempBounds = GetMeshBoundingBoxEx(model.meshes[i], model.transform, anim);
 
             temp.x = (bounds.min.x < tempBounds.min.x) ? bounds.min.x : tempBounds.min.x;
             temp.y = (bounds.min.y < tempBounds.min.y) ? bounds.min.y : tempBounds.min.y;
@@ -98,6 +100,26 @@ BoundingBox BattyGetModelBoundingBox(Model model, bool anim)
     }
 
     return bounds;
+}
+
+Vector3 ClosestPointBox(Vector3 point, BoundingBox bb)
+{
+    Vector3 result;
+    // For each coordinate axis, if the point coordinate value is
+    // outside box, clamp it to the box, else keep it as is
+    float v = point.x;
+    v = fmaxf(v, bb.min.x);
+    v = fminf(v, bb.max.x);
+    result.x = v;
+    v = point.y;
+    v = fmaxf(v, bb.min.y);
+    v = fminf(v, bb.max.y);
+    result.y = v;
+    v = point.z;
+    v = fmaxf(v, bb.min.z);
+    v = fminf(v, bb.max.z);
+    result.z = v;
+    return result;
 }
 
 float GetOverlapDistanceBoxBox(BoundingBox bb1, BoundingBox bb2, Vector3 normDirection)

@@ -114,7 +114,7 @@ protected:
 	bool			m_animLoop				= false;
 	bool			m_resetToFirstAnimFrame	= false;
 	int				m_ticksSinceLastFrame	= 0;
-	AnimWrapper*	m_anims;
+	AnimWrapper*	m_anims					= nullptr;
 	float			m_scale = 1.0f;
 
 	BoundingBox		m_bb;

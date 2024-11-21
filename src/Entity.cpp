@@ -27,8 +27,6 @@ Entity::Entity(const char* modelPath, float scale,
 	else
 		m_hasModel = false;
 
-	Init(pos);
-
 	//Texture2D texture = LoadTexture("resources/anim_vamp_bat/bat_tex.jpg");         // Load model texture and set material
 	//SetMaterialTexture(&m_model.materials[0], MATERIAL_MAP_DIFFUSE, texture);     // Set model material map texture
 
@@ -43,6 +41,8 @@ Entity::Entity(const char* modelPath, float scale,
 			m_anims = nullptr;
 		}
 	}
+
+	Init(pos);
 }
 
 Entity::Entity(Mesh mesh, float scale,
@@ -51,7 +51,7 @@ Entity::Entity(Mesh mesh, float scale,
 #ifdef DEBUG
 	m_drawBounds(drawBounds),
 #else
-	m_drawBounds(false)
+	m_drawBounds(false),
 #endif
 	m_scale(scale),
 	m_spawned(spawn),
@@ -60,14 +60,6 @@ Entity::Entity(Mesh mesh, float scale,
 	m_model = LoadModelFromMesh(mesh);
 
 	Init(pos);
-
-	auto transform = MatrixTranslate(
-		GetPos().x / GetScale(),
-		GetPos().y / GetScale(),
-		GetPos().z / GetScale()
-	);
-	transform = MatrixMultiply(QuaternionToMatrix(m_visualRot), transform);
-	m_model.transform = transform;
 }
 
 void Entity::UpdateEntity(bool doNotMove, bool doNotAnimate)
@@ -192,7 +184,9 @@ void Entity::SetBillboardAnim(const char* animPath, int id, int frames, int spee
 	char buf[BUF_SZ];
 	memset(buf, 0, sizeof(char) * BUF_SZ);
 
+#ifndef PLATFORM_WEB
 	_ASSERT(frames < MAX_BILLBOARD_FRAMES);
+#endif // !PLATFORM_WEB
 
 	m_numBillboardFrames[id] = frames;
 	m_billboardAnimSpeed[id] = speed;
@@ -480,10 +474,7 @@ void Entity::SetTransformAndBb()
 	transform = MatrixMultiply(QuaternionToMatrix(m_visualRot), transform);
 	m_model.transform = transform;
 
-	if (m_anims != nullptr)
-		m_bb = BattyGetModelBoundingBox(GetModel());
-	else
-		m_bb = GetModelBoundingBox(GetModel());
+	m_bb = BattyGetModelBoundingBox(GetModel(), m_anims != nullptr);
 
 	m_bb.min = Vector3Scale(m_bb.min, GetScale());
 	m_bb.max = Vector3Scale(m_bb.max, GetScale());

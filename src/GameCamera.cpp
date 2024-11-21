@@ -2,6 +2,7 @@
  * This file taken from: https://github.com/brihernandez/Ergo
  *******************************************************************************/
 
+#include <stdio.h>
 #include "GameCamera.h"
 
 #include <raymath.h>
@@ -60,6 +61,7 @@ void GameCamera::FollowEntity3rdPerson(const Entity& entity, float deltaTime, Ve
 	if (init || immediate)
 	{
 		init = false;
+		printf("init cam pos x: %f y: %f z: %f\n", position.x, position.y, position.z);
 		SetPosition(position, target, up);
 	}
 	else
