@@ -49,6 +49,7 @@ public:
 	static ButtonControl ENTER;
 	static ButtonControl F;
 	static ButtonControl I;
+	static ButtonControl M;
 	static AxisControl UP_DOWN;
 	static ButtonControl UP;
 	static ButtonControl DOWN;
