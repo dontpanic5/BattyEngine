@@ -80,14 +80,14 @@ void Entity::UpdateEntity(bool doNotMove, bool doNotAnimate)
 	if (m_hasModel)
 	{
 		if (!doNotAnimate)
-			//Animate(m_model, m_animFrameCounter);
+			Animate(m_model, m_animFrameCounter);
 
 		m_prevVisualRot = m_visualRot;
 	}
 	else
 	{
 		if (!doNotAnimate)
-			//Animate(m_animFrameCounter);
+			Animate(m_animFrameCounter);
 
 		if (DidMove())
 		{
@@ -321,6 +321,28 @@ bool Entity::isSpawned() const
 void Entity::makeNoise(int id, float pitch)
 {
 	const Sound& playedSound = AudioMgr::Instance().PlayNoise(id, pitch);
+
+	for (int i = 0; i < m_MAX_NOISE_CANCEL_SETS; i++)
+	{
+		for (int j = 0; j < m_MAX_NOISE_CANCEL_SET_SZ; j++)
+		{
+			if (m_noiseCancelSets[i][j] != -1 && m_noiseCancelSets[i][j] == id)
+			{
+				for (int k = 0; k < m_MAX_NOISE_CANCEL_SET_SZ; k++)
+				{
+					for (int l = 0; l < MAX_CUR_NOISES; l++)
+					{
+						if (m_curNoises[l].id != -1 && m_curNoises[l].id == m_noiseCancelSets[i][k])
+						{
+							StopSound(*m_curNoises[l].pSound);
+							m_curNoises[l].id = -1;
+							m_curNoises[l].pSound = nullptr;
+						}
+					}
+				}
+			}
+		}
+	}
 	
 	bool placed = false;
 	for (int i = 0; i < MAX_CUR_NOISES; i++)
@@ -366,6 +388,8 @@ void Entity::Init(Vector3 pos)
 {
 	memset(m_billboardAnims, 0, sizeof(Texture2D*) * MAX_BILLBOARD_ANIMS * MAX_BILLBOARD_FRAMES);
 	memset(m_numBillboardFrames, 0, sizeof(int) * MAX_BILLBOARD_ANIMS);
+
+	memset(m_noiseCancelSets, -1, sizeof(int) * m_MAX_NOISE_CANCEL_SETS * m_MAX_NOISE_CANCEL_SET_SZ);
 
 	m_velocity = { 0.0f, 0.0f, 0.0f };
 
@@ -456,6 +480,11 @@ void Entity::SetPos(Vector3 pos)
 {
 #if PLATFORM_DESKTOP
 	_ASSERT(!isnan(pos.x));
+	_ASSERT(!isnan(pos.y));
+	_ASSERT(!isnan(pos.z));
+	_ASSERT(!isinf(pos.x));
+	_ASSERT(!isinf(pos.y));
+	_ASSERT(!isinf(pos.z));
 #endif // PLATFORM_DESKTOP
 	m_prevPos = m_pos;
 	m_pos = pos;

@@ -132,6 +132,9 @@ protected:
 	bool			m_spawned		= false;
 
 	NoiseTracker	m_curNoises[MAX_CUR_NOISES];
+	constexpr static int m_MAX_NOISE_CANCEL_SETS = 2;
+	constexpr static int m_MAX_NOISE_CANCEL_SET_SZ = 8;
+	int				m_noiseCancelSets[m_MAX_NOISE_CANCEL_SETS][m_MAX_NOISE_CANCEL_SET_SZ];
 
 	int				m_uid				= -1;
 };
