@@ -42,7 +42,7 @@ static void UpdateLogic();
 static void UpdateDrawFrame();
 
 
-void Init(const char* name)
+void Init(const char* name, float ambientLight)
 {
     SetConfigFlags(FLAG_MSAA_4X_HINT);  // Enable Multi Sampling Anti Aliasing 4x (if available)
     // Initialization
@@ -68,9 +68,7 @@ void Init(const char* name)
 
     // Ambient light level (some basic lighting)
     int ambientLoc = GetShaderLocation(g_lighting, "ambient");
-    // TODO ambient light should be game specific or even level specific
-    float ambient = 2.0f;
-    float value[4] = { ambient, ambient, ambient, 1.0f };
+    float value[4] = { ambientLight, ambientLight, ambientLight, 1.0f };
     SetShaderValue(g_lighting, ambientLoc, value, SHADER_UNIFORM_VEC4);
 
     int transLoc = GetShaderLocation(g_lighting, "transparent");

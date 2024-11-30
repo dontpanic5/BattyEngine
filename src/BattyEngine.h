@@ -7,7 +7,7 @@ struct Shader;
 typedef void (*LogicCbType)();
 typedef void (*DrawCbType)();
 
-void Init(const char* name);
+void Init(const char* name, float ambientLight = 2.0f);
 
 extern Shader g_lighting;
 extern Shader g_skinning;
