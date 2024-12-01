@@ -80,8 +80,6 @@ public:
 
 	virtual void SetMaterialShaders(Shader shader);
 
-	void SetPos(Vector3 pos);
-
 protected:
 	void Init(Vector3 pos);
 
@@ -93,6 +91,8 @@ protected:
 	Model GetModel() const;
 
 	void SetTransformAndBb();
+
+	void SetPos(Vector3 pos);
 
 	Model			m_model;
 	bool			m_hasModel				= true;

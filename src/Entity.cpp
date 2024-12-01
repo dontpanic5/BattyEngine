@@ -27,9 +27,6 @@ Entity::Entity(const char* modelPath, float scale,
 	else
 		m_hasModel = false;
 
-	//Texture2D texture = LoadTexture("resources/anim_vamp_bat/bat_tex.jpg");         // Load model texture and set material
-	//SetMaterialTexture(&m_model.materials[0], MATERIAL_MAP_DIFFUSE, texture);     // Set model material map texture
-
 	if (m_hasModel)
 	{
 		if (AnimationMgr::Instance().m_animations.count(modelPath) > 0)
