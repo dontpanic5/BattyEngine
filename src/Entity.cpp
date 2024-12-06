@@ -318,9 +318,9 @@ bool Entity::isSpawned() const
 	return m_spawned;
 }
 
-void Entity::makeNoise(int id, float pitch)
+void Entity::makeNoise(int id, float pitch, float volume)
 {
-	const Sound& playedSound = AudioMgr::Instance().PlayNoise(id, pitch);
+	const Sound& playedSound = AudioMgr::Instance().PlayNoise(id, pitch, volume);
 	
 	bool placed = false;
 	for (int i = 0; i < MAX_CUR_NOISES; i++)
