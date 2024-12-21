@@ -29,6 +29,7 @@ struct FileToWatch
 };
 static constexpr int MAX_FILES_TO_WATCH = 8;
 extern FileToWatch filesToWatch[MAX_FILES_TO_WATCH];
+extern int filesToWatchIdx;
 
 void RunMainLoop(void);
 

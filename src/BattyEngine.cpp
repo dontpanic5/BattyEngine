@@ -38,6 +38,7 @@ static LogicCbType s_logicCb;
 static DrawCbType s_drawCb;
 
 FileToWatch filesToWatch[MAX_FILES_TO_WATCH];
+int filesToWatchIdx = 0;
 
 static void startLoop();
 static void UpdateLogic();
@@ -92,6 +93,8 @@ void Init(const char* name, float ambientLight)
     previousFrameTime = GetTime();
     // track when we do the next game tick
     gameTime = GetTime();
+
+    filesToWatchIdx = 0;
 }
 
 void RunMainLoop()
@@ -198,8 +201,15 @@ void UpdateLogic()
         long time = GetFileModTime(filesToWatch[i].m_filename);
         if (time > filesToWatch[i].m_lastUpdated)
         {
-            filesToWatch[i].m_lastUpdated = time;
-            filesToWatch[i].m_updatePending = true;
+            if (filesToWatch[i].m_lastUpdated > 0)
+            {
+                filesToWatch[i].m_lastUpdated = time;
+                filesToWatch[i].m_updatePending = true;
+            }
+            else
+            {
+                filesToWatch[i].m_lastUpdated = time;
+            }
         }
     }
 
