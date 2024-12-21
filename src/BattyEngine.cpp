@@ -37,6 +37,8 @@ Shader g_skinning;
 static LogicCbType s_logicCb;
 static DrawCbType s_drawCb;
 
+FileToWatch filesToWatch[MAX_FILES_TO_WATCH];
+
 static void startLoop();
 static void UpdateLogic();
 static void UpdateDrawFrame();
@@ -188,6 +190,18 @@ void UpdateLogic()
 #ifndef PLATFORM_WEB
     PollInputEvents();
 #endif // PLATFORM_WEB
+
+    for (int i = 0; i < MAX_FILES_TO_WATCH; i++)
+    {
+        if (filesToWatch[i].m_filename[0] == '\0')
+            continue;
+        long time = GetFileModTime(filesToWatch[i].m_filename);
+        if (time > filesToWatch[i].m_lastUpdated)
+        {
+            filesToWatch[i].m_lastUpdated = time;
+            filesToWatch[i].m_updatePending = true;
+        }
+    }
 
     s_logicCb();
 
