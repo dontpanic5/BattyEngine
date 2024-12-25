@@ -15,7 +15,7 @@ public:
 
 	virtual bool collisionCheck(BoundingBox bb) const = 0;
 
-	virtual BoundingBox GetBoundingBox() const = 0;
+	BoundingBox GetBoundingBox() const;
 
 	virtual float getOverlapDistance(BoundingBox bb, Vector3 direction) const = 0;
 	virtual float getOverlapDistance(Vector3 center, float radius) const = 0;
@@ -30,6 +30,9 @@ public:
 
 protected:
 	Model m_model;
+
+	BoundingBox m_bb;
+
 	Vector3 m_pos;
 	bool m_transparent = false;
 };

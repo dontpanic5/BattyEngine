@@ -16,14 +16,10 @@ public:
 	float getOverlapDistance(BoundingBox bb, Vector3 direction) const override;
 	float getOverlapDistance(Vector3 center, float radius) const override;
 
-	BoundingBox GetBoundingBox() const override;
-
 	void drawObj() override;
 
 protected:
 	float m_sz;
-
-	BoundingBox m_bb;
 
 	Texture m_tex;
 };

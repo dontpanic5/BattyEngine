@@ -22,6 +22,11 @@ void EnvironmentalObject::SetTransparent(bool transparent)
 	m_transparent = transparent;
 }
 
+BoundingBox EnvironmentalObject::GetBoundingBox() const
+{
+	return m_bb;
+}
+
 void EnvironmentalObject::SetMaterialShader(int mat, Shader shader)
 {
 	if (m_model.materialCount != 0)

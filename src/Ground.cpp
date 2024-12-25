@@ -61,8 +61,3 @@ void Ground::drawObj()
 	DrawGrid(m_sz / SPACING, SPACING);
 #endif // DEBUG
 }
-
-BoundingBox Ground::GetBoundingBox() const
-{
-	return { {-m_sz, 0, -m_sz}, {m_sz, 0, m_sz} };
-}
