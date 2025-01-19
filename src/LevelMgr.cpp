@@ -16,7 +16,7 @@ LevelMgr& LevelMgr::Instance()
 
 void LevelMgr::AddEnvObj(EnvironmentalObject* envObj)
 {
-	envObj->SetMaterialShader(0, g_lighting);
+	envObj->SetMaterialShader(g_lighting);
 	m_envObjs.push_back(envObj);
 }
 

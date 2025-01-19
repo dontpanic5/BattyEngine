@@ -7,11 +7,12 @@
 #endif
 
 Ground::Ground(float sz, const char* texPath, Color color)
-	: EnvironmentalObject(), m_sz(sz)
+	: m_sz(sz)
 {
 	Mesh mesh = GenMeshPlane(m_sz, m_sz, 2, 2);
+	Init(mesh, false);
 	m_bb = GetMeshBoundingBox(mesh);
-	m_model = LoadModelFromMesh(mesh);
+	
 
 	if (texPath)
 		m_tex = LoadTexture(texPath);
@@ -26,11 +27,6 @@ Ground::Ground(float sz, const char* texPath, Color color)
 Ground::~Ground()
 {
 	UnloadTexture(m_tex);
-}
-
-bool Ground::collisionCheck(BoundingBox bb) const
-{
-	return CheckCollisionBoxes(bb, m_bb);
 }
 
 RayCollision Ground::GetRayCollision(Ray ray, bool) const
@@ -52,9 +48,9 @@ float Ground::getOverlapDistance(Vector3 center, float radius) const
 	return GetOverlapDistanceBoxSphere(GetBoundingBox(), center, radius);
 }
 
-void Ground::drawObj()
+void Ground::Draw()
 {
-	EnvironmentalObject::drawObj();
+	EnvironmentalObject::Draw();
 
 #ifdef DEBUG
 	constexpr float SPACING = 40.0f;

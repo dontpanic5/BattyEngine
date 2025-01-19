@@ -8,6 +8,7 @@
 
 #include "raylib.h"
 #include "raymath.h"
+#include "GeneralEntity.h"
 #include "AnimationMgr.h"
 class GameCamera;
 
@@ -19,20 +20,20 @@ struct NoiseTracker
 	const Sound* pSound = nullptr;
 };
 
-class Entity
+class Entity : public GeneralEntity
 {
 public:
 	Entity(const char* modelPath, float scale,
-		bool drawBounds, bool spawn, bool isSphere = false, Vector3 pos = Vector3Zero());
+		bool spawn, bool isSphere = false, Vector3 pos = Vector3Zero());
 	Entity(Mesh mesh, float scale,
-		bool drawBounds, bool spawn, bool isSphere = false, Vector3 pos = Vector3Zero());
+		bool spawn, bool isSphere = false, Vector3 pos = Vector3Zero());
 	virtual ~Entity() = default;
 
 	// NOTE: makes the assumption that the child will resolve
 	// all the movement and stuff before the parent method
 	// is called.
 	virtual void UpdateEntity(bool doNotMove = false, bool doNotAnimation = false);
-	virtual void DrawEntity(float offsetY = 0.0f);
+	virtual void Draw() override;
 
 	virtual void SpawnEntity();
 	virtual void ResetEntity();
@@ -42,15 +43,9 @@ public:
 	void		SetBillboardAnim(const char* animPath, int id, int frames, int speed = 1);
 	void		SetCurAnim(int animNum);
 
-	Vector3		GetPos() const;
 	virtual Vector3 GetCamPos() const;
 	bool		DidMove() const;
-	Quaternion	GetRot() const;
 	float		GetScale() const;
-	bool		GetDrawBounds() const;
-	BoundingBox	GetBoundingBox() const;
-
-	void		SetAllRot(Quaternion rot);
 
 	// can be overridden for entities that spin
 	virtual Vector3 GetForward() const;
@@ -61,9 +56,6 @@ public:
 	virtual Vector3 TransformPoint(Vector3 point) const;
 
 	void RotateLocalEuler(Vector3 axis, float degrees, bool visuallyRot = true);
-
-	virtual bool collisionCheck(BoundingBox bb) = 0;
-	virtual bool collisionCheck(Vector3 pos, float radius) = 0;
 
 	virtual void HitByProjectile();
 
@@ -78,25 +70,18 @@ public:
 
 	virtual int GetTypeId() const = 0;
 
-	virtual void SetMaterialShaders(Shader shader);
+	int				m_uid = -1;
 
 protected:
-	void Init(Vector3 pos);
+	void Init();
 
 	virtual void Die();
 
 	void Animate(Model mdl, int& frame);
 	void Animate(int& frame);
 
-	Model GetModel() const;
-
-	void SetTransformAndBb();
-
 	void SetPos(Vector3 pos);
-
-	Model			m_model;
-	bool			m_hasModel				= true;
-	bool			m_drawBounds;
+	void SetAllRot(Quaternion rot) override;
 
 	static constexpr int MAX_BILLBOARD_ANIMS = 8;
 	static constexpr int MAX_BILLBOARD_FRAMES = 64;
@@ -117,14 +102,8 @@ protected:
 	AnimWrapper*	m_anims					= nullptr;
 	float			m_scale = 1.0f;
 
-	BoundingBox		m_bb;
-	bool			m_isSphere = false;
-
-	Vector3			m_pos			= {0.0f, 0.0f, 0.0f};
 	Vector3			m_prevPos		= {0.0f, 0.0f, 0.0f};
 	Vector3			m_velocity		= Vector3Zero();
-	Quaternion		m_rot			= QuaternionIdentity();
-	Quaternion		m_visualRot		= QuaternionIdentity();
 	Quaternion		m_prevVisualRot	= QuaternionIdentity();
 
 	bool			m_dead			= false;
@@ -135,8 +114,6 @@ protected:
 	constexpr static int m_MAX_NOISE_CANCEL_SETS = 2;
 	constexpr static int m_MAX_NOISE_CANCEL_SET_SZ = 8;
 	int				m_noiseCancelSets[m_MAX_NOISE_CANCEL_SETS][m_MAX_NOISE_CANCEL_SET_SZ];
-
-	int				m_uid				= -1;
 };
 
 #endif // !ENTITY_H_INCLUDED

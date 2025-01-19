@@ -11,12 +11,11 @@ public:
 	Ground(float sz, const char* texPath = nullptr, Color color = RAYWHITE);
 	~Ground();
 
-	bool collisionCheck(BoundingBox bb) const override;
 	RayCollision GetRayCollision(Ray ray, bool) const override;
 	float getOverlapDistance(BoundingBox bb, Vector3 direction) const override;
 	float getOverlapDistance(Vector3 center, float radius) const override;
 
-	void drawObj() override;
+	void Draw() override;
 
 protected:
 	float m_sz;

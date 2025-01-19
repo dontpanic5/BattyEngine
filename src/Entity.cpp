@@ -11,23 +11,21 @@
 #include "GameCamera.h"
 
 Entity::Entity(const char* modelPath, float scale,
-	bool drawBounds, bool spawn, bool isSphere, Vector3 pos)
+	bool spawn, bool isSphere, Vector3 pos)
 	:
-#ifdef DEBUG
-	m_drawBounds(drawBounds),
-#else // DEBUG
-	m_drawBounds(false),
-#endif
 	m_scale(scale),
-	m_spawned(spawn),
-	m_isSphere(isSphere)
+	m_spawned(spawn)
 {
 	if (modelPath != nullptr)
-		m_model = LoadModel(modelPath);
+		GeneralEntity::Init(modelPath, isSphere, pos);
 	else
-		m_hasModel = false;
+	{
+		m_isBillboard = true;
+		m_sphereCollider = isSphere;
+		SetPos(pos);
+	}
 
-	if (m_hasModel)
+	if (!m_isBillboard)
 	{
 		if (AnimationMgr::Instance().m_animations.count(modelPath) > 0)
 		{
@@ -39,24 +37,18 @@ Entity::Entity(const char* modelPath, float scale,
 		}
 	}
 
-	Init(pos);
+	Init();
 }
 
 Entity::Entity(Mesh mesh, float scale,
-	bool drawBounds, bool spawn, bool isSphere, Vector3 pos)
+	bool spawn, bool isSphere, Vector3 pos)
 	:
-#ifdef DEBUG
-	m_drawBounds(drawBounds),
-#else
-	m_drawBounds(false),
-#endif
 	m_scale(scale),
-	m_spawned(spawn),
-	m_isSphere(isSphere)
+	m_spawned(spawn)
 {
-	m_model = LoadModelFromMesh(mesh);
+	GeneralEntity::Init(mesh, isSphere, pos);
 
-	Init(pos);
+	Init();
 }
 
 void Entity::UpdateEntity(bool doNotMove, bool doNotAnimate)
@@ -64,17 +56,7 @@ void Entity::UpdateEntity(bool doNotMove, bool doNotAnimate)
 	if (!m_spawned)
 		return;
 
-	// TODO the if statement here needs to account for animations as well
-	if (
-		m_hasModel &&
-		(!Vector3Equals(m_prevPos, GetPos()) ||
-		!QuaternionEquals(m_prevVisualRot, m_visualRot))
-		)
-	{
-		SetTransformAndBb();
-	}
-
-	if (m_hasModel)
+	if (!m_isBillboard)
 	{
 		if (!doNotAnimate)
 			Animate(m_model, m_animFrameCounter);
@@ -113,20 +95,21 @@ void Entity::UpdateEntity(bool doNotMove, bool doNotAnimate)
 	}
 }
 
-void Entity::DrawEntity(float offsetY)
+void Entity::Draw()
 {
 	if (!m_spawned)
 		return;
 
-	if (m_hasModel)
+	if (!m_isBillboard)
 	{
-		Vector3 place = Vector3Zero();
-		place.y += offsetY;
-		DrawModel(GetModel(), place, GetScale(), WHITE);
-		if (GetDrawBounds())
-		{
+		DrawModel(GetModel(), Vector3Zero(), GetScale(), WHITE);
+
+#ifdef DEBUG
+		if (m_sphereCollider)
+			DrawSphereWires(GetPos(), m_radius, 10, 10, GREEN);
+		else
 			DrawBoundingBox(GetBoundingBox(), GREEN);
-		}
+#endif // DEBUG
 	}
 	else
 	{
@@ -155,16 +138,16 @@ void Entity::ResetEntity()
 	m_pos				= Vector3Zero();
 	m_prevPos			= Vector3Zero();
 
-	if (m_hasModel)
-		SetTransformAndBb();
-
 	m_velocity			= Vector3Zero();
-	if (m_hasModel)
+	if (!m_isBillboard)
 	{
 		m_rot = QuaternionIdentity();
 		m_visualRot = QuaternionIdentity();
 		m_prevVisualRot = QuaternionIdentity();
 	}
+
+	if (!m_isBillboard)
+		SetTransformAndBb(m_scale, m_anims != nullptr);
 
 	m_dead				= false;
 	m_spawned			= false;
@@ -211,16 +194,6 @@ void Entity::SetCurAnim(int animNum)
 	m_animFrameCounter = 0;
 }
 
-Model Entity::GetModel() const
-{
-	return m_model;
-}
-
-Vector3 Entity::GetPos() const
-{
-	return m_pos;
-}
-
 Vector3 Entity::GetCamPos() const
 {
 	return GetPos();
@@ -233,30 +206,9 @@ bool Entity::DidMove() const
 	return didMove;
 }
 
-Quaternion Entity::GetRot() const
-{
-	return m_rot;
-}
-
 float Entity::GetScale() const
 {
 	return m_scale;
-}
-
-bool Entity::GetDrawBounds() const
-{
-	return m_drawBounds;
-}
-
-BoundingBox Entity::GetBoundingBox() const
-{
-	return m_bb;
-}
-
-void Entity::SetAllRot(Quaternion rot)
-{
-	m_visualRot	= rot;
-	m_rot		= rot;
 }
 
 Vector3 Entity::GetForward() const
@@ -375,13 +327,7 @@ void Entity::SetUid(int uid)
 	m_uid = uid;
 }
 
-void Entity::SetMaterialShaders(Shader shader)
-{
-	for (int i = 0; i < m_model.materialCount; i++)
-		m_model.materials[i].shader = shader;
-}
-
-void Entity::Init(Vector3 pos)
+void Entity::Init()
 {
 	memset(m_billboardAnims, 0, sizeof(Texture2D*) * MAX_BILLBOARD_ANIMS * MAX_BILLBOARD_FRAMES);
 	memset(m_numBillboardFrames, 0, sizeof(int) * MAX_BILLBOARD_ANIMS);
@@ -390,9 +336,7 @@ void Entity::Init(Vector3 pos)
 
 	m_velocity = { 0.0f, 0.0f, 0.0f };
 
-	SetPos(pos);
-
-	SetTransformAndBb();
+	SetTransformAndBb(m_scale, m_anims != nullptr);
 }
 
 void Entity::Die()
@@ -483,25 +427,15 @@ void Entity::SetPos(Vector3 pos)
 	_ASSERT(!isinf(pos.y));
 	_ASSERT(!isinf(pos.z));
 #endif // PLATFORM_DESKTOP
-	m_prevPos = m_pos;
 	m_pos = pos;
+
+	SetTransformAndBb(m_scale, m_anims != nullptr);
 }
 
-void Entity::SetTransformAndBb()
+void Entity::SetAllRot(Quaternion rot)
 {
-	if (!m_hasModel)
-		return;
+	m_visualRot = rot;
+	m_rot = rot;
 
-	auto transform = MatrixTranslate(
-		GetPos().x / GetScale(),
-		GetPos().y / GetScale(),
-		GetPos().z / GetScale()
-	);
-	transform = MatrixMultiply(QuaternionToMatrix(m_visualRot), transform);
-	m_model.transform = transform;
-
-	m_bb = BattyGetModelBoundingBox(GetModel(), m_anims != nullptr);
-
-	m_bb.min = Vector3Scale(m_bb.min, GetScale());
-	m_bb.max = Vector3Scale(m_bb.max, GetScale());
+	SetTransformAndBb(m_scale, m_anims != nullptr);
 }

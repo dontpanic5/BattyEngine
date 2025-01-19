@@ -107,6 +107,7 @@ Vector3 ClosestPointBox(Vector3 point, BoundingBox bb)
     Vector3 result;
     // For each coordinate axis, if the point coordinate value is
     // outside box, clamp it to the box, else keep it as is
+    // also check inside
     float v = point.x;
     v = fmaxf(v, bb.min.x);
     v = fminf(v, bb.max.x);
@@ -119,6 +120,50 @@ Vector3 ClosestPointBox(Vector3 point, BoundingBox bb)
     v = fmaxf(v, bb.min.z);
     v = fminf(v, bb.max.z);
     result.z = v;
+
+    if (Vector3Equals(point, result))
+    {
+        float dists[6];
+
+        dists[0] = fabs(point.x - bb.max.x);
+        dists[1] = fabs(point.x - bb.min.x);
+        dists[2] = fabs(point.y - bb.max.y);
+        dists[3] = fabs(point.y - bb.min.y);
+        dists[4] = fabs(point.z - bb.max.z);
+        dists[5] = fabs(point.z - bb.min.z);
+
+        int smallest = 0;
+        for (int i = 1; i < 6; i++)
+        {
+            if (dists[i] < dists[i - 1])
+                smallest = i;
+        }
+
+        switch (smallest)
+        {
+            case 0:
+                result.x = bb.max.x;
+                break;
+            case 1:
+                result.x = bb.min.x;
+                break;
+            case 2:
+                result.y = bb.max.y;
+                break;
+            case 3:
+                result.y = bb.min.y;
+                break;
+            case 4:
+                result.z = bb.max.z;
+                break;
+            case 5:
+                result.z = bb.min.z;
+                break;
+        default:
+            break;
+        }
+    }
+
     return result;
 }
 
@@ -241,6 +286,17 @@ float GetOverlapDistanceBoxSphere(BoundingBox bb, Vector3 pos, float radius)
 
     printf("bad! Not good! Bad!\n");
     return 0.0f;
+}
+
+float GetOverlapDistanceSphereSphere(Vector3 pos1, float radius1, Vector3 pos2, float radius2)
+{
+    float posDist = Vector3Distance(pos1, pos2);
+    float radiuses = radius1 + radius2;
+    float result = radiuses - posDist;
+    if (result > 0.0f)
+        return result;
+    else
+        return 0.0f;
 }
 
 
