@@ -28,29 +28,29 @@ void DrawUiText(const char* text, float relX, float relY, FontSize fontSize,
 		break;
 	}
 
-	int posX = GetRenderWidth() * relX;
-	int posY = GetRenderHeight() * relY;
+	int posX = (int) (GetRenderWidth() * relX);
+	int posY = (int) (GetRenderHeight() * relY);
 
-	Vector2 sz = MeasureTextEx(*font, text, actualFontSize, actualFontSize / SPACING);
+	Vector2 sz = MeasureTextEx(*font, text, (float) actualFontSize, actualFontSize / SPACING);
 
 	if (bg)
 	{
-		DrawRectangle(posX - 20, posY - 20, sz.x + 40, sz.y + 40, {0, 0, 0, 224});
+		DrawRectangle(posX - 20, posY - 20, ((int) (sz.x)) + 40, ((int) sz.y) + 40, {0, 0, 0, 224});
 	}
 
-	DrawTextEx(*font, text, { (float)posX, (float)posY }, actualFontSize, actualFontSize / SPACING, RED);
+	DrawTextEx(*font, text, { (float)posX, (float)posY }, (float) actualFontSize, actualFontSize / SPACING, RED);
 }
 
 void DrawOrb(int centerX, int centerY, float amt, Color color)
 {
-    float radius = GetRenderWidth() / 20;
+    float radius = (float) (GetRenderWidth() / 20);
     color.a = 200;
 
     BeginScissorMode(
-        centerX - radius,
-        centerY - radius + ((1 - amt) * (radius * 2)),
-        radius * 2,
-        radius * 2
+        (int) (centerX - radius),
+        (int) (centerY - radius + ((1 - amt) * (radius * 2))),
+        (int) (radius * 2),
+        (int) (radius * 2)
     );
     {
         if (amt < 0.3f)

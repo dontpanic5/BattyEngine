@@ -24,7 +24,7 @@ struct FileToWatch
     }
 
     char m_filename[MAX_FILENAME_SIZE];
-    long m_lastUpdated = -1.0;
+    double m_lastUpdated = -1.0;
     bool m_updatePending = false;
 };
 static constexpr int MAX_FILES_TO_WATCH = 8;

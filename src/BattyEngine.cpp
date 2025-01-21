@@ -54,7 +54,7 @@ void Init(const char* name, float ambientLight)
     SetWindowState(FLAG_WINDOW_RESIZABLE);
     SetWindowState(FLAG_WINDOW_MAXIMIZED);
 
-    srand(std::time(0));
+    srand((unsigned int) std::time(0));
 
     InitAudioDevice();      // Initialize audio device
 

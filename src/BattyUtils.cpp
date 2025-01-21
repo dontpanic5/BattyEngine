@@ -125,12 +125,12 @@ Vector3 ClosestPointBox(Vector3 point, BoundingBox bb)
     {
         float dists[6];
 
-        dists[0] = fabs(point.x - bb.max.x);
-        dists[1] = fabs(point.x - bb.min.x);
-        dists[2] = fabs(point.y - bb.max.y);
-        dists[3] = fabs(point.y - bb.min.y);
-        dists[4] = fabs(point.z - bb.max.z);
-        dists[5] = fabs(point.z - bb.min.z);
+        dists[0] = fabsf(point.x - bb.max.x);
+        dists[1] = fabsf(point.x - bb.min.x);
+        dists[2] = fabsf(point.y - bb.max.y);
+        dists[3] = fabsf(point.y - bb.min.y);
+        dists[4] = fabsf(point.z - bb.max.z);
+        dists[5] = fabsf(point.z - bb.min.z);
 
         int smallest = 0;
         for (int i = 1; i < 6; i++)
@@ -216,9 +216,9 @@ float GetOverlapDistanceBoxBox(BoundingBox bb1, BoundingBox bb2, Vector3 normDir
         toTravel.y /= normDirection.y;
     if (normDirection.z != 0.0f)
         toTravel.z /= normDirection.z;
-    toTravel.x = fabs(toTravel.x);
-    toTravel.y = fabs(toTravel.y);
-    toTravel.z = fabs(toTravel.z);
+    toTravel.x = fabsf(toTravel.x);
+    toTravel.y = fabsf(toTravel.y);
+    toTravel.z = fabsf(toTravel.z);
 
     /*if (toTravel.y < toTravel.x)
     {
@@ -319,7 +319,7 @@ void setLastFrame(double frame)
     last = (float)GetBattyFrameTime();
     index = (index + 1) % FPS_CAPTURE_FRAMES_COUNT;
     average -= history[index];
-    history[index] = frame / FPS_CAPTURE_FRAMES_COUNT;
+    history[index] = (float) (frame / FPS_CAPTURE_FRAMES_COUNT);
     average += history[index];
 }
 

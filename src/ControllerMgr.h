@@ -3,6 +3,7 @@
 
 #include <string.h>
 #include <stdio.h>
+#include <crtdbg.h>
 #include "raylib.h"
 #include "raymath.h"
 #include "BattyUtils.h"
@@ -130,6 +131,12 @@ public:
 		case CONTROL_DEVICE::MOUSE:
 			return IsMouseButtonPressed(m_num);
 		}
+
+		printf("error\n");
+#ifdef PLATFORM_DESKTOP
+		_ASSERT(false);
+#endif // PLATFORM_DESKTOP
+		return false;
 	}
 
 	bool GetDown() const
@@ -143,6 +150,12 @@ public:
 		case CONTROL_DEVICE::MOUSE:
 			return IsMouseButtonDown(m_num);
 		}
+
+		printf("error\n");
+#ifdef PLATFORM_DESKTOP
+		_ASSERT(false);
+#endif // PLATFORM_DESKTOP
+		return false;
 	}
 
 	bool GetReleased() const
@@ -156,6 +169,12 @@ public:
 		case CONTROL_DEVICE::MOUSE:
 			return IsMouseButtonReleased(m_num);
 		}
+
+		printf("error\n");
+#ifdef PLATFORM_DESKTOP
+		_ASSERT(false);
+#endif // PLATFORM_DESKTOP
+		return false;
 	}
 };
 
@@ -195,7 +214,7 @@ public:
 
 		do
 		{
-			float stepWeight = fmax(0.0f, weight - (weightMod * i));
+			float stepWeight = fmaxf(0.0f, weight - (weightMod * i));
 
 			smoothInput += *pCurBuf->GetAtOffsetFromHead(i++) * stepWeight;
 			totWeight += stepWeight;
@@ -246,6 +265,12 @@ public:
 
 			return val;
 		}
+
+		printf("error\n");
+#ifdef PLATFORM_DESKTOP
+		_ASSERT(false);
+#endif // PLATFORM_DESKTOP
+		return false;
 	}
 
 	void TrapCursor(bool trapCursor)
@@ -294,6 +319,12 @@ public:
 		case CONTROL_DEVICE::MOUSE:
 			return m_mouseControl->GetPressed();
 		}
+
+		printf("error\n");
+#ifdef PLATFORM_DESKTOP
+		_ASSERT(false);
+#endif // PLATFORM_DESKTOP
+		return false;
 	}
 
 	bool GetDown() const
@@ -307,6 +338,12 @@ public:
 		case CONTROL_DEVICE::MOUSE:
 			return m_mouseControl->GetDown();
 		}
+
+		printf("error\n");
+#ifdef PLATFORM_DESKTOP
+		_ASSERT(false);
+#endif // PLATFORM_DESKTOP
+		return false;
 	}
 
 	bool GetReleased() const
@@ -320,6 +357,12 @@ public:
 		case CONTROL_DEVICE::MOUSE:
 			return m_mouseControl->GetReleased();
 		}
+
+		printf("error\n");
+#ifdef PLATFORM_DESKTOP
+		_ASSERT(false);
+#endif // PLATFORM_DESKTOP
+		return false;
 	}
 
 	const char* GetName() const
@@ -338,6 +381,12 @@ public:
 		case CONTROL_DEVICE::MOUSE:
 			return m_mouseControl->GetName();
 		}
+
+		printf("error\n");
+#ifdef PLATFORM_DESKTOP
+		_ASSERT(false);
+#endif // PLATFORM_DESKTOP
+		return nullptr;
 	}
 
 protected:
@@ -375,6 +424,12 @@ public:
 		case CONTROL_DEVICE::MOUSE:
 			return m_mouseControl->GetPressed();
 		}
+
+		printf("error\n");
+#ifdef PLATFORM_DESKTOP
+		_ASSERT(false);
+#endif // PLATFORM_DESKTOP
+		return false;
 	}
 
 	const char* GetName() const
@@ -393,6 +448,12 @@ public:
 		case CONTROL_DEVICE::MOUSE:
 			return m_mouseControl->GetName();
 		}
+
+		printf("error\n");
+#ifdef PLATFORM_DESKTOP
+		_ASSERT(false);
+#endif // PLATFORM_DESKTOP
+		return nullptr;
 	}
 
 protected:
