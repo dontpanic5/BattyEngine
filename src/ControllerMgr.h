@@ -57,8 +57,17 @@ public:
 	static AxisControl		LEFT_RIGHT;
 	static ButtonControl LEFT;
 	static ButtonControl RIGHT;
-
 	static ButtonControl ESCAPE;
+	static ButtonControl ONE;
+	static ButtonControl TWO;
+	static ButtonControl THREE;
+	static ButtonControl FOUR;
+	static ButtonControl FIVE;
+	static ButtonControl SIX;
+	static ButtonControl SEVEN;
+	static ButtonControl EIGHT;
+	static ButtonControl NINE;
+
 	static ButtonControl LMB;
 	static ButtonControl RMB;
 	static AxisControl	MOUSE_UP_DOWN;

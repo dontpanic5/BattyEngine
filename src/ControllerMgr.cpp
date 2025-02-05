@@ -21,6 +21,15 @@ AxisControl		ControllerMgr::LEFT_RIGHT = AxisControl(KEY_LEFT, "LEFT/RIGHT", CON
 ButtonControl ControllerMgr::LEFT = ButtonControl(KEY_LEFT, "LEFT", CONTROL_DEVICE::KEYBOARD);
 ButtonControl ControllerMgr::RIGHT = ButtonControl(KEY_RIGHT, "RIGHT", CONTROL_DEVICE::KEYBOARD);
 ButtonControl ControllerMgr::ESCAPE = ButtonControl(KEY_ESCAPE, "ESCAPE", CONTROL_DEVICE::KEYBOARD);
+ButtonControl ControllerMgr::ONE = ButtonControl(KEY_ONE, "ONE", CONTROL_DEVICE::KEYBOARD);
+ButtonControl ControllerMgr::TWO = ButtonControl(KEY_TWO, "TWO", CONTROL_DEVICE::KEYBOARD);
+ButtonControl ControllerMgr::THREE = ButtonControl(KEY_THREE, "THREE", CONTROL_DEVICE::KEYBOARD);
+ButtonControl ControllerMgr::FOUR = ButtonControl(KEY_FOUR, "FOUR", CONTROL_DEVICE::KEYBOARD);
+ButtonControl ControllerMgr::FIVE = ButtonControl(KEY_FIVE, "FIVE", CONTROL_DEVICE::KEYBOARD);
+ButtonControl ControllerMgr::SIX = ButtonControl(KEY_SIX, "SIX", CONTROL_DEVICE::KEYBOARD);
+ButtonControl ControllerMgr::SEVEN = ButtonControl(KEY_SEVEN, "SEVEN", CONTROL_DEVICE::KEYBOARD);
+ButtonControl ControllerMgr::EIGHT = ButtonControl(KEY_EIGHT, "EIGHT", CONTROL_DEVICE::KEYBOARD);
+ButtonControl ControllerMgr::NINE = ButtonControl(KEY_NINE, "NINE", CONTROL_DEVICE::KEYBOARD);
 
 ButtonControl	ControllerMgr::LMB	= ButtonControl(MOUSE_BUTTON_LEFT,	"LMB",	CONTROL_DEVICE::MOUSE);
 ButtonControl	ControllerMgr::RMB	= ButtonControl(MOUSE_BUTTON_RIGHT,	"RMB",	CONTROL_DEVICE::MOUSE);
