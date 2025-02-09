@@ -74,7 +74,7 @@ void GameCamera::CinematicWatchEntity(const Entity& entity, float deltaTime, boo
 	Vector3 target = entity.GetCamPos();
 
 	auto mPos = MatrixTranslate(target.x, target.y, target.z);
-	auto mRot = QuaternionToMatrix(m_cineCam);
+	auto mRot = QuaternionToMatrix(entity.GetRot());
 	auto matrix = MatrixMultiply(mRot, mPos);
 	position = Vector3Transform({ 0, 2.5, 10 }, matrix);
 
@@ -157,6 +157,11 @@ Vector3 GameCamera::GetForward() const
 Camera GameCamera::GetCamera() const
 {
 	return Camera;
+}
+
+void GameCamera::SetUp()
+{
+	Camera.up = {0.0f, 1.0f, 0.0f};
 }
 
 void GameCamera::Begin3DDrawing() const

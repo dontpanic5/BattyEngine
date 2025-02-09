@@ -55,12 +55,12 @@ public:
 
 	Camera GetCamera() const;
 
+	void SetUp();
+
 private:
 	Camera3D Camera;
 
 	Vector3 SmoothPosition;
 	Vector3 SmoothTarget;
 	Vector3 SmoothUp;
-
-	Quaternion m_cineCam = QuaternionIdentity();
 };
