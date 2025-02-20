@@ -267,10 +267,8 @@ bool Entity::isSpawned() const
 	return m_spawned;
 }
 
-void Entity::makeNoise(int id, float pitch)
+void Entity::makeNoise(int id, float pitch, float volume)
 {
-	const Sound& playedSound = AudioMgr::Instance().PlayNoise(id, pitch);
-
 	for (int i = 0; i < m_MAX_NOISE_CANCEL_SETS; i++)
 	{
 		for (int j = 0; j < m_MAX_NOISE_CANCEL_SET_SZ; j++)
@@ -292,6 +290,8 @@ void Entity::makeNoise(int id, float pitch)
 			}
 		}
 	}
+
+	const Sound& playedSound = AudioMgr::Instance().PlayNoise(id, pitch);
 	
 	bool placed = false;
 	for (int i = 0; i < MAX_CUR_NOISES; i++)

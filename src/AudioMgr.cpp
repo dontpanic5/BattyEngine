@@ -15,7 +15,7 @@ Noise::Noise(Sound* sound, int numSounds, float audibleRange, int id)
 	}
 }
 
-Sound& Noise::PlayNoise(float pitch)
+Sound& Noise::PlayNoise(float pitch, float volume)
 {
 	int random = rand() % m_numSounds;
 
@@ -30,6 +30,7 @@ Sound& Noise::PlayNoise(float pitch)
 	}
 
 	SetSoundPitch(pickedSound, pitch);
+	SetSoundVolume(pickedSound, volume);
 
 	PlaySound(pickedSound);
 	return pickedSound;
@@ -50,9 +51,9 @@ void AudioMgr::AddNoise(Noise noise)
 	m_noises.insert({noise.m_id, noise});
 }
 
-Sound& AudioMgr::PlayNoise(int id, float pitch)
+Sound& AudioMgr::PlayNoise(int id, float pitch, float volume)
 {
-	return m_noises.at(id).PlayNoise(pitch);
+	return m_noises.at(id).PlayNoise(pitch, volume);
 }
 
 void AudioMgr::Unload()
