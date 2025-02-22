@@ -1,6 +1,8 @@
 #include "GeneralEntity.h"
 #include "BattyUtils.h"
+#ifdef PLATFORM_DESKTOP
 #include "crtdbg.h"
+#endif // !PLATFORM_DESKTOP
 
 void GeneralEntity::Init(const char* modelPath, bool sphereCollider, Vector3 pos)
 {

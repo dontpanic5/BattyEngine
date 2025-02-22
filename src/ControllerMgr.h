@@ -3,7 +3,9 @@
 
 #include <string.h>
 #include <stdio.h>
+#ifdef PLATFORM_DESKTOP
 #include <crtdbg.h>
+#endif // PLATFORM_DESKTOP
 #include "raylib.h"
 #include "raymath.h"
 #include "BattyUtils.h"
