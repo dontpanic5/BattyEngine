@@ -189,6 +189,8 @@ void SetDefaultFont(Font font)
 
 void UpdateLogic()
 {
+    printf("%d\n", GetGamepadButtonPressed());
+
     // this is the ideal place to poll for inputs but it doesn't work on web
 #ifndef PLATFORM_WEB
     PollInputEvents();

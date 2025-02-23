@@ -46,6 +46,8 @@ public:
 	static ButtonControl X;
 	static AxisControl LEFT_THUMBSTICK_X;
 	static AxisControl LEFT_THUMBSTICK_Y;
+	static AxisControl RIGHT_THUMBSTICK_X;
+	static AxisControl RIGHT_THUMBSTICK_Y;
 
 	static ButtonControl BACKSPACE;
 	static ButtonControl SPACEBAR;

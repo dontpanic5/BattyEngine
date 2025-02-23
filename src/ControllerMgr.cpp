@@ -7,6 +7,8 @@ ButtonControl ControllerMgr::B = ButtonControl(6, "B", CONTROL_DEVICE::CONTROLLE
 ButtonControl ControllerMgr::X = ButtonControl(8, "X", CONTROL_DEVICE::CONTROLLER);
 AxisControl ControllerMgr::LEFT_THUMBSTICK_X = AxisControl(0, "LEFT THUMBSTICK HORIZONTAL", CONTROL_DEVICE::CONTROLLER, 1.0f, true);
 AxisControl ControllerMgr::LEFT_THUMBSTICK_Y = AxisControl(1, "LEFT THUMBSTICK VERTICAL", CONTROL_DEVICE::CONTROLLER, 1.0f, false);
+AxisControl ControllerMgr::RIGHT_THUMBSTICK_X = AxisControl(2, "RIGHT THUMBSTICK HORIZONTAL", CONTROL_DEVICE::CONTROLLER, 1.0f, true);
+AxisControl ControllerMgr::RIGHT_THUMBSTICK_Y = AxisControl(3, "RIGHT THUMBSTICK HORIZONTAL", CONTROL_DEVICE::CONTROLLER, 1.0f, true);
 
 ButtonControl ControllerMgr::BACKSPACE = ButtonControl(KEY_BACKSPACE, "BACKSPACE", CONTROL_DEVICE::KEYBOARD);
 ButtonControl ControllerMgr::SPACEBAR = ButtonControl((int)KEY_SPACE, "SPACEBAR", CONTROL_DEVICE::KEYBOARD);
