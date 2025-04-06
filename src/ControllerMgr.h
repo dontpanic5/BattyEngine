@@ -82,7 +82,7 @@ private:
 	ControllerMgr(ControllerMgr const&) = delete;
 	ControllerMgr& operator=(ControllerMgr const&) = delete;
 
-	CONTROL_DEVICE m_curControlDevice;
+	CONTROL_DEVICE m_curControlDevice = CONTROL_DEVICE::CONTROLLER;
 
 	bool m_trapCursor = true;
 };
