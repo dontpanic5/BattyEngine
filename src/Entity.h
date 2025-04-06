@@ -62,7 +62,7 @@ public:
 	bool isDead() const;
 	bool isSpawned() const;
 
-	void makeNoise(int id, float pitch = 1.0f);
+	void makeNoise(int id, float pitch = 1.0f, float volume = 1.0f);
 	void getCurNoises(int* ids, int& numNoises) const;
 
 
