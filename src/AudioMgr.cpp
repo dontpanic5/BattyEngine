@@ -1,12 +1,14 @@
 #include "AudioMgr.h"
 #include "raylib.h"
 
-Noise::Noise(Sound* sound, int numSounds, float audibleRange, int id)
+Noise::Noise(Sound* sound, float* volumes, int numSounds, float audibleRange, int id)
 	: m_numSounds(numSounds), m_audibleRange(audibleRange), m_id(id)
 {
 	for (int i = 0; i < numSounds; i++)
 	{
 		m_sound[i] = sound[i];
+		m_volumes[i] = volumes[i];
+		SetSoundVolume(m_sound[i], m_volumes[i]);
 		for (int j = 0; j < MAX_ALIAS_SOUNDS; j++)
 		{
 			m_aliasSounds[i][j] = LoadSoundAlias(m_sound[i]);
@@ -30,7 +32,7 @@ Sound& Noise::PlayNoise(float pitch, float volume)
 	}
 
 	SetSoundPitch(pickedSound, pitch);
-	SetSoundVolume(pickedSound, volume);
+	SetSoundVolume(pickedSound, m_volumes[random] * volume);
 
 	PlaySound(pickedSound);
 	return pickedSound;

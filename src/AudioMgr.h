@@ -9,11 +9,12 @@ constexpr int MAX_ALIAS_SOUNDS	= 4;
 
 struct Noise
 {
-	Noise(Sound* sound, int numSounds, float audibleRange, int id);
+	Noise(Sound* sound, float* volumes, int numSounds, float audibleRange, int id);
 
 	Sound& PlayNoise(float pitch = 1.0f, float volume = 1.0f);
 
 	Sound m_sound[MAX_SOUNDS] = { 0 };
+	float m_volumes[MAX_SOUNDS];
 	Sound m_aliasSounds[MAX_SOUNDS][MAX_ALIAS_SOUNDS] = { 0 };
 	int m_curIdx[MAX_SOUNDS];
 	int m_numSounds;
