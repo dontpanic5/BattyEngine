@@ -86,7 +86,7 @@ void Init(const char* name, float ambientLight)
 
     SetExitKey(KEY_BACKSPACE);
 
-    SetTextLineSpacing(50); // for UI
+    SetTextLineSpacing(5); // for UI
 
     // track when we do the next frame
     frameTime = GetTime();
