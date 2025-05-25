@@ -7,6 +7,7 @@ ButtonControl ControllerMgr::B = ButtonControl(6, "B", CONTROL_DEVICE::CONTROLLE
 ButtonControl ControllerMgr::X = ButtonControl(8, "X", CONTROL_DEVICE::CONTROLLER);
 AxisControl ControllerMgr::LEFT_THUMBSTICK_X = AxisControl(0, "LEFT THUMBSTICK HORIZONTAL", CONTROL_DEVICE::CONTROLLER, 1.0f, true);
 AxisControl ControllerMgr::LEFT_THUMBSTICK_Y = AxisControl(1, "LEFT THUMBSTICK VERTICAL", CONTROL_DEVICE::CONTROLLER, 1.0f, false);
+//ButtonControl ControllerMgr::START = ButtonControl()
 
 ButtonControl ControllerMgr::BACKSPACE = ButtonControl(KEY_BACKSPACE, "BACKSPACE", CONTROL_DEVICE::KEYBOARD);
 ButtonControl ControllerMgr::SPACEBAR = ButtonControl((int)KEY_SPACE, "SPACEBAR", CONTROL_DEVICE::KEYBOARD);
@@ -35,6 +36,9 @@ ButtonControl	ControllerMgr::LMB	= ButtonControl(MOUSE_BUTTON_LEFT,	"LMB",	CONTR
 ButtonControl	ControllerMgr::RMB	= ButtonControl(MOUSE_BUTTON_RIGHT,	"RMB",	CONTROL_DEVICE::MOUSE);
 AxisControl	ControllerMgr::MOUSE_UP_DOWN	= AxisControl(0,		"MOUSE UP/DOWN", CONTROL_DEVICE::MOUSE, 10.0f, false);
 AxisControl	ControllerMgr::MOUSE_LEFT_RIGHT = AxisControl(1,		"MOUSE LEFT/RIGHT", CONTROL_DEVICE::MOUSE, 20.0f, true);
+
+
+ButtonBinding PAUSE = ButtonBinding("PAUSE", /*TODO controller start button*/ &ControllerMgr::A, &ControllerMgr::ESCAPE, &ControllerMgr::ESCAPE);
 
 void ControllerMgr::TrapCursor(bool trapCursor)
 {

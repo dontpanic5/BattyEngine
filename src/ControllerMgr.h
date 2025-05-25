@@ -46,6 +46,7 @@ public:
 	static ButtonControl X;
 	static AxisControl LEFT_THUMBSTICK_X;
 	static AxisControl LEFT_THUMBSTICK_Y;
+	static ButtonControl START;
 
 	static ButtonControl BACKSPACE;
 	static ButtonControl SPACEBAR;
@@ -306,7 +307,7 @@ class ButtonBinding
 {
 public:
 	ButtonBinding(
-		char* name,
+		const char* name,
 		ButtonControl* controllerControl,
 		ButtonControl* keyboardControl,
 		ButtonControl* mouseControl
@@ -473,5 +474,8 @@ protected:
 	AxisControl* m_keyboardControl;
 	AxisControl* m_mouseControl;
 };
+
+// binding for any game that uses the engine
+extern ButtonBinding PAUSE;
 
 #endif // !CONTROLLER_MGR_H_INCLUDED

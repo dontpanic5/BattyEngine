@@ -31,6 +31,8 @@ static constexpr int MAX_FILES_TO_WATCH = 8;
 extern FileToWatch filesToWatch[MAX_FILES_TO_WATCH];
 extern int filesToWatchIdx;
 
+extern bool gamePaused;
+
 void RunMainLoop(void);
 
 void SetLogicCb(LogicCbType cb);

@@ -15,6 +15,7 @@ static const int screenHeight = 490;
 #include "AnimationMgr.h"
 #include "LevelMgr.h"
 #include "AudioMgr.h"
+#include "ControllerMgr.h"
 #if defined(PLATFORM_WEB)
 #include <emscripten/emscripten.h>
 #endif
@@ -39,6 +40,8 @@ static DrawCbType s_drawCb;
 
 FileToWatch filesToWatch[MAX_FILES_TO_WATCH];
 int filesToWatchIdx = 0;
+
+bool gamePaused = false;
 
 static void startLoop();
 static void UpdateLogic();
@@ -212,6 +215,10 @@ void UpdateLogic()
             }
         }
     }
+
+    // TODO check for user initiated pause menu
+    if (PAUSE.GetPressed())
+        printf("paused\n");
 
     s_logicCb();
 
