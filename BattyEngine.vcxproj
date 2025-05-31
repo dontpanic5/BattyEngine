@@ -142,6 +142,7 @@
     <ClCompile Include="src\AnimationMgr.cpp" />
     <ClCompile Include="src\AudioMgr.cpp" />
     <ClCompile Include="src\BattyEngine.cpp" />
+    <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\ControllerMgr.cpp" />
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\EntityMgr.cpp" />
@@ -150,13 +151,16 @@
     <ClCompile Include="src\GeneralEntity.cpp" />
     <ClCompile Include="src\Ground.cpp" />
     <ClCompile Include="src\LevelMgr.cpp" />
+    <ClCompile Include="src\Menu.cpp" />
     <ClCompile Include="src\Ui.cpp" />
     <ClCompile Include="src\BattyUtils.cpp" />
+    <ClCompile Include="src\UIElement.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AnimationMgr.h" />
     <ClInclude Include="src\AudioMgr.h" />
     <ClInclude Include="src\BattyEngine.h" />
+    <ClInclude Include="src\Button.h" />
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\ControllerMgr.h" />
     <ClInclude Include="src\Entity.h" />
@@ -167,10 +171,12 @@
     <ClInclude Include="src\Ground.h" />
     <ClInclude Include="src\LevelMgr.h" />
     <ClInclude Include="src\MathUtils.h" />
+    <ClInclude Include="src\Menu.h" />
     <ClInclude Include="src\RingBuffer.h" />
     <ClInclude Include="src\rlights.h" />
     <ClInclude Include="src\Ui.h" />
     <ClInclude Include="src\BattyUtils.h" />
+    <ClInclude Include="src\UIElement.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
