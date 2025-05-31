@@ -218,7 +218,7 @@ void UpdateLogic()
 
     // TODO check for user initiated pause menu
     if (PAUSE.GetPressed())
-        printf("paused\n");
+        gamePaused = true;
 
     s_logicCb();
 
