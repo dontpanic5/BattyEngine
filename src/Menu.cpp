@@ -14,6 +14,11 @@ void Menu::AddButton(const char* text)
 	m_buttons[m_numButtons++] = new Button(text, m_fontSize);
 }
 
+int Menu::GetSelection()
+{
+	return m_curSelection;
+}
+
 void Menu::Draw()
 {
 	int posX, posY;
@@ -28,4 +33,32 @@ void Menu::Draw()
 void Menu::Draw(int posX, int posY)
 {
 	// TODO
+}
+
+void Menu::ProcessInput(Input input)
+{
+	switch (input)
+	{
+	case Input::NONE:
+		break;
+	case Input::UP:
+		if (m_curSelection - 1 > -1)
+			m_curSelection--;
+		else
+			m_curSelection = m_numButtons - 1;
+		break;
+	case Input::DOWN:
+		if (m_curSelection + 1 < m_numButtons)
+			m_curSelection++;
+		else
+			m_curSelection = 0;
+		break;
+	case Input::SELECT:
+		// TODO
+		break;
+	default:
+		// never should have come here!
+		_STATIC_ASSERT(true);
+		break;
+	}
 }

@@ -17,6 +17,8 @@ public:
 	void Draw(int posX, int posY) override;
 	void Draw(int posX, int posY, bool selected);
 
+	void ProcessInput(Input input) override;
+
 private:
 	constexpr static int S_TEXT_LENGTH = 128;
 	char m_text[S_TEXT_LENGTH];

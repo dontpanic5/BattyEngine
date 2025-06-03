@@ -8,6 +8,7 @@
 #endif // PLATFORM_DESKTOP
 #include "raylib.h"
 #include "raymath.h"
+#include "Ui.h"
 #include "BattyUtils.h"
 #include "RingBuffer.h"
 
@@ -76,6 +77,8 @@ public:
 	static AxisControl	MOUSE_UP_DOWN;
 	static AxisControl	MOUSE_LEFT_RIGHT;
 
+	Input GetInput();
+
 private:
 	ControllerMgr()
 	{
@@ -86,6 +89,9 @@ private:
 	CONTROL_DEVICE m_curControlDevice = CONTROL_DEVICE::CONTROLLER;
 
 	bool m_trapCursor = true;
+
+	double m_lastInput = -1.;
+	constexpr static double INPUT_WAIT = .25;
 };
 
 class Control

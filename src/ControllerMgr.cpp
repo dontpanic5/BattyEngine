@@ -46,3 +46,24 @@ void ControllerMgr::TrapCursor(bool trapCursor)
 	MOUSE_UP_DOWN.TrapCursor(trapCursor);
 	MOUSE_LEFT_RIGHT.TrapCursor(trapCursor);
 }
+
+Input ControllerMgr::GetInput()
+{
+	if ((LEFT_THUMBSTICK_Y.GetPressed() < -.8f || UP.GetPressed()) && GetTime() - m_lastInput > INPUT_WAIT)
+	{
+		m_lastInput = GetTime();
+		return Input::UP;
+	}
+	else if ((LEFT_THUMBSTICK_Y.GetPressed() > .8f || DOWN.GetPressed()) && GetTime() - m_lastInput > INPUT_WAIT)
+	{
+		m_lastInput = GetTime();
+		return Input::DOWN;
+	}
+	else if (A.GetPressed() || ENTER.GetPressed() && GetTime() - m_lastInput > INPUT_WAIT)
+	{
+		m_lastInput = GetTime();
+		return Input::SELECT;
+	}
+	else
+		return Input::NONE;
+}

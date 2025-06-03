@@ -46,14 +46,27 @@ void Button::Draw(int posX, int posY, bool selected)
 	float relX;
 	float relY;
 	ConvertPosToRel(relX, relY, posX, posY);
+	Color bg;
 	if (selected)
 	{
-		double blink = std::fmod(GetTime(), 1.0);
-		Color color = RED;
-		// TODO use blink to change alpha of color and then set
-		DrawTextBorder(m_text, posX, posY, m_fontSize);
+		bg = RED;
 	}
 	else
-		DrawTextBorder(m_text, posX, posY, m_fontSize, BLACK);
-	DrawUiText(m_text, relX, relY, m_fontSize, false, WHITE);
+		bg = BLACK;
+	DrawTextBorder(m_text, posX, posY, m_fontSize, bg);
+
+	Color color = WHITE;
+	if (selected)
+	{
+		double blink = std::fmod(GetTime(), .75);
+		// use blink to change alpha of color
+		color.a -= blink * 100;
+	}
+
+	DrawUiText(m_text, relX, relY, m_fontSize, false, color);
+}
+
+void Button::ProcessInput(Input input)
+{
+	// TODO handle selected
 }

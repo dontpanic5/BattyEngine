@@ -13,8 +13,12 @@ public:
 	// TODO maybe a callback for when it's selected?
 	void AddButton(const char* text);
 
+	int GetSelection();
+
 	void Draw() override;
 	void Draw(int posX, int posY) override;
+
+	void ProcessInput(Input input) override;
 
 private:
 	int m_numButtons = 0;

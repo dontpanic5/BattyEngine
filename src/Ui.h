@@ -21,4 +21,12 @@ void DrawFps();
 
 extern int BORDER_BUFFER;
 
+enum class Input
+{
+	NONE,
+	UP,
+	DOWN,
+	SELECT,
+};
+
 #endif // !UI_H_INCLUDED
