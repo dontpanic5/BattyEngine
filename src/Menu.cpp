@@ -54,7 +54,7 @@ void Menu::ProcessInput(Input input)
 			m_curSelection = 0;
 		break;
 	case Input::SELECT:
-		// TODO
+		// I don't think a menu can be selected
 		break;
 	default:
 		// never should have come here!
