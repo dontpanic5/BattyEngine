@@ -9,9 +9,9 @@ Menu::Menu(float relX, float relY, FontSize fontSize)
 	memset(m_buttons, 0, sizeof(Button*) * MAX_BUTTONS);
 }
 
-void Menu::AddButton(const char* text)
+void Menu::AddButton(const char* text, UiCallback cb)
 {
-	m_buttons[m_numButtons++] = new Button(text, m_fontSize);
+	m_buttons[m_numButtons++] = new Button(text, m_fontSize, cb);
 }
 
 int Menu::GetSelection()
@@ -54,7 +54,7 @@ void Menu::ProcessInput(Input input)
 			m_curSelection = 0;
 		break;
 	case Input::SELECT:
-		// I don't think a menu can be selected
+		m_buttons[m_curSelection]->ProcessInput(input);
 		break;
 	default:
 		// never should have come here!

@@ -10,8 +10,7 @@ class Menu : UIElement
 public:
 	Menu(float relX, float relY, FontSize fontSize);
 
-	// TODO maybe a callback for when it's selected?
-	void AddButton(const char* text);
+	void AddButton(const char* text, UiCallback cb);
 
 	int GetSelection();
 

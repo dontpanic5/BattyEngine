@@ -4,15 +4,15 @@
 #include "Ui.h"
 #include "Button.h"
 
-Button::Button(const char* text, FontSize fontSize)
+Button::Button(const char* text, FontSize fontSize, UiCallback cb)
 	// we assume it's externally positioned because we don't get any rel values
-	: m_fontSize(fontSize), m_externallyPositioned(true)
+	: m_fontSize(fontSize), m_externallyPositioned(true), m_cb(cb)
 {
 	strncpy(m_text, text, S_TEXT_LENGTH);
 }
 
-Button::Button(const char* text, FontSize fontSize, float relX, float relY)
-	: m_fontSize(fontSize), m_externallyPositioned(false), UIElement(relX, relY)
+Button::Button(const char* text, FontSize fontSize, UiCallback cb, float relX, float relY)
+	: m_fontSize(fontSize), m_externallyPositioned(false), m_cb(cb), UIElement(relX, relY)
 {
 	strncpy(m_text, text, S_TEXT_LENGTH);
 }
@@ -68,5 +68,6 @@ void Button::Draw(int posX, int posY, bool selected)
 
 void Button::ProcessInput(Input input)
 {
-	// TODO handle selected
+	if (input == Input::SELECT)
+		m_cb();
 }

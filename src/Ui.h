@@ -5,6 +5,8 @@
 
 enum class FontSize { s, m, l };
 
+typedef void (*UiCallback)();
+
 void ConvertRelToPos(float relX, float relY, int& posX, int& posY);
 void ConvertPosToRel(float& relX, float& relY, int posX, int posY);
 

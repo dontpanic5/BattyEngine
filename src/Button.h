@@ -7,8 +7,8 @@ class Button : UIElement
 {
 public:
 	// TODO a callback?
-	Button(const char* text, FontSize fontSize);
-	Button(const char* text, FontSize fontSize, float relX, float relY);
+	Button(const char* text, FontSize fontSize, UiCallback cb);
+	Button(const char* text, FontSize fontSize, UiCallback cb, float relX, float relY);
 
 	void SetHighlighted(bool highlighted);
 	bool GetHighlighted();
@@ -26,6 +26,8 @@ private:
 	bool m_highlighted = false;
 
 	bool m_externallyPositioned;
+
+	UiCallback m_cb;
 };
 
 #endif // !BUTTON_H_INCLUDED
