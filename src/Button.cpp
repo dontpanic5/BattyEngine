@@ -28,7 +28,7 @@ bool Button::GetHighlighted()
 void Button::GetSize(int& szX, int& szY)
 {
 	float actualFontSize = GetActualFontSize(m_fontSize);
-	Vector2 sz = MeasureTextEx(defaultFont, m_text, m_fontSize, actualFontSize / SPACING)
+	Vector2 sz = MeasureTextEx(defaultFont, m_text, actualFontSize, actualFontSize / SPACING);
 }
 
 void Button::Draw()

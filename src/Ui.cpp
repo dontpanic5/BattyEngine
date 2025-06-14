@@ -4,7 +4,7 @@
 #include <cmath>
 #include "BattyEngine.h"
 
-constexpr float SPACING = 30.0f;
+float SPACING = 30.0f;
 int BORDER_BUFFER = 40;
 
 void ConvertRelToPos(float relX, float relY, int& posX, int& posY)

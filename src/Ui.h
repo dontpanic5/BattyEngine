@@ -12,7 +12,7 @@ void ConvertPosToRel(float& relX, float& relY, int posX, int posY);
 
 float GetActualFontSize(FontSize fontSize);
 
-void GetTextBorderSz(int& szX, int& szY);
+void GetTextBorderSz(const char* text, FontSize fontSize, int& szX, int& szY);
 
 void DrawTextBorder(const char* text, int posX, int posY, FontSize fontSize, Color color = RED);
 
@@ -24,6 +24,7 @@ void DrawOrb(int centerX, int centerY, float amt, Color color);
 void DrawFps();
 
 extern int BORDER_BUFFER;
+extern float SPACING;
 
 enum class Input
 {

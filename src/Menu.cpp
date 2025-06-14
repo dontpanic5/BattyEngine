@@ -1,5 +1,6 @@
 #include <cstring>
 #include "BattyEngine.h"
+#include "Ui.h"
 #include "Menu.h"
 #include "Button.h"
 
@@ -27,6 +28,21 @@ void Menu::ClearButtons()
 int Menu::GetSelection()
 {
 	return m_curSelection;
+}
+
+void Menu::GetSize(int& szX, int& szY)
+{
+	int totalX = 0, totalY = 0;
+	for (int i = 0; i < m_numButtons; i++)
+	{
+		int buttonSzX, buttonSzY;
+		m_buttons[i]->GetSize(buttonSzX, buttonSzY);
+		totalY += buttonSzY;
+		if (buttonSzX > totalX)
+			totalX = buttonSzX;
+	}
+	szX = totalX;
+	szY = totalY;
 }
 
 void Menu::Draw()
