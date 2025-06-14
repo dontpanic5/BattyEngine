@@ -7,7 +7,7 @@ class Button;
 
 typedef void (*MenuSelectionCallback)(int);
 
-class Menu : UIElement
+class Menu : public UIElement
 {
 public:
 	Menu(float relX, float relY, FontSize fontSize, MenuSelectionCallback selectionCb = nullptr);
@@ -23,7 +23,7 @@ public:
 	void Draw() override;
 	void Draw(int posX, int posY) override;
 
-	void ProcessInput(Input input) override;
+	bool ProcessInput(Input input) override;
 
 private:
 	int m_numButtons = 0;

@@ -72,8 +72,13 @@ void Button::Draw(int posX, int posY, bool selected)
 	DrawUiText(m_text, relX, relY, m_fontSize, false, color);
 }
 
-void Button::ProcessInput(Input input)
+bool Button::ProcessInput(Input input)
 {
 	if (input == Input::SELECT)
+	{
 		m_cb();
+		return true;
+	}
+	else
+		return false;
 }

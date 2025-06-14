@@ -61,29 +61,42 @@ void Menu::Draw(int posX, int posY)
 	// TODO
 }
 
-void Menu::ProcessInput(Input input)
+bool Menu::ProcessInput(Input input)
 {
 	switch (input)
 	{
 	case Input::NONE:
+		return false;
 		break;
 	case Input::UP:
 		if (m_curSelection - 1 > -1)
+		{
 			m_curSelection--;
+			return true;
+		}
+		else
+			return false;
 		break;
 	case Input::DOWN:
 		if (m_curSelection + 1 < m_numButtons)
+		{
 			m_curSelection++;
+			return true;
+		}
+		else
+			return false;
 		break;
 	case Input::SELECT:
 		if (m_selectionCb)
 			m_selectionCb(m_curSelection);
 		else
 			m_buttons[m_curSelection]->ProcessInput(input);
+		return true;
 		break;
 	default:
 		// never should have come here!
 		_STATIC_ASSERT(true);
+		return false;
 		break;
 	}
 }

@@ -14,7 +14,7 @@ public:
 
 	virtual void GetSize(int& szX, int& szY) = 0;
 
-	virtual void ProcessInput(Input input) = 0;
+	virtual bool ProcessInput(Input input) = 0;
 
 protected:
 	bool m_externallyPositioned;

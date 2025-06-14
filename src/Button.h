@@ -3,7 +3,7 @@
 
 #include "UIElement.h"
 
-class Button : UIElement
+class Button : public UIElement
 {
 public:
 	Button(const char* text, FontSize fontSize, UiCallback cb, float relX = -1.f, float relY = -1.f);
@@ -17,7 +17,7 @@ public:
 	void Draw(int posX, int posY) override;
 	void Draw(int posX, int posY, bool selected);
 
-	void ProcessInput(Input input) override;
+	bool ProcessInput(Input input) override;
 
 private:
 	constexpr static int S_TEXT_LENGTH = 128;
