@@ -59,7 +59,7 @@ Input ControllerMgr::GetInput()
 		m_lastInput = GetTime();
 		return Input::DOWN;
 	}
-	else if (A.GetPressed() || ENTER.GetPressed() && GetTime() - m_lastInput > INPUT_WAIT)
+	else if ((A.GetPressed() || ENTER.GetPressed()) && GetTime() - m_lastInput > INPUT_WAIT)
 	{
 		m_lastInput = GetTime();
 		return Input::SELECT;

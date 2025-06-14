@@ -15,20 +15,12 @@ Button::Button(const char* text, FontSize fontSize, UiCallback cb, float relX, f
 	strncpy(m_text, text, S_TEXT_LENGTH);
 }
 
-void Button::SetHighlighted(bool highlighted)
-{
-	m_highlighted = highlighted;
-}
-
-bool Button::GetHighlighted()
-{
-	return m_highlighted;
-}
-
 void Button::GetSize(int& szX, int& szY)
 {
 	float actualFontSize = GetActualFontSize(m_fontSize);
 	Vector2 sz = MeasureTextEx(defaultFont, m_text, actualFontSize, actualFontSize / SPACING);
+	szX = sz.x;
+	szY = sz.y + BORDER_BUFFER + 40;
 }
 
 void Button::Draw()
@@ -43,7 +35,7 @@ void Button::Draw(int posX, int posY)
 	float relX;
 	float relY;
 	ConvertPosToRel(relX, relY, posX, posY);
-	DrawTextBorder(m_text, posX, posY, m_fontSize);
+	DrawTextBorder(m_text, posX, posY, m_fontSize, m_selected ? RED : BLACK);
 	DrawUiText(m_text, relX, relY, m_fontSize, false, WHITE);
 }
 

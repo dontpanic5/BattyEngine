@@ -8,6 +8,20 @@ Grid::Grid(float relX, float relY)
 void Grid::AddElement(UIElement* element)
 {
 	m_elements[m_numElements++] = element;
+
+	if (m_numElements == 1)
+		m_elements[0]->SetSelected(true);
+}
+
+void Grid::Clear()
+{
+	for (int i = 0; i < m_numElements; i++)
+	{
+		m_elements[i] = nullptr;
+	}
+	m_numElements = 0;
+
+	m_curSelection = 0;
 }
 
 void Grid::GetSize(int& szX, int& szY)
@@ -46,17 +60,36 @@ void Grid::Draw(int posX, int posY)
 
 bool Grid::ProcessInput(Input input)
 {
+	bool processed = m_elements[m_curSelection]->ProcessInput(input);
+	if (processed)
+		return true;
+
 	switch (input)
 	{
 	case Input::NONE:
 		return false;
 		break;
 	case Input::UP:
-		// TODO
+		if (m_curSelection - 1 > -1)
+		{
+			m_elements[m_curSelection]->SetSelected(false);
+			m_curSelection--;
+			m_elements[m_curSelection]->SetSelected(true);
+			return true;
+		}
+		else
+			return false;
 		break;
 	case Input::DOWN:
-		break;
-	case Input::SELECT:
+		if (m_curSelection + 1 < m_numElements)
+		{
+			m_elements[m_curSelection]->SetSelected(false);
+			m_curSelection++;
+			m_elements[m_curSelection]->SetSelected(true);
+			return true;
+		}
+		else
+			return false;
 		break;
 	default:
 		break;

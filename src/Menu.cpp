@@ -23,6 +23,8 @@ void Menu::ClearButtons()
 	}
 
 	m_numButtons = 0;
+
+	m_curSelection = 0;
 }
 
 int Menu::GetSelection()
@@ -49,16 +51,16 @@ void Menu::Draw()
 {
 	int posX, posY;
 	ConvertRelToPos(m_relX, m_relY, posX, posY);
-	float actualFontSize = GetActualFontSize(m_fontSize);
-	for (int i = 0; i < m_numButtons; i++)
-	{
-		m_buttons[i]->Draw(posX, posY + (actualFontSize + BORDER_BUFFER + 40) * i, i == m_curSelection);
-	}
+	Draw(posX, posY);
 }
 
 void Menu::Draw(int posX, int posY)
 {
-	// TODO
+	float actualFontSize = GetActualFontSize(m_fontSize);
+	for (int i = 0; i < m_numButtons; i++)
+	{
+		m_buttons[i]->Draw(posX, posY + (actualFontSize + BORDER_BUFFER + 40) * i, m_selected ? i == m_curSelection : false);
+	}
 }
 
 bool Menu::ProcessInput(Input input)

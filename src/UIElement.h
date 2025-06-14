@@ -14,9 +14,12 @@ public:
 
 	virtual void GetSize(int& szX, int& szY) = 0;
 
+	virtual void SetSelected(bool selected);
+
 	virtual bool ProcessInput(Input input) = 0;
 
 protected:
+	bool m_selected = false;
 	bool m_externallyPositioned;
 	float m_relX = -1.f;
 	float m_relY = -1.f;

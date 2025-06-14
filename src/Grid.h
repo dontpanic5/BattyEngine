@@ -9,6 +9,7 @@ public:
 	Grid(float relX, float relY);
 
 	void AddElement(UIElement* element);
+	void Clear();
 
 	void GetSize(int& szX, int& szY) override;
 

@@ -8,9 +8,6 @@ class Button : public UIElement
 public:
 	Button(const char* text, FontSize fontSize, UiCallback cb, float relX = -1.f, float relY = -1.f);
 
-	void SetHighlighted(bool highlighted);
-	bool GetHighlighted();
-
 	void GetSize(int& szX, int& szY) override;
 
 	void Draw() override;
@@ -23,7 +20,6 @@ private:
 	constexpr static int S_TEXT_LENGTH = 128;
 	char m_text[S_TEXT_LENGTH];
 	FontSize m_fontSize;
-	bool m_highlighted = false;
 
 	bool m_externallyPositioned;
 
