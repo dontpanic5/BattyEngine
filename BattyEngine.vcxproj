@@ -149,6 +149,7 @@
     <ClCompile Include="src\EnvironmentalObject.cpp" />
     <ClCompile Include="src\GameCamera.cpp" />
     <ClCompile Include="src\GeneralEntity.cpp" />
+    <ClCompile Include="src\Grid.cpp" />
     <ClCompile Include="src\Ground.cpp" />
     <ClCompile Include="src\LevelMgr.cpp" />
     <ClCompile Include="src\Menu.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="src\EnvironmentalObject.h" />
     <ClInclude Include="src\GameCamera.h" />
     <ClInclude Include="src\GeneralEntity.h" />
+    <ClInclude Include="src\Grid.h" />
     <ClInclude Include="src\Ground.h" />
     <ClInclude Include="src\LevelMgr.h" />
     <ClInclude Include="src\MathUtils.h" />

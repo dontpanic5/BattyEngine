@@ -12,6 +12,8 @@ void ConvertPosToRel(float& relX, float& relY, int posX, int posY);
 
 float GetActualFontSize(FontSize fontSize);
 
+void GetTextBorderSz(int& szX, int& szY);
+
 void DrawTextBorder(const char* text, int posX, int posY, FontSize fontSize, Color color = RED);
 
 void DrawUiText(const char* text, float relX, float relY, FontSize fontSize,

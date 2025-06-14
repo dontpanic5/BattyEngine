@@ -3,8 +3,8 @@
 #include "Menu.h"
 #include "Button.h"
 
-Menu::Menu(float relX, float relY, FontSize fontSize)
-	: m_fontSize(fontSize), UIElement(relX, relY)
+Menu::Menu(float relX, float relY, FontSize fontSize, MenuSelectionCallback cb)
+	: m_fontSize(fontSize), m_selectionCb(cb), UIElement(relX, relY)
 {
 	memset(m_buttons, 0, sizeof(Button*) * MAX_BUTTONS);
 }
@@ -12,6 +12,16 @@ Menu::Menu(float relX, float relY, FontSize fontSize)
 void Menu::AddButton(const char* text, UiCallback cb)
 {
 	m_buttons[m_numButtons++] = new Button(text, m_fontSize, cb);
+}
+
+void Menu::ClearButtons()
+{
+	for (int i = 0; i < m_numButtons; i++)
+	{
+		delete m_buttons[i];
+	}
+
+	m_numButtons = 0;
 }
 
 int Menu::GetSelection()
@@ -44,17 +54,16 @@ void Menu::ProcessInput(Input input)
 	case Input::UP:
 		if (m_curSelection - 1 > -1)
 			m_curSelection--;
-		else
-			m_curSelection = m_numButtons - 1;
 		break;
 	case Input::DOWN:
 		if (m_curSelection + 1 < m_numButtons)
 			m_curSelection++;
-		else
-			m_curSelection = 0;
 		break;
 	case Input::SELECT:
-		m_buttons[m_curSelection]->ProcessInput(input);
+		if (m_selectionCb)
+			m_selectionCb(m_curSelection);
+		else
+			m_buttons[m_curSelection]->ProcessInput(input);
 		break;
 	default:
 		// never should have come here!

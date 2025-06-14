@@ -1,19 +1,17 @@
 #include <cstring>
 #include <cmath>
 #include "raylib.h"
+#include "BattyEngine.h"
 #include "Ui.h"
 #include "Button.h"
-
-Button::Button(const char* text, FontSize fontSize, UiCallback cb)
-	// we assume it's externally positioned because we don't get any rel values
-	: m_fontSize(fontSize), m_externallyPositioned(true), m_cb(cb)
-{
-	strncpy(m_text, text, S_TEXT_LENGTH);
-}
 
 Button::Button(const char* text, FontSize fontSize, UiCallback cb, float relX, float relY)
 	: m_fontSize(fontSize), m_externallyPositioned(false), m_cb(cb), UIElement(relX, relY)
 {
+	if (relX > 0.f && relY > 0.f)
+		m_externallyPositioned = false;
+	else
+		m_externallyPositioned = true;
 	strncpy(m_text, text, S_TEXT_LENGTH);
 }
 
@@ -27,9 +25,17 @@ bool Button::GetHighlighted()
 	return m_highlighted;
 }
 
+void Button::GetSize(int& szX, int& szY)
+{
+	float actualFontSize = GetActualFontSize(m_fontSize);
+	Vector2 sz = MeasureTextEx(defaultFont, m_text, m_fontSize, actualFontSize / SPACING)
+}
+
 void Button::Draw()
 {
-	Draw(m_relX, m_relY);
+	int posX, posY;
+	ConvertRelToPos(m_relX, m_relY, posX, posY);
+	Draw(posX, posY);
 }
 
 void Button::Draw(int posX, int posY)

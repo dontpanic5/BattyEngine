@@ -5,12 +5,16 @@
 #include "UIElement.h"
 class Button;
 
+typedef void (*MenuSelectionCallback)(int);
+
 class Menu : UIElement
 {
 public:
-	Menu(float relX, float relY, FontSize fontSize);
+	Menu(float relX, float relY, FontSize fontSize, MenuSelectionCallback selectionCb = nullptr);
 
-	void AddButton(const char* text, UiCallback cb);
+	void AddButton(const char* text, UiCallback cb = nullptr);
+
+	void ClearButtons();
 
 	int GetSelection();
 
@@ -27,6 +31,8 @@ private:
 	Button* m_buttons[MAX_BUTTONS];
 
 	FontSize m_fontSize;
+
+	MenuSelectionCallback m_selectionCb = nullptr;
 };
 
 #endif // !MENU_H_INCLUDED

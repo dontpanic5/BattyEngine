@@ -12,6 +12,8 @@ public:
 	virtual void Draw() = 0;
 	virtual void Draw(int posX, int posY) = 0;
 
+	virtual void GetSize(int& szX, int& szY) = 0;
+
 	virtual void ProcessInput(Input input) = 0;
 
 protected:

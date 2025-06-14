@@ -6,12 +6,12 @@
 class Button : UIElement
 {
 public:
-	// TODO a callback?
-	Button(const char* text, FontSize fontSize, UiCallback cb);
-	Button(const char* text, FontSize fontSize, UiCallback cb, float relX, float relY);
+	Button(const char* text, FontSize fontSize, UiCallback cb, float relX = -1.f, float relY = -1.f);
 
 	void SetHighlighted(bool highlighted);
 	bool GetHighlighted();
+
+	void GetSize(int& szX, int& szY) override;
 
 	void Draw() override;
 	void Draw(int posX, int posY) override;

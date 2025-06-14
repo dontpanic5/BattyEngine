@@ -36,6 +36,13 @@ float GetActualFontSize(FontSize fontSize)
     }
 }
 
+void GetTextBorderSz(const char* text, FontSize fontSize, int& szX, int& szY)
+{
+    float actualFontSize = GetActualFontSize(fontSize);
+
+    Vector2 sz = MeasureTextEx(defaultFont, text, actualFontSize, actualFontSize / SPACING);
+}
+
 void DrawTextBorder(const char* text, int posX, int posY, FontSize fontSize, Color color)
 {
     float actualFontSize = GetActualFontSize(fontSize);
