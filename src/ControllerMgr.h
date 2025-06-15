@@ -91,7 +91,7 @@ private:
 	bool m_trapCursor = true;
 
 	double m_lastInput = -1.;
-	constexpr static double INPUT_WAIT = .15;
+	constexpr static double INPUT_WAIT = .175;
 };
 
 class Control
