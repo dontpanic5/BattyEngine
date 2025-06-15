@@ -55,6 +55,7 @@ public:
 	static ButtonControl F;
 	static ButtonControl I;
 	static ButtonControl M;
+	static ButtonControl P;
 	static AxisControl UP_DOWN;
 	static ButtonControl UP;
 	static ButtonControl DOWN;

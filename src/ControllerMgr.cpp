@@ -15,6 +15,7 @@ ButtonControl ControllerMgr::ENTER = ButtonControl((int)KEY_ENTER, "ENTER", CONT
 ButtonControl ControllerMgr::F = ButtonControl(KEY_F, "F", CONTROL_DEVICE::KEYBOARD);
 ButtonControl ControllerMgr::I = ButtonControl(KEY_I, "I", CONTROL_DEVICE::KEYBOARD);
 ButtonControl ControllerMgr::M = ButtonControl(KEY_M, "M", CONTROL_DEVICE::KEYBOARD);
+ButtonControl ControllerMgr::P = ButtonControl(KEY_P, "P", CONTROL_DEVICE::KEYBOARD);
 AxisControl ControllerMgr::UP_DOWN = AxisControl(KEY_UP, "UP/DOWN", CONTROL_DEVICE::KEYBOARD, 1.0f, false, KEY_DOWN);
 ButtonControl ControllerMgr::UP = ButtonControl(KEY_UP, "UP", CONTROL_DEVICE::KEYBOARD);
 ButtonControl ControllerMgr::DOWN = ButtonControl(KEY_DOWN, "DOWN", CONTROL_DEVICE::KEYBOARD);
@@ -38,7 +39,13 @@ AxisControl	ControllerMgr::MOUSE_UP_DOWN	= AxisControl(0,		"MOUSE UP/DOWN", CONT
 AxisControl	ControllerMgr::MOUSE_LEFT_RIGHT = AxisControl(1,		"MOUSE LEFT/RIGHT", CONTROL_DEVICE::MOUSE, 20.0f, true);
 
 
-ButtonBinding PAUSE = ButtonBinding("PAUSE", &ControllerMgr::START, &ControllerMgr::ESCAPE, &ControllerMgr::ESCAPE);
+ButtonBinding PAUSE = ButtonBinding("PAUSE", &ControllerMgr::START,
+#ifdef PLATFORM_WEB
+	&ControllerMgr::P, &ControllerMgr::P
+#else // PLATFORM_WEB
+	&ControllerMgr::ESCAPE, &ControllerMgr::ESCAPE
+#endif
+);
 
 void ControllerMgr::TrapCursor(bool trapCursor)
 {
