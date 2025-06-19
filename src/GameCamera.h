@@ -21,7 +21,7 @@ public:
 	/// </summary>
 	void FollowEntity(const Entity& entity, float deltaTime, Vector3 transform);
 
-	void FollowEntity3rdPerson(const Entity& entity, float deltaTime, Vector3 transform, bool immediate = false);
+	void FollowEntity3rdPerson(const Entity& entity, float deltaTime, Vector3 transform, bool immediate = false, float speed = 1.f);
 
 	void CinematicWatchEntity(const Entity& entity, float deltaTime, bool immediate = false);
 

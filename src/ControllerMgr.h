@@ -52,6 +52,7 @@ public:
 	static ButtonControl BACKSPACE;
 	static ButtonControl SPACEBAR;
 	static ButtonControl ENTER;
+	static ButtonControl D;
 	static ButtonControl F;
 	static ButtonControl I;
 	static ButtonControl M;

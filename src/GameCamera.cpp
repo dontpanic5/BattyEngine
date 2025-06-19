@@ -45,7 +45,7 @@ void GameCamera::FollowEntity(const Entity& entity, float deltaTime, Vector3 tra
 	MoveTo(position, target, up, deltaTime);
 }
 
-void GameCamera::FollowEntity3rdPerson(const Entity& entity, float deltaTime, Vector3 transform, bool immediate)
+void GameCamera::FollowEntity3rdPerson(const Entity& entity, float deltaTime, Vector3 transform, bool immediate, float speed)
 {
 	static bool init = true;
 
@@ -65,7 +65,7 @@ void GameCamera::FollowEntity3rdPerson(const Entity& entity, float deltaTime, Ve
 		SetPosition(position, target, up);
 	}
 	else
-		MoveTo(position, target, up, deltaTime, 1.0f, entity.DidMove(), true, transform);
+		MoveTo(position, target, up, deltaTime, speed, entity.DidMove(), false, transform);
 }
 
 void GameCamera::CinematicWatchEntity(const Entity& entity, float deltaTime, bool immediate)
