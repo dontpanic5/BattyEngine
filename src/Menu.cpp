@@ -96,8 +96,10 @@ bool Menu::ProcessInput(Input input)
 		return true;
 		break;
 	default:
-		// never should have come here!
+#ifdef PLATFORM_DESKTOP
+				// never should have come here!
 		_STATIC_ASSERT(true);
+#endif // PLATFORM_DESKTOP
 		return false;
 		break;
 	}

@@ -7,7 +7,7 @@ ButtonControl ControllerMgr::B = ButtonControl(6, "B", CONTROL_DEVICE::CONTROLLE
 ButtonControl ControllerMgr::X = ButtonControl(8, "X", CONTROL_DEVICE::CONTROLLER);
 AxisControl ControllerMgr::LEFT_THUMBSTICK_X = AxisControl(0, "LEFT THUMBSTICK HORIZONTAL", CONTROL_DEVICE::CONTROLLER, 1.0f, true);
 AxisControl ControllerMgr::LEFT_THUMBSTICK_Y = AxisControl(1, "LEFT THUMBSTICK VERTICAL", CONTROL_DEVICE::CONTROLLER, 1.0f, false);
-//ButtonControl ControllerMgr::START = ButtonControl()
+ButtonControl ControllerMgr::START = ButtonControl(15, "START", CONTROL_DEVICE::CONTROLLER);
 
 ButtonControl ControllerMgr::BACKSPACE = ButtonControl(KEY_BACKSPACE, "BACKSPACE", CONTROL_DEVICE::KEYBOARD);
 ButtonControl ControllerMgr::SPACEBAR = ButtonControl((int)KEY_SPACE, "SPACEBAR", CONTROL_DEVICE::KEYBOARD);
@@ -16,6 +16,7 @@ ButtonControl ControllerMgr::D = ButtonControl(KEY_D, "D", CONTROL_DEVICE::KEYBO
 ButtonControl ControllerMgr::F = ButtonControl(KEY_F, "F", CONTROL_DEVICE::KEYBOARD);
 ButtonControl ControllerMgr::I = ButtonControl(KEY_I, "I", CONTROL_DEVICE::KEYBOARD);
 ButtonControl ControllerMgr::M = ButtonControl(KEY_M, "M", CONTROL_DEVICE::KEYBOARD);
+ButtonControl ControllerMgr::P = ButtonControl(KEY_P, "P", CONTROL_DEVICE::KEYBOARD);
 AxisControl ControllerMgr::UP_DOWN = AxisControl(KEY_UP, "UP/DOWN", CONTROL_DEVICE::KEYBOARD, 1.0f, false, KEY_DOWN);
 ButtonControl ControllerMgr::UP = ButtonControl(KEY_UP, "UP", CONTROL_DEVICE::KEYBOARD);
 ButtonControl ControllerMgr::DOWN = ButtonControl(KEY_DOWN, "DOWN", CONTROL_DEVICE::KEYBOARD);
@@ -39,7 +40,13 @@ AxisControl	ControllerMgr::MOUSE_UP_DOWN	= AxisControl(0,		"MOUSE UP/DOWN", CONT
 AxisControl	ControllerMgr::MOUSE_LEFT_RIGHT = AxisControl(1,		"MOUSE LEFT/RIGHT", CONTROL_DEVICE::MOUSE, 20.0f, true);
 
 
-ButtonBinding PAUSE = ButtonBinding("PAUSE", /*TODO controller start button*/ &ControllerMgr::A, &ControllerMgr::ESCAPE, &ControllerMgr::ESCAPE);
+ButtonBinding PAUSE = ButtonBinding("PAUSE", &ControllerMgr::START,
+#ifdef PLATFORM_WEB
+	&ControllerMgr::P, &ControllerMgr::P
+#else // PLATFORM_WEB
+	&ControllerMgr::ESCAPE, &ControllerMgr::ESCAPE
+#endif
+);
 
 void ControllerMgr::TrapCursor(bool trapCursor)
 {
