@@ -119,6 +119,7 @@ static void startLoop(void)
     // when the function is called
 #ifndef PLATFORM_WEB
     windowShouldClose = WindowShouldClose();
+    bool didUpdateLogic = false;
     while (!windowShouldClose)    // Detect window close button or ESC key
     {
 #endif // !PLATFORM_WEB
@@ -150,12 +151,15 @@ static void startLoop(void)
             double beforeTime = GetTime();
             gameTime = beforeTime + TICK;
             UpdateLogic();
+            didUpdateLogic = true;
             double afterTime = GetTime();
             double delta = afterTime - beforeTime;
             //printf("delta logic: %f\n", delta);
         }
 
-        if (frameTime < GetTime())
+        // TODO there's logic here to time the frames but I removed that so that we just
+        // draw once the logic updated. Maybe someday do frame interpolation.
+        if (didUpdateLogic)
         {
             double time = GetTime();
             double frameDeltaTime = time - previousFrameTime;
@@ -163,9 +167,9 @@ static void startLoop(void)
             setLastFrame(frameDeltaTime);
             //printf("running frame %f with delta %f\n", frameTime, frameDeltaTime);
             previousFrameTime = time;
-            // TODO probably make the framerate settable as a user option
-            frameTime = time + 1.0 / 120.0;
+            frameTime = time + 1.0 / 60.0;
             UpdateDrawFrame();
+            didUpdateLogic = false;
             //printf("delta draw: %f\n", GetTime() - time);
         }
 
