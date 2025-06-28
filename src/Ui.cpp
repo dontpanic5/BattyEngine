@@ -73,19 +73,21 @@ void DrawUiText(const char* text, float relX, float relY, FontSize fontSize,
 	DrawTextEx(*font, text, { (float)posX, (float)posY }, (float) actualFontSize, actualFontSize / SPACING, color);
 }
 
-void DrawOrb(int centerX, int centerY, float amt, Color color)
+void DrawOrb(int centerX, int centerY, float amt, Color color, float line)
 {
     float radius = (float) (GetRenderWidth() / 20);
     color.a = 200;
 
+    int leftEdge = centerX - (int) radius;
+
     BeginScissorMode(
-        (int) (centerX - radius),
+        leftEdge,
         (int) (centerY - radius + ((1 - amt) * (radius * 2))),
         (int) (radius * 2),
         (int) (radius * 2)
     );
     {
-        if (amt < 0.3f)
+        if (amt < 0.1f || amt < line + .1f && amt > line)
         {
             if (fmod(GetTime(), 0.25) > 0.125)
             {
@@ -106,6 +108,12 @@ void DrawOrb(int centerX, int centerY, float amt, Color color)
         radius,
         GRAY
     );
+
+    if (line >= 0.f)
+    {
+        float y = centerY - radius + ((1 - line) * (radius * 2));
+        DrawLine(leftEdge - (int) (radius * .1f), y, centerX + (int) (radius * 1.1f), y, RAYWHITE);
+    }
 }
 
 void DrawFps()
