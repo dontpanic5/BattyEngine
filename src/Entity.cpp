@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include "Entity.h"
+#include "EnvironmentalObject.h"
 #include "AnimationMgr.h"
 #include "AudioMgr.h"
 #include "BattyUtils.h"
@@ -438,4 +439,38 @@ void Entity::SetAllRot(Quaternion rot)
 	m_rot = rot;
 
 	SetTransformAndBb(m_scale, m_anims != nullptr);
+}
+
+RayCollision Entity::ResolveCollision(EnvironmentalObject& envObj)
+{
+	Ray collisionRay;
+	Vector3 closestPoint = ClosestPointBox(GetPos(), envObj.GetBoundingBox());
+	collisionRay.direction = Vector3Normalize(closestPoint - GetPos());
+
+	RayCollision rc;
+
+	int i = 1;
+	do
+	{
+		printf("in level collision loop iter %d\n", i);
+		collisionRay.position = GetPos();
+		rc = envObj.GetRayCollision(collisionRay);
+
+		float overlap;
+		if (m_sphereCollider)
+			overlap = fabs(m_radius - rc.distance);
+		else
+			// TODO BAD. I need to reduce this by the BB's dimensions
+			overlap = rc.distance;
+		Vector3 toMove = rc.normal * overlap;
+		SetPos(GetPos() + toMove);
+		i++;
+		if (i > 100)
+			break;
+	}
+	// at this point I should check that I'm no longer colliding with the obj. Then I could iteratively keep
+	// moving until I'm not
+	while (CollisionCheck(envObj.GetBoundingBox()));
+
+	return rc;
 }

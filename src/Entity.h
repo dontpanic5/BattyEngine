@@ -83,6 +83,8 @@ protected:
 	void SetPos(Vector3 pos);
 	void SetAllRot(Quaternion rot) override;
 
+	RayCollision ResolveCollision(EnvironmentalObject& envObj);
+
 	static constexpr int MAX_BILLBOARD_ANIMS = 8;
 	static constexpr int MAX_BILLBOARD_FRAMES = 64;
 	Texture2D		m_billboardAnims[MAX_BILLBOARD_ANIMS][MAX_BILLBOARD_FRAMES];

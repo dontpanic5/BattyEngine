@@ -5,6 +5,9 @@ struct BoundingBox;
 struct Model;
 struct Vector3;
 
+class Entity;
+class EnvironmentalObject;
+
 float GetBattyFrameTime();
 
 BoundingBox BattyGetModelBoundingBox(Model model, bool anim = true);
@@ -19,5 +22,7 @@ float GetOverlapDistanceSphereSphere(Vector3 pos1, float radius1, Vector3 pos2, 
 
 void setLastFrame(double frame);
 int getFps();
+
+void ResolveCollision(Entity& me, EnvironmentalObject& obj);
 
 #endif // !UTILS_H_INCLUDED

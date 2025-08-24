@@ -1,6 +1,8 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "BattyUtils.h"
+#include "EnvironmentalObject.h"
+#include "Entity.h"
 #ifndef PLATFORM_WEB
 #include <crtdbg.h>
 #endif // !PLATFORM_WEB
@@ -326,4 +328,23 @@ void setLastFrame(double frame)
 int getFps()
 {
     return (int)roundf(1.0f / average);
+}
+
+void ResolveCollision(Entity& me, EnvironmentalObject& obj)
+{
+    Ray collisionRay;
+    Vector3 closestPoint = ClosestPointBox(me.GetPos(), obj.GetBoundingBox());
+    collisionRay.direction = Vector3Normalize(closestPoint - me.GetPos());
+
+    RayCollision rc;
+
+    int i = 1;
+    do
+    {
+        printf("in collision loop iter %d\n", i);
+        collisionRay.position = me.GetPos();
+        rc = obj.GetRayCollision(collisionRay);
+
+        float overlap;
+        if (me.sph)
 }
