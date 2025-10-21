@@ -418,7 +418,7 @@ void Entity::Animate(int& frame)
 	}
 }
 
-void Entity::SetPos(Vector3 pos)
+void Entity::SetPos(Vector3 pos, bool setPrevPos)
 {
 #if PLATFORM_DESKTOP
 	_ASSERT(!isnan(pos.x));
@@ -428,6 +428,8 @@ void Entity::SetPos(Vector3 pos)
 	_ASSERT(!isinf(pos.y));
 	_ASSERT(!isinf(pos.z));
 #endif // PLATFORM_DESKTOP
+	if (setPrevPos)
+		m_prevPos = m_pos;
 	m_pos = pos;
 
 	SetTransformAndBb(m_scale, m_anims != nullptr);

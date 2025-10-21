@@ -11,6 +11,7 @@
 #include "GeneralEntity.h"
 #include "AnimationMgr.h"
 class GameCamera;
+class EnvironmentalObject;
 
 constexpr int MAX_CUR_NOISES = 4;
 
@@ -80,7 +81,7 @@ protected:
 	void Animate(Model mdl, int& frame);
 	void Animate(int& frame);
 
-	void SetPos(Vector3 pos);
+	void SetPos(Vector3 pos, bool setPrevPos = true);
 	void SetAllRot(Quaternion rot) override;
 
 	RayCollision ResolveCollision(EnvironmentalObject& envObj);
