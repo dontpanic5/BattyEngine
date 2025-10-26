@@ -420,6 +420,7 @@ void Entity::Animate(int& frame)
 
 void Entity::SetPos(Vector3 pos, bool setPrevPos)
 {
+	float myDist = Vector3Distance(pos, m_prevPos);
 #if PLATFORM_DESKTOP
 	_ASSERT(!isnan(pos.x));
 	_ASSERT(!isnan(pos.y));

@@ -173,39 +173,42 @@ float GetOverlapDistanceBoxBox(BoundingBox bb1, BoundingBox bb2, Vector3 normDir
 {
     Vector3 toTravel;
 
-    if (normDirection.x > 0.0f)
-    {
-        toTravel.x = bb1.max.x - bb2.min.x;
-    }
-    else if (normDirection.x == 0.0f)
+    // if equal to zero within tolerance
+    if (fabs(normDirection.x - 0.0f) < 0.0001f)
     {
         toTravel.x = 0.0f;
+    }
+    else if (normDirection.x > 0.0f)
+    {
+        toTravel.x = bb1.max.x - bb2.min.x;
     }
     else
     {
         toTravel.x = bb2.max.x - bb1.min.x;
     }
 
-    if (normDirection.y > 0.0f)
-    {
-        toTravel.y = bb1.max.y - bb2.min.y;
-    }
-    else if (normDirection.y == 0.0f)
+    // if equal to zero within tolerance
+    if (fabs(normDirection.y - 0.0f) < 0.0001f)
     {
         toTravel.y = 0.0f;
     }
-    else
+    else if (normDirection.y > 0.0f)
     {
         toTravel.y = bb2.max.y - bb1.min.y;
     }
-
-    if (normDirection.z > 0.0f)
+    else
     {
-        toTravel.z = bb1.max.z - bb2.min.z;
+        toTravel.y = bb1.max.y - bb2.min.y;
     }
-    else if (normDirection.z == 0.0f)
+
+    // if equal to zero within tolerance
+    if (fabs(normDirection.z - 0.0f) < 0.0001f)
     {
         toTravel.z = 0.0f;
+    }
+    else if (normDirection.z > 0.0f)
+    {
+        toTravel.z = bb1.max.z - bb2.min.z;
     }
     else
     {
@@ -222,17 +225,6 @@ float GetOverlapDistanceBoxBox(BoundingBox bb1, BoundingBox bb2, Vector3 normDir
     toTravel.y = fabsf(toTravel.y);
     toTravel.z = fabsf(toTravel.z);
 
-    /*if (toTravel.y < toTravel.x)
-    {
-        if (toTravel.z < toTravel.y)
-            return toTravel.z;
-        return toTravel.y;
-    }
-    else if (toTravel.z < toTravel.x)
-    {
-        return toTravel.z;
-    }
-    return toTravel.x;*/
     return Vector3Length(toTravel);
 }
 
