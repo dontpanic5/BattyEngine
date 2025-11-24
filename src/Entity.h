@@ -117,6 +117,9 @@ protected:
 	constexpr static int m_MAX_NOISE_CANCEL_SETS = 2;
 	constexpr static int m_MAX_NOISE_CANCEL_SET_SZ = 8;
 	int				m_noiseCancelSets[m_MAX_NOISE_CANCEL_SETS][m_MAX_NOISE_CANCEL_SET_SZ];
+
+private:
+	bool MoveOutOfBox(RayCollision rayCollision, float& overlap, EnvironmentalObject& envObj, Ray ray);
 };
 
 #endif // !ENTITY_H_INCLUDED

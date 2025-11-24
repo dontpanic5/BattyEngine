@@ -169,30 +169,35 @@ Vector3 ClosestPointBox(Vector3 point, BoundingBox bb)
     return result;
 }
 
+bool IsInside(Vector3 vector, BoundingBox box)
+{
+    return (vector.x > box.min.x) && (vector.x < box.max.x) &&
+        (vector.y > box.min.y) && (vector.y < box.max.y) &&
+        (vector.z > box.min.z) && (vector.z < box.max.z);
+}
+
 float GetOverlapDistanceBoxBox(BoundingBox bb1, BoundingBox bb2, Vector3 normDirection)
 {
     Vector3 toTravel;
 
-    // if equal to zero within tolerance
-    if (fabs(normDirection.x - 0.0f) < 0.0001f)
+    if (equalWithinTolerance(normDirection.x, 0.0f))
     {
         toTravel.x = 0.0f;
     }
-    else if (normDirection.x > 0.0f)
-    {
-        toTravel.x = bb1.max.x - bb2.min.x;
-    }
-    else
+    else if (normDirection.x < 0.0f)
     {
         toTravel.x = bb2.max.x - bb1.min.x;
     }
+    else
+    {
+        toTravel.x = bb1.max.x - bb2.min.x;
+    }
 
-    // if equal to zero within tolerance
-    if (fabs(normDirection.y - 0.0f) < 0.0001f)
+    if (equalWithinTolerance(normDirection.y, 0.0f))
     {
         toTravel.y = 0.0f;
     }
-    else if (normDirection.y > 0.0f)
+    else if (normDirection.y < 0.0f)
     {
         toTravel.y = bb2.max.y - bb1.min.y;
     }
@@ -201,18 +206,17 @@ float GetOverlapDistanceBoxBox(BoundingBox bb1, BoundingBox bb2, Vector3 normDir
         toTravel.y = bb1.max.y - bb2.min.y;
     }
 
-    // if equal to zero within tolerance
-    if (fabs(normDirection.z - 0.0f) < 0.0001f)
+    if (equalWithinTolerance(normDirection.z, 0.0f))
     {
         toTravel.z = 0.0f;
     }
-    else if (normDirection.z > 0.0f)
+    else if (normDirection.z < 0.0f)
     {
-        toTravel.z = bb1.max.z - bb2.min.z;
+        toTravel.z = bb2.max.z - bb1.min.z;
     }
     else
     {
-        toTravel.z = bb2.max.z - bb1.min.z;
+        toTravel.z = bb1.max.z - bb2.min.z;
     }
 
     if (normDirection.x != 0.0f)
@@ -291,6 +295,26 @@ float GetOverlapDistanceSphereSphere(Vector3 pos1, float radius1, Vector3 pos2, 
         return result;
     else
         return 0.0f;
+}
+
+bool IsOneDirectionalVector(Vector3 v)
+{
+    int nonZeroComponents = 0;
+
+    if (!equalWithinTolerance(v.x, 0.0f))
+        nonZeroComponents++;
+    if (!equalWithinTolerance(v.y, 0.0f))
+        nonZeroComponents++;
+    if (!equalWithinTolerance(v.z, 0.0f))
+        nonZeroComponents++;
+
+    return nonZeroComponents == 1;
+}
+
+bool equalWithinTolerance(float x, float y)
+{
+    
+    return fabs(x - y) < 0.0001f;
 }
 
 

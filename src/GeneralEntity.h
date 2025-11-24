@@ -15,6 +15,9 @@ public:
 
 	BoundingBox GetBoundingBox() const;
 
+	// TODO CollisionCheck really should be const but Pedestrian in Batty Vamps can't have it be
+	// const right now
+
 	virtual bool CollisionCheck(BoundingBox bb);
 	virtual bool CollisionCheck(Vector3 pos, float radius);
 

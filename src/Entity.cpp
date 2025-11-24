@@ -446,34 +446,100 @@ void Entity::SetAllRot(Quaternion rot)
 
 RayCollision Entity::ResolveCollision(EnvironmentalObject& envObj)
 {
-	Ray collisionRay;
-	Vector3 closestPoint = ClosestPointBox(GetPos(), envObj.GetBoundingBox());
-	collisionRay.direction = Vector3Normalize(closestPoint - GetPos());
+	BoundingBox bb = GetBoundingBox();
+	BoundingBox envBb = envObj.GetBoundingBox();
 
-	RayCollision rc;
+	// This ray will be what I wrote for Vamps form collision resolution
+	Ray velocityRay;
+	// transform these positions to be in the middle of the Entity
+	Vector3 prevPosFromMiddle = m_prevPos;
+	prevPosFromMiddle.y += (bb.max.y - bb.min.y) / 2.0f;
+	velocityRay.position = prevPosFromMiddle;
+	Vector3 posFromMiddle = GetPos();
+	posFromMiddle.y += (bb.max.y - bb.min.y) / 2.0f;
+	velocityRay.direction = Vector3Subtract(posFromMiddle, prevPosFromMiddle);
+	if (IsInside(velocityRay.position, envBb))
+		velocityRay.direction = Vector3Negate(velocityRay.direction);
+	RayCollision velocityRayCollision = envObj.GetRayCollision(velocityRay);
+	if (IsInside(velocityRay.position, envBb))
+		// flip this because it hit the inside of the obj
+		velocityRayCollision.normal = Vector3Negate(velocityRayCollision.normal);
 
-	int i = 1;
-	do
+	// This ray goes point to point
+	Ray pointToPointRay;
+	Vector3 closestPoint = ClosestPointBox(posFromMiddle, envBb);
+	pointToPointRay.direction = closestPoint - posFromMiddle;
+	RayCollision pointToPointRayCollision;
+	pointToPointRay.position = posFromMiddle;
+	pointToPointRayCollision = envObj.GetRayCollision(pointToPointRay);
+	if (IsInside(pointToPointRay.position, envBb))
+		// flip this because it hit the inside of the obj
+		pointToPointRayCollision.normal = Vector3Negate(pointToPointRayCollision.normal);
+
+	float overlap = 0.0f;
+
+	bool usedVelocity = false;
+	bool usedPointToPoint = false;
+
+	if (
+		!isinf(velocityRayCollision.distance) &&
+		!isnan(velocityRayCollision.point.x) &&
+		!isnan(velocityRayCollision.point.y) &&
+		!isnan(velocityRayCollision.point.z) &&
+		IsOneDirectionalVector(velocityRayCollision.normal)
+	)
+		usedVelocity = MoveOutOfBox(velocityRayCollision, overlap, envObj, velocityRay);
+	if (!usedVelocity &&
+		!isinf(pointToPointRayCollision.distance) &&
+		!isnan(pointToPointRayCollision.point.x) &&
+		!isnan(pointToPointRayCollision.point.y) &&
+		!isnan(pointToPointRayCollision.point.z) &&
+		IsOneDirectionalVector(pointToPointRayCollision.normal)
+	)
+		usedPointToPoint = MoveOutOfBox(pointToPointRayCollision, overlap, envObj, pointToPointRay);
+
+	if (!usedVelocity && !usedPointToPoint)
+		return velocityRayCollision;
+
+	if (usedPointToPoint)
+		return pointToPointRayCollision;
+	else
+		return velocityRayCollision;
+}
+
+// TODO envObj should be const but CollisionCheck needs to be const first
+bool Entity::MoveOutOfBox(RayCollision rayCollision, float& overlap, EnvironmentalObject& envObj, Ray ray)
+{
+	BoundingBox envBb = envObj.GetBoundingBox();
+	BoundingBox bb = GetBoundingBox();
+
+	if (rayCollision.hit)
 	{
-		printf("in level collision loop iter %d\n", i);
-		collisionRay.position = GetPos();
-		rc = envObj.GetRayCollision(collisionRay);
-
-		float overlap;
 		if (m_sphereCollider)
-			overlap = fabs(m_radius - rc.distance);
+			overlap = fabs(m_radius - rayCollision.distance);
 		else
-			// TODO BAD. I need to reduce this by the BB's dimensions
-			overlap = rc.distance;
-		Vector3 toMove = rc.normal * overlap;
-		SetPos(GetPos() + toMove);
-		i++;
-		if (i > 100)
-			break;
-	}
-	// at this point I should check that I'm no longer colliding with the obj. Then I could iteratively keep
-	// moving until I'm not
-	while (CollisionCheck(envObj.GetBoundingBox()));
+			overlap = envObj.getOverlapDistance(bb, rayCollision.normal);
 
-	return rc;
+		if (/*overlap <= Vector3Length(ray.direction) &&*/ !m_sphereCollider)
+		{
+			// add a lil slop so we aren't always touching
+			overlap *= 1.02f;
+			Vector3 toMove = Vector3Scale(rayCollision.normal, overlap);
+			SetPos(Vector3Add(GetPos(), toMove), false);
+			// reset this
+			bb = GetBoundingBox();
+
+			Vector3 pointToMeasureFrom = rayCollision.point;
+			pointToMeasureFrom.y -= (bb.max.y - bb.min.y) / 2.0f;
+			Vector3 newVelo = GetPos() - pointToMeasureFrom;
+			m_velocity = newVelo;
+
+			if (envBb.max.y != 0.0f)
+				_ASSERT(!envObj.CollisionCheck(bb));
+		}
+
+		return true;
+	}
+
+	return false;
 }

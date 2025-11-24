@@ -14,9 +14,15 @@ BoundingBox BattyGetModelBoundingBox(Model model, bool anim = true);
 
 Vector3 ClosestPointBox(Vector3 point, BoundingBox bb);
 
+bool IsInside(Vector3 vector, BoundingBox box);
+
 float GetOverlapDistanceBoxBox(BoundingBox bb1, BoundingBox bb2, Vector3 normDirection);
 float GetOverlapDistanceBoxSphere(BoundingBox bb, Vector3 pos, float radius);
 float GetOverlapDistanceSphereSphere(Vector3 pos1, float radius1, Vector3 pos2, float radius2);
+
+bool IsOneDirectionalVector(Vector3 v);
+
+bool equalWithinTolerance(float x, float y);
 
 #define _batty_countof(array) (sizeof(array) / sizeof(array[0]))
 
