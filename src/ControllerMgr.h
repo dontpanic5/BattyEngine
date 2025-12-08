@@ -42,9 +42,9 @@ public:
 
 	void TrapCursor(bool trapCursor);
 
-	static ButtonControl A;
-	static ButtonControl B;
-	static ButtonControl X;
+	static ButtonControl A_CONTROLLER;
+	static ButtonControl B_CONTROLLER;
+	static ButtonControl X_CONTROLLER;
 	static AxisControl LEFT_THUMBSTICK_X;
 	static AxisControl LEFT_THUMBSTICK_Y;
 	static ButtonControl START;
@@ -52,6 +52,7 @@ public:
 	static ButtonControl BACKSPACE;
 	static ButtonControl SPACEBAR;
 	static ButtonControl ENTER;
+	static ButtonControl A;
 	static ButtonControl D;
 	static ButtonControl F;
 	static ButtonControl I;

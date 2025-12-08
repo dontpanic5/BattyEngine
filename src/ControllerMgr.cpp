@@ -2,9 +2,9 @@
 
 int chosenController = -1;
 
-ButtonControl ControllerMgr::A = ButtonControl(7, "A", CONTROL_DEVICE::CONTROLLER);
-ButtonControl ControllerMgr::B = ButtonControl(6, "B", CONTROL_DEVICE::CONTROLLER);
-ButtonControl ControllerMgr::X = ButtonControl(8, "X", CONTROL_DEVICE::CONTROLLER);
+ButtonControl ControllerMgr::A_CONTROLLER = ButtonControl(7, "A", CONTROL_DEVICE::CONTROLLER);
+ButtonControl ControllerMgr::B_CONTROLLER = ButtonControl(6, "B", CONTROL_DEVICE::CONTROLLER);
+ButtonControl ControllerMgr::X_CONTROLLER = ButtonControl(8, "X", CONTROL_DEVICE::CONTROLLER);
 AxisControl ControllerMgr::LEFT_THUMBSTICK_X = AxisControl(0, "LEFT THUMBSTICK HORIZONTAL", CONTROL_DEVICE::CONTROLLER, 1.0f, true);
 AxisControl ControllerMgr::LEFT_THUMBSTICK_Y = AxisControl(1, "LEFT THUMBSTICK VERTICAL", CONTROL_DEVICE::CONTROLLER, 1.0f, false);
 ButtonControl ControllerMgr::START = ButtonControl(15, "START", CONTROL_DEVICE::CONTROLLER);
@@ -12,6 +12,7 @@ ButtonControl ControllerMgr::START = ButtonControl(15, "START", CONTROL_DEVICE::
 ButtonControl ControllerMgr::BACKSPACE = ButtonControl(KEY_BACKSPACE, "BACKSPACE", CONTROL_DEVICE::KEYBOARD);
 ButtonControl ControllerMgr::SPACEBAR = ButtonControl((int)KEY_SPACE, "SPACEBAR", CONTROL_DEVICE::KEYBOARD);
 ButtonControl ControllerMgr::ENTER = ButtonControl((int)KEY_ENTER, "ENTER", CONTROL_DEVICE::KEYBOARD);
+ButtonControl ControllerMgr::A = ButtonControl(KEY_A, "A", CONTROL_DEVICE::KEYBOARD);
 ButtonControl ControllerMgr::D = ButtonControl(KEY_D, "D", CONTROL_DEVICE::KEYBOARD);
 ButtonControl ControllerMgr::F = ButtonControl(KEY_F, "F", CONTROL_DEVICE::KEYBOARD);
 ButtonControl ControllerMgr::I = ButtonControl(KEY_I, "I", CONTROL_DEVICE::KEYBOARD);
@@ -67,7 +68,7 @@ Input ControllerMgr::GetInput()
 		m_lastInput = GetTime();
 		return Input::DOWN;
 	}
-	else if ((A.GetPressed() || ENTER.GetPressed()) && GetTime() - m_lastInput > INPUT_WAIT)
+	else if ((A_CONTROLLER.GetPressed() || ENTER.GetPressed()) && GetTime() - m_lastInput > INPUT_WAIT)
 	{
 		m_lastInput = GetTime();
 		return Input::SELECT;
