@@ -65,7 +65,7 @@ void GameCamera::FollowEntity3rdPerson(const Entity& entity, float deltaTime, Ve
 		SetPosition(position, target, up);
 	}
 	else
-		MoveTo(position, target, up, deltaTime, speed, entity.DidMove(), false, transform);
+		MoveTo(position, target, up, deltaTime, speed, entity.DidMove(), true, transform);
 }
 
 void GameCamera::CinematicWatchEntity(const Entity& entity, float deltaTime, bool immediate)
