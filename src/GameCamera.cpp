@@ -94,9 +94,9 @@ void GameCamera::MoveTo(Vector3 position, Vector3 target, Vector3 up, float delt
 			Camera.position, position,
 			speed, deltaTime);
 
-		if (enforceTrans && desiredPosition.y > transform.y)
+		if (enforceTrans && desiredPosition.y > transform.y + target.y)
 		{
-			desiredPosition.y = transform.y;
+			desiredPosition.y = transform.y + target.y;
 		}
 
 		Vector2 desiredPosition2 = { desiredPosition.x, desiredPosition.z };
@@ -108,7 +108,7 @@ void GameCamera::MoveTo(Vector3 position, Vector3 target, Vector3 up, float delt
 			Vector2 desiredPosRelativeToTarget = desiredPosition2 - target2;
 			float scalar = transformLength / desiredDistance;
 			desiredPosRelativeToTarget = Vector2Scale(desiredPosRelativeToTarget, scalar);
-			Vector3 desiredPosRelativeToTarget3 = { desiredPosRelativeToTarget.x, desiredPosition.y, desiredPosRelativeToTarget.y };
+			Vector3 desiredPosRelativeToTarget3 = { desiredPosRelativeToTarget.x, desiredPosition.y - target.y, desiredPosRelativeToTarget.y };
 			Vector3 newDesiredPosition = desiredPosRelativeToTarget3 + target;
 			desiredPosition = SmoothDamp(
 				desiredPosition, newDesiredPosition,
