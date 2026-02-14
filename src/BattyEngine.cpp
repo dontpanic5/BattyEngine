@@ -43,6 +43,8 @@ int filesToWatchIdx = 0;
 
 bool gamePaused = false;
 
+bool modelViewer = false;
+
 static void startLoop();
 static void UpdateLogic();
 static void UpdateDrawFrame();
@@ -98,6 +100,26 @@ void Init(const char* name, float ambientLight)
     gameTime = GetTime();
 
     filesToWatchIdx = 0;
+
+    if (modelViewer)
+    {
+        //SetLogicCb(THE MODEL VIEWER LOGIC);
+        //SetDrawCb(THE MODEL VIEWER DRAW);
+    }
+}
+
+void ProcessArgs(int argc, char* argv[])
+{
+    if (argc > 1)
+    {
+        for (int i = 1; i < argc; i++)
+        {
+#ifdef DEBUG
+            if (strcmp(TextToLower(argv[i]), "-modelviewer") == 0)
+                modelViewer = true;
+#endif // DEBUG
+        }
+    }
 }
 
 void RunMainLoop()

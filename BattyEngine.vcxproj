@@ -176,6 +176,7 @@
     <ClInclude Include="src\Menu.h" />
     <ClInclude Include="src\RingBuffer.h" />
     <ClInclude Include="src\rlights.h" />
+    <ClInclude Include="src\screen_model_viewer.h" />
     <ClInclude Include="src\Ui.h" />
     <ClInclude Include="src\BattyUtils.h" />
     <ClInclude Include="src\UIElement.h" />

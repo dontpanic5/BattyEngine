@@ -33,6 +33,10 @@ extern int filesToWatchIdx;
 
 extern bool gamePaused;
 
+extern bool modelViewer;
+
+void ProcessArgs(int argc, char* argv[]);
+
 void RunMainLoop(void);
 
 void SetLogicCb(LogicCbType cb);
