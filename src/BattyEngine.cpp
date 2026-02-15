@@ -16,6 +16,7 @@ static const int screenHeight = 490;
 #include "LevelMgr.h"
 #include "AudioMgr.h"
 #include "ControllerMgr.h"
+#include "screen_model_viewer.h"
 #if defined(PLATFORM_WEB)
 #include <emscripten/emscripten.h>
 #endif
@@ -44,6 +45,7 @@ int filesToWatchIdx = 0;
 bool gamePaused = false;
 
 bool modelViewer = false;
+char modelViewerPath[128];
 
 static void startLoop();
 static void UpdateLogic();
@@ -103,8 +105,9 @@ void Init(const char* name, float ambientLight)
 
     if (modelViewer)
     {
-        //SetLogicCb(THE MODEL VIEWER LOGIC);
-        //SetDrawCb(THE MODEL VIEWER DRAW);
+        InitModelViewerScreen();
+        SetLogicCb(UpdateModelViewerScreen);
+        SetDrawCb(DrawModelViewerScreen);
     }
 }
 
@@ -115,8 +118,17 @@ void ProcessArgs(int argc, char* argv[])
         for (int i = 1; i < argc; i++)
         {
 #ifdef DEBUG
-            if (strcmp(TextToLower(argv[i]), "-modelviewer") == 0)
+            char* lower = TextToLower(argv[i]);
+            if (strnicmp(lower, "-modelviewer", 12) == 0)
+            {
                 modelViewer = true;
+                lower += 12;
+                if (*lower == '=')
+                {
+                    lower++;
+                    strcpy(modelViewerPath, lower);
+                }
+            }
 #endif // DEBUG
         }
     }

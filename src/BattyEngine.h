@@ -34,6 +34,7 @@ extern int filesToWatchIdx;
 extern bool gamePaused;
 
 extern bool modelViewer;
+extern char modelViewerPath[128];
 
 void ProcessArgs(int argc, char* argv[]);
 
