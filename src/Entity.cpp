@@ -28,9 +28,9 @@ Entity::Entity(const char* modelPath, float scale,
 
 	if (!m_isBillboard)
 	{
-		if (AnimationMgr::Instance().m_animations.count(modelPath) > 0)
+		if (AnimationMgr::Instance().Count(modelPath) > 0)
 		{
-			m_anims = &AnimationMgr::Instance().m_animations.at(modelPath);
+			m_anims = AnimationMgr::Instance().GetAnim(modelPath);
 		}
 		else
 		{

@@ -55,3 +55,13 @@ void AnimationMgr::Unload()
 #endif // !PLATFORM_WEB
 	}
 }
+
+int AnimationMgr::Count(const char* modelPath)
+{
+    return m_animations.count(modelPath);
+}
+
+AnimWrapper* AnimationMgr::GetAnim(const char* modelPath)
+{
+    return &m_animations.at(modelPath);
+}
