@@ -25,11 +25,14 @@ public:
 
 	void Unload();
 
-	std::unordered_map<const char*, AnimWrapper> m_animations;
+	int Count(const char* modelPath);
 
+	AnimWrapper* GetAnim(const char* modelPath);
 private:
 	AnimationMgr(AnimationMgr const&) = delete;
 	AnimationMgr& operator=(AnimationMgr const&) = delete;
+
+	std::unordered_map<const char*, AnimWrapper> m_animations;
 };
 
 #endif
