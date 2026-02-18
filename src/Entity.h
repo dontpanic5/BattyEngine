@@ -69,8 +69,6 @@ public:
 
 	void SetUid(int uid);
 
-	virtual int GetTypeId() const = 0;
-
 	int				m_uid = -1;
 
 protected:
