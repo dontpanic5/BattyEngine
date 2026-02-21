@@ -35,6 +35,7 @@ extern bool gamePaused;
 
 extern bool modelViewer;
 extern char modelViewerPath[128];
+extern float modelViewerScale;
 
 void ProcessArgs(int argc, char* argv[]);
 

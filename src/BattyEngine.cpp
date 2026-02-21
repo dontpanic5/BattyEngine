@@ -3,6 +3,7 @@ static const int screenHeight = 490;
 
 #include <cstdio>
 #include <ctime>
+#include <string>
 #include "raylib.h"
 #include <math.h>
 #include "BattyEngine.h"
@@ -46,6 +47,7 @@ bool gamePaused = false;
 
 bool modelViewer = false;
 char modelViewerPath[128];
+float modelViewerScale = 1.0;
 
 static void startLoop();
 static void UpdateLogic();
@@ -119,14 +121,23 @@ void ProcessArgs(int argc, char* argv[])
         {
 #ifdef DEBUG
             char* lower = TextToLower(argv[i]);
-            if (strnicmp(lower, "-modelviewer", 12) == 0)
+            if (_strnicmp(lower, "-modelviewerpath", 16) == 0)
             {
                 modelViewer = true;
-                lower += 12;
+                lower += 16;
                 if (*lower == '=')
                 {
                     lower++;
                     strcpy(modelViewerPath, lower);
+                }
+            }
+            else if (_strnicmp(lower, "-modelviewerscale", 17) == 0)
+            {
+                lower += 17;
+                if (*lower == '=')
+                {
+                    lower++;
+                    modelViewerScale = std::stof(lower);
                 }
             }
 #endif // DEBUG

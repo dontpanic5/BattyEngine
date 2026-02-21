@@ -197,6 +197,7 @@ void Entity::SetCurAnim(int animNum)
 
 Vector3 Entity::GetCamPos() const
 {
+	// TODO this needs to take into account the height of the entity
 	return GetPos();
 }
 

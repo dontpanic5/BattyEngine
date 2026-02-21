@@ -68,7 +68,7 @@ void GameCamera::FollowEntity3rdPerson(const Entity& entity, float deltaTime, Ve
 		MoveTo(position, target, up, deltaTime, speed, entity.DidMove(), true, transform);
 }
 
-void GameCamera::CinematicWatchEntity(const Entity& entity, float deltaTime, bool immediate)
+void GameCamera::CinematicWatchEntity(const Entity& entity, float deltaTime, bool immediate, Vector3 transform)
 {
 	Vector3 position;
 	Vector3 target = entity.GetCamPos();
@@ -76,7 +76,7 @@ void GameCamera::CinematicWatchEntity(const Entity& entity, float deltaTime, boo
 	auto mPos = MatrixTranslate(target.x, target.y, target.z);
 	auto mRot = QuaternionToMatrix(entity.GetRot());
 	auto matrix = MatrixMultiply(mRot, mPos);
-	position = Vector3Transform({ 0, 2.5, 10 }, matrix);
+	position = Vector3Transform(transform, matrix);
 
 
 	if (!immediate)
