@@ -4,10 +4,18 @@
 #include "raylib.h"
 #include "raymath.h"
 
+/********************************************************************************
+ * Base class for entities. It's a model or billboard that exists in the world.
+ * 
+ *******************************************************************************/
 class GeneralEntity
 {
 public:
-	void Init(const char* modelPath, bool sphereCollider = false, Vector3 pos = Vector3Zero());
+	void Init(
+		const char* modelPath,
+		bool sphereCollider = false,
+		Vector3 pos = Vector3Zero()
+	);
 	void Init(Mesh mesh, bool sphereCollider = false, Vector3 pos = Vector3Zero());
 	~GeneralEntity();
 
@@ -15,8 +23,8 @@ public:
 
 	BoundingBox GetBoundingBox() const;
 
-	// TODO CollisionCheck really should be const but Pedestrian in Batty Vamps can't have it be
-	// const right now
+	// TODO CollisionCheck really should be const but Pedestrian in Batty Vamps can't have it
+	// be const right now
 
 	virtual bool CollisionCheck(BoundingBox bb);
 	virtual bool CollisionCheck(Vector3 pos, float radius);

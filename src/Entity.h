@@ -21,6 +21,11 @@ struct NoiseTracker
 	const Sound* pSound = nullptr;
 };
 
+/********************************************************************************
+ * Contains what's needed for an active entity in the world. Can move, update, 
+ * and make noise. Among other things.
+ * 
+ *******************************************************************************/
 class Entity : public GeneralEntity
 {
 public:
@@ -117,7 +122,12 @@ protected:
 	int				m_noiseCancelSets[m_MAX_NOISE_CANCEL_SETS][m_MAX_NOISE_CANCEL_SET_SZ];
 
 private:
-	bool MoveOutOfBox(RayCollision rayCollision, float& overlap, EnvironmentalObject& envObj, Ray ray);
+	bool MoveOutOfBox(
+		RayCollision rayCollision,
+		float& overlap,
+		EnvironmentalObject& envObj,
+		Ray ray
+	);
 };
 
 #endif // !ENTITY_H_INCLUDED
