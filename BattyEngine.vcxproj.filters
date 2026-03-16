@@ -13,12 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\UI">
+      <UniqueIdentifier>{245ee1bc-e9ec-4741-8618-6b95dffa6996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{257fe995-d0dd-480c-a934-75c31bb4b744}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\BattyUtils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Ui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\AnimationMgr.cpp">
@@ -54,17 +57,20 @@
     <ClCompile Include="src\GeneralEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Menu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Button.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\UIElement.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\UI</Filter>
     </ClCompile>
     <ClCompile Include="src\Grid.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ui.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIElement.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Menu.cpp">
+      <Filter>Source Files\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -104,9 +110,6 @@
     <ClInclude Include="src\RingBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Ui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\BattyUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -119,17 +122,23 @@
     <ClInclude Include="src\GeneralEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Menu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Button.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\UIElement.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\UI</Filter>
     </ClInclude>
     <ClInclude Include="src\Grid.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Menu.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Ui.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UIElement.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Draggable.h">
+      <Filter>Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

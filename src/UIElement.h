@@ -16,7 +16,7 @@ public:
 
 	virtual void SetSelected(bool selected);
 
-	virtual bool ProcessInput(Input input) = 0;
+	virtual bool ProcessInput(Input input);
 
 protected:
 	bool m_selected = false;
