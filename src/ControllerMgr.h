@@ -103,7 +103,7 @@ public:
 	Control(int num, const char* name, CONTROL_DEVICE controlDevice)
 		: m_num(num), m_controlDevice(controlDevice)
 	{
-		strncpy(m_name, name, _batty_countof(m_name));
+		strncpy_s(m_name, name, _batty_countof(m_name));
 		m_name[63] = (char) '\0';
 	}
 
@@ -325,7 +325,7 @@ public:
 		m_keyboardControl(keyboardControl),
 		m_mouseControl(mouseControl)
 	{
-		strncpy(m_name, name, _batty_countof(m_name) - 1);
+		strncpy_s(m_name, name, _batty_countof(m_name) - 1);
 		m_name[63] = (char) '\0';
 	}
 
@@ -430,7 +430,7 @@ public:
 		m_keyboardControl(keyboardControl),
 		m_mouseControl(mouseControl)
 	{
-		strncpy(m_name, name, _batty_countof(m_name) - 1);
+		strncpy_s(m_name, name, _batty_countof(m_name) - 1);
 		m_name[63] = (char) '\0';
 	}
 

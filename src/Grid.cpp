@@ -60,6 +60,8 @@ void Grid::Draw(int posX, int posY)
 
 bool Grid::ProcessInput(Input input)
 {
+	UIElement::ProcessInput(input);
+
 	bool processed = m_elements[m_curSelection]->ProcessInput(input);
 	if (processed)
 		return true;

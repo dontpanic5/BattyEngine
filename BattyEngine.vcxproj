@@ -164,7 +164,6 @@
     <ClInclude Include="src\Button.h" />
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\ControllerMgr.h" />
-    <ClInclude Include="src\Draggable.h" />
     <ClInclude Include="src\Entity.h" />
     <ClInclude Include="src\EntityMgr.h" />
     <ClInclude Include="src\EnvironmentalObject.h" />
@@ -177,6 +176,7 @@
     <ClInclude Include="src\Menu.h" />
     <ClInclude Include="src\RingBuffer.h" />
     <ClInclude Include="src\rlights.h" />
+    <ClInclude Include="src\TextBox.h" />
     <ClInclude Include="src\Ui.h" />
     <ClInclude Include="src\BattyUtils.h" />
     <ClInclude Include="src\UIElement.h" />

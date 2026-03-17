@@ -65,6 +65,8 @@ void Menu::Draw(int posX, int posY)
 
 bool Menu::ProcessInput(Input input)
 {
+	UIElement::ProcessInput(input);
+
 	switch (input)
 	{
 	case Input::NONE:

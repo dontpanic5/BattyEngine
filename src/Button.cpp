@@ -66,6 +66,8 @@ void Button::Draw(int posX, int posY, bool selected)
 
 bool Button::ProcessInput(Input input)
 {
+	UIElement::ProcessInput(input);
+
 	if (input == Input::SELECT)
 	{
 		m_cb();

@@ -137,7 +137,7 @@
     <ClInclude Include="src\UIElement.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
-    <ClInclude Include="src\Draggable.h">
+    <ClInclude Include="src\TextBox.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>

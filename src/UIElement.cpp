@@ -1,4 +1,5 @@
 #include "UIElement.h"
+#include <stdio.h>
 #include "raylib.h"
 
 UIElement::UIElement()
@@ -27,12 +28,19 @@ bool UIElement::ProcessInput(Input input)
 	int szX = -1, szY = -1;
 	GetSize(szX, szY);
 	Vector2 mouse = GetMousePosition();
+	//printf("mouse: %f %f\n", mouse.x, mouse.y);
 	if (mouse.x > (float) posX &&
 		mouse.x < (float) (posX + szX) &&
 		mouse.y > (float) posY &&
 		mouse.y < (float) (posY + szY))
 	{
 		mousedOver = true;
-		SetSelected(true);
 	}
+
+	if (mousedOver && IsMouseButtonDown(0))
+	{
+		m_beingDragged = true;
+	}
+
+	return false;
 }

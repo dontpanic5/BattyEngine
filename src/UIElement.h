@@ -23,6 +23,9 @@ protected:
 	bool m_externallyPositioned;
 	float m_relX = -1.f;
 	float m_relY = -1.f;
+
+	bool m_isDraggable = false;
+	bool m_beingDragged = false;
 };
 
 #endif // !UI_ELEMENT_H_INCLUDED
