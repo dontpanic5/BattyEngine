@@ -12,6 +12,13 @@ UIElement::UIElement(float relX, float relY)
 {
 }
 
+void UIElement::Draw()
+{
+	int posX, posY;
+	ConvertRelToPos(m_relX, m_relY, posX, posY);
+	Draw(posX, posY);
+}
+
 void UIElement::SetSelected(bool selected)
 {
 	m_selected = selected;

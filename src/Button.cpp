@@ -23,13 +23,6 @@ void Button::GetSize(int& szX, int& szY)
 	szY = sz.y + BORDER_BUFFER + 40;
 }
 
-void Button::Draw()
-{
-	int posX, posY;
-	ConvertRelToPos(m_relX, m_relY, posX, posY);
-	Draw(posX, posY);
-}
-
 void Button::Draw(int posX, int posY)
 {
 	float relX;

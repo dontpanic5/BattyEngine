@@ -47,13 +47,6 @@ void Menu::GetSize(int& szX, int& szY)
 	szY = totalY;
 }
 
-void Menu::Draw()
-{
-	int posX, posY;
-	ConvertRelToPos(m_relX, m_relY, posX, posY);
-	Draw(posX, posY);
-}
-
 void Menu::Draw(int posX, int posY)
 {
 	float actualFontSize = GetActualFontSize(m_fontSize);

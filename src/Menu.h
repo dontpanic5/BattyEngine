@@ -20,7 +20,6 @@ public:
 
 	void GetSize(int& szX, int& szY) override;
 
-	void Draw() override;
 	void Draw(int posX, int posY) override;
 
 	bool ProcessInput(Input input) override;

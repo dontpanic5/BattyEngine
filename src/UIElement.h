@@ -9,7 +9,7 @@ public:
 	UIElement();
 	UIElement(float relX, float relY);
 
-	virtual void Draw() = 0;
+	void Draw();
 	virtual void Draw(int posX, int posY) = 0;
 
 	virtual void GetSize(int& szX, int& szY) = 0;

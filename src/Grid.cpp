@@ -39,13 +39,6 @@ void Grid::GetSize(int& szX, int& szY)
 	szY = totalY;
 }
 
-void Grid::Draw()
-{
-	int posX, posY;
-	ConvertRelToPos(m_relX, m_relY, posX, posY);
-	Draw(posX, posY);
-}
-
 void Grid::Draw(int posX, int posY)
 {
 	int totalY = posY;
