@@ -85,6 +85,11 @@ void GameCamera::CinematicWatchEntity(const Entity& entity, float deltaTime, boo
 		SetPosition(position, target, entity.GetUp());
 }
 
+void GameCamera::FreeCam()
+{
+	UpdateCamera(&Camera, CAMERA_FREE);
+}
+
 void GameCamera::MoveTo(Vector3 position, Vector3 target, Vector3 up, float deltaTime, float speed,
 	bool setPosition, bool enforceTrans, Vector3 transform)
 {

@@ -8,7 +8,6 @@
 #include <raymath.h>
 
 class Entity;
-class Batty;
 
 class GameCamera
 {
@@ -24,6 +23,8 @@ public:
 	void FollowEntity3rdPerson(const Entity& entity, float deltaTime, Vector3 transform, bool immediate = false, float speed = 1.f);
 
 	void CinematicWatchEntity(const Entity& entity, float deltaTime, bool immediate = false);
+
+	void FreeCam();
 
 	/// <summary>
 	/// Moves the camera to the given positions. Smoothing is automatically applied.
