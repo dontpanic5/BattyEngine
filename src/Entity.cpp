@@ -159,30 +159,54 @@ void Entity::SetCamera(GameCamera* cam)
 	m_cam = cam;
 }
 
-void Entity::SetBillboardAnim(const char* animPath, int id, int frames, int speed)
+void Entity::SetBillboardAnim(const char* animPath, int id, int frames, int speed, bool spritesheet)
 {
-	constexpr int BUF_SZ = 256;
-	char buf[BUF_SZ];
-	memset(buf, 0, sizeof(char) * BUF_SZ);
-
 #ifndef PLATFORM_WEB
 	_ASSERT(frames < MAX_BILLBOARD_FRAMES);
 #endif // !PLATFORM_WEB
 
-	m_numBillboardFrames[id] = frames;
-	m_billboardAnimSpeed[id] = speed;
-
-	for (int i = 1; i <= frames; i++)
+	if (spritesheet)
 	{
-		snprintf(buf, sizeof(char) * BUF_SZ, animPath, i);
-		Image image = LoadImage(buf);
+		Image totalSheet = LoadImage(animPath);
+		Color* pixels = LoadImageColors(totalSheet);
+		Color transparent = ColorAlpha(WHITE, 1.0);
 		Rectangle rec;
-		rec.x = 112.0f;
-		rec.y = 74.0f;
-		rec.width = 170.0f - 112.0f;
-		rec.height = 128.0f - 74.0f;
-		image = ImageFromImage(image, rec);
-		m_billboardAnims[id][i - 1] = LoadTextureFromImage(image);
+
+		int x = 0, y = 0;
+		for (y = 0; y < totalSheet.height; y++)
+		{
+			for (x = 0; x < totalSheet.width; x++)
+			{
+				if (!ColorIsEqual(pixels[y * totalSheet.width + x], transparent))
+					break;
+			}
+			if (!ColorIsEqual(pixels[y * totalSheet.width + x], transparent))
+				break;
+		}
+	}
+	else
+	{
+		// Use ImageAlphaCrop?
+
+		constexpr int BUF_SZ = 256;
+		char buf[BUF_SZ];
+		memset(buf, 0, sizeof(char) * BUF_SZ);
+
+		m_numBillboardFrames[id] = frames;
+		m_billboardAnimSpeed[id] = speed;
+
+		for (int i = 1; i <= frames; i++)
+		{
+			snprintf(buf, sizeof(char) * BUF_SZ, animPath, i);
+			Image image = LoadImage(buf);
+			Rectangle rec;
+			rec.x = 112.0f;
+			rec.y = 74.0f;
+			rec.width = 170.0f - 112.0f;
+			rec.height = 128.0f - 74.0f;
+			image = ImageFromImage(image, rec);
+			m_billboardAnims[id][i - 1] = LoadTextureFromImage(image);
+		}
 	}
 }
 
