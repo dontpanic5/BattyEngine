@@ -46,7 +46,8 @@ public:
 
 	void SetCamera(GameCamera* cam);
 
-	void		SetBillboardAnim(const char* animPath, int id, int frames, int speed = 1, bool spritesheet = false);
+	void		SetBillboardAnim(const char* animPath, int id, int frames, int speed = 1);
+	void		SetBillboardSpritesheetAnim(const char* animPath, int id, int frames, int row, int speed = 1);
 	void		SetCurAnim(int animNum);
 
 	virtual Vector3 GetCamPos() const;

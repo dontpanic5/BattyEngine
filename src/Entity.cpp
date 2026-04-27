@@ -23,7 +23,8 @@ Entity::Entity(const char* modelPath, float scale,
 	{
 		m_isBillboard = true;
 		m_sphereCollider = isSphere;
-		SetPos(pos);
+		SetPos(pos, false);
+		m_prevPos = pos;
 	}
 
 	if (!m_isBillboard)
@@ -159,53 +160,148 @@ void Entity::SetCamera(GameCamera* cam)
 	m_cam = cam;
 }
 
-void Entity::SetBillboardAnim(const char* animPath, int id, int frames, int speed, bool spritesheet)
+void Entity::SetBillboardAnim(const char* animPath, int id, int frames, int speed)
 {
 #ifndef PLATFORM_WEB
 	_ASSERT(frames < MAX_BILLBOARD_FRAMES);
 #endif // !PLATFORM_WEB
 
-	if (spritesheet)
-	{
-		Image totalSheet = LoadImage(animPath);
-		Color* pixels = LoadImageColors(totalSheet);
-		Color transparent = ColorAlpha(WHITE, 1.0);
-		Rectangle rec;
+	m_numBillboardFrames[id] = frames;
+	m_billboardAnimSpeed[id] = speed;
 
-		int x = 0, y = 0;
+	// Use ImageAlphaCrop?
+
+	constexpr int BUF_SZ = 256;
+	char buf[BUF_SZ];
+	memset(buf, 0, sizeof(char) * BUF_SZ);
+
+	for (int i = 1; i <= frames; i++)
+	{
+		snprintf(buf, sizeof(char) * BUF_SZ, animPath, i);
+		Image image = LoadImage(buf);
+		Rectangle rec;
+		rec.x = 112.0f;
+		rec.y = 74.0f;
+		rec.width = 170.0f - 112.0f;
+		rec.height = 128.0f - 74.0f;
+		image = ImageFromImage(image, rec);
+		m_billboardAnims[id][i - 1] = LoadTextureFromImage(image);
+	}
+}
+
+void Entity::SetBillboardSpritesheetAnim(const char* animPath, int id, int frames, int row, int speed)
+{
+#ifndef PLATFORM_WEB
+	_ASSERT(frames < MAX_BILLBOARD_FRAMES);
+#endif // !PLATFORM_WEB
+
+	m_numBillboardFrames[id] = frames;
+	m_billboardAnimSpeed[id] = speed;
+
+	Image totalSheet = LoadImage(animPath);
+	Rectangle rec;
+
+	ImageAlphaCrop(&totalSheet, 0.0f);
+	Color* pixels = LoadImageColors(totalSheet);
+
+	int x = 0, y = 0;
+	bool rowHasContent = false;
+	for (int i = 1; i < row; i++)
+	{
 		for (y = 0; y < totalSheet.height; y++)
 		{
 			for (x = 0; x < totalSheet.width; x++)
 			{
-				if (!ColorIsEqual(pixels[y * totalSheet.width + x], transparent))
+				rowHasContent = false;
+				if (pixels[y * totalSheet.width + x].a != 0)
+				{
+					rowHasContent = true;
 					break;
+				}
 			}
-			if (!ColorIsEqual(pixels[y * totalSheet.width + x], transparent))
+			if (!rowHasContent)
+			{
 				break;
+			}
+		}
+		// at this point y is a row of blank pixels, so we passed the slice
+		// then we pass the content
+		for (y = 0; y < totalSheet.height; y++)
+		{
+			rowHasContent = false;
+			for (x = 0; x < totalSheet.width; x++)
+			{
+				if (pixels[y * totalSheet.width + x].a != 0)
+				{
+					rowHasContent = true;
+					break;
+				}
+			}
+			if (rowHasContent)
+			{
+				break;
+			}
 		}
 	}
-	else
+
+	int bottom;
+	for (bottom = y; bottom < totalSheet.height; bottom++)
 	{
-		// Use ImageAlphaCrop?
-
-		constexpr int BUF_SZ = 256;
-		char buf[BUF_SZ];
-		memset(buf, 0, sizeof(char) * BUF_SZ);
-
-		m_numBillboardFrames[id] = frames;
-		m_billboardAnimSpeed[id] = speed;
-
-		for (int i = 1; i <= frames; i++)
+		rowHasContent = false;
+		for (x = 0; x < totalSheet.width; x++)
 		{
-			snprintf(buf, sizeof(char) * BUF_SZ, animPath, i);
-			Image image = LoadImage(buf);
-			Rectangle rec;
-			rec.x = 112.0f;
-			rec.y = 74.0f;
-			rec.width = 170.0f - 112.0f;
-			rec.height = 128.0f - 74.0f;
-			image = ImageFromImage(image, rec);
-			m_billboardAnims[id][i - 1] = LoadTextureFromImage(image);
+			if (pixels[bottom * totalSheet.width + x].a != 0)
+			{
+				rowHasContent = true;
+				break;
+			}
+		}
+		if (!rowHasContent)
+		{
+			break;
+		}
+	}
+
+	int x2 = 0;
+	for (int i = 0; i <= frames; i++)
+	{
+		Rectangle rect;
+		rect.y = y;
+		rect.x = x2;
+		rect.height = bottom;
+
+		for (; x2 < totalSheet.width; x2++)
+		{
+			for (int y2 = 0; y2 < bottom; y2++)
+			{
+				rowHasContent = false;
+				if (pixels[y2 * totalSheet.width + x2].a != 0)
+				{
+					rowHasContent = true;
+					break;
+				}
+			}
+			if (!rowHasContent)
+				break;
+		}
+		rect.width = x2 - rect.x;
+
+		Image frame = ImageFromImage(totalSheet, rect);
+		m_billboardAnims[id][i] = LoadTextureFromImage(frame);
+
+		for (; x2 < totalSheet.width; x2++)
+		{
+			for (int y2 = 0; y2 < bottom; y2++)
+			{
+				rowHasContent = false;
+				if (pixels[y2 * totalSheet.width + x2].a != 0)
+				{
+					rowHasContent = true;
+					break;
+				}
+			}
+			if (rowHasContent)
+				break;
 		}
 	}
 }
