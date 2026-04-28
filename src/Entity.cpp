@@ -12,10 +12,11 @@
 #include "GameCamera.h"
 
 Entity::Entity(const char* modelPath, float scale,
-	bool spawn, bool isSphere, Vector3 pos)
+	bool spawn, bool isSphere, Vector3 pos, GameCamera* cam)
 	:
 	m_scale(scale),
-	m_spawned(spawn)
+	m_spawned(spawn),
+	m_cam(cam)
 {
 	if (modelPath != nullptr)
 		GeneralEntity::Init(modelPath, isSphere, pos);
@@ -118,8 +119,8 @@ void Entity::Draw()
 		Texture2D toDraw = m_billboardAnims[m_curAnim][m_animFrameCounter];
 		Rectangle source = { m_facingRight ? 0.0f : -10.0f, 0.0f, (float)toDraw.width, (float)toDraw.height };
 		Vector3 myPos = GetPos();
-		myPos.y += ((float)toDraw.height) / 4.0f;
 		Vector2 size = { m_scale * fabsf((float)source.width / source.height) * (m_facingRight ? 1.0f : -1.0f), m_scale };
+		myPos.y += size.y / 2;
 		DrawBillboardRec(m_cam->GetCamera(), toDraw, source, myPos, size, WHITE);
 	}
 }

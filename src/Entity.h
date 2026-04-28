@@ -30,7 +30,7 @@ class Entity : public GeneralEntity
 {
 public:
 	Entity(const char* modelPath, float scale,
-		bool spawn, bool isSphere = false, Vector3 pos = Vector3Zero());
+		bool spawn, bool isSphere = false, Vector3 pos = Vector3Zero(), GameCamera* cam = nullptr);
 	Entity(Mesh mesh, float scale,
 		bool spawn, bool isSphere = false, Vector3 pos = Vector3Zero());
 	virtual ~Entity() = default;
