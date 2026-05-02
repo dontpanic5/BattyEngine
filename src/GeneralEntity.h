@@ -29,6 +29,8 @@ public:
 	virtual bool CollisionCheck(BoundingBox bb);
 	virtual bool CollisionCheck(Vector3 pos, float radius);
 
+	virtual RayCollision GetRayCollision(Ray ray, bool addBuffer = false) const = 0;
+
 	Vector3 GetPos() const;
 	Quaternion	GetRot() const;
 

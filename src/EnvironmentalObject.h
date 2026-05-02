@@ -12,8 +12,6 @@ public:
 	virtual float getOverlapDistance(BoundingBox bb, Vector3 direction) const = 0;
 	virtual float getOverlapDistance(Vector3 center, float radius) const = 0;
 
-	virtual RayCollision GetRayCollision(Ray ray, bool addBuffer = false) const = 0;
-
 	virtual bool IsCollidable() const;
 
 protected:

@@ -64,6 +64,8 @@ public:
 
 	void RotateLocalEuler(Vector3 axis, float degrees, bool visuallyRot = true);
 
+	RayCollision GetRayCollision(Ray ray, bool addBuffer = false) const override;
+
 	virtual void HitByProjectile();
 
 	bool isDead() const;

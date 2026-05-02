@@ -122,6 +122,9 @@ void Entity::Draw()
 		Vector2 size = { m_scale * fabsf((float)source.width / source.height) * (m_facingRight ? 1.0f : -1.0f), m_scale };
 		myPos.y += size.y / 2;
 		DrawBillboardRec(m_cam->GetCamera(), toDraw, source, myPos, size, WHITE);
+#ifdef DEBUG
+		DrawSphereWires(myPos, 10.0f, 4, 6, GREEN);
+#endif // DEBUG
 	}
 }
 
@@ -373,6 +376,24 @@ void Entity::RotateLocalEuler(Vector3 axis, float degrees, bool visuallyRot)
 		SetAllRot(toSet);
 	else
 		m_rot = toSet;
+}
+
+RayCollision Entity::GetRayCollision(Ray ray, bool addBuffer) const
+{
+	if (!m_isBillboard)
+	{
+		// TODO
+#ifdef PLATFORM_DESKTOP
+		_ASSERT(false);
+#endif // PLATFORM_DESKTOP
+	}
+	else
+	{
+		float radius = 10.0f;
+		if (addBuffer)
+			radius += 5.0f;
+		return GetRayCollisionSphere(ray, GetPos(), radius);
+	}
 }
 
 void Entity::HitByProjectile()
