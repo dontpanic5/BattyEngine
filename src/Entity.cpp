@@ -166,9 +166,7 @@ void Entity::SetCamera(GameCamera* cam)
 
 void Entity::SetBillboardAnim(const char* animPath, int id, int frames, int speed)
 {
-#ifndef PLATFORM_WEB
-	_ASSERT(frames < MAX_BILLBOARD_FRAMES);
-#endif // !PLATFORM_WEB
+	BattyAssert(frames < MAX_BILLBOARD_FRAMES);
 
 	m_numBillboardFrames[id] = frames;
 	m_billboardAnimSpeed[id] = speed;
@@ -195,9 +193,7 @@ void Entity::SetBillboardAnim(const char* animPath, int id, int frames, int spee
 
 void Entity::SetBillboardSpritesheetAnim(const char* animPath, int id, int frames, int row, int speed)
 {
-#ifndef PLATFORM_WEB
-	_ASSERT(frames < MAX_BILLBOARD_FRAMES);
-#endif // !PLATFORM_WEB
+	BattyAssert(frames < MAX_BILLBOARD_FRAMES);
 
 	m_numBillboardFrames[id] = frames;
 	m_billboardAnimSpeed[id] = speed;
@@ -383,9 +379,7 @@ RayCollision Entity::GetRayCollision(Ray ray, bool addBuffer) const
 	if (!m_isBillboard)
 	{
 		// TODO
-#ifdef PLATFORM_DESKTOP
-		_ASSERT(false);
-#endif // PLATFORM_DESKTOP
+		BattyAssert(false);
 	}
 	else
 	{
@@ -446,9 +440,7 @@ void Entity::makeNoise(int id, float pitch, float volume)
 			placed = true;
 		}
 	}
-#if PLATFORM_DESKTOP
-	_ASSERT(placed);
-#endif // PLATFORM_DESKTOP
+	BattyAssert(placed);
 }
 
 void Entity::getCurNoises(int* ids, int& numNoises) const
@@ -563,14 +555,12 @@ void Entity::Animate(int& frame)
 void Entity::SetPos(Vector3 pos, bool setPrevPos)
 {
 	float myDist = Vector3Distance(pos, m_prevPos);
-#if PLATFORM_DESKTOP
-	_ASSERT(!isnan(pos.x));
-	_ASSERT(!isnan(pos.y));
-	_ASSERT(!isnan(pos.z));
-	_ASSERT(!isinf(pos.x));
-	_ASSERT(!isinf(pos.y));
-	_ASSERT(!isinf(pos.z));
-#endif // PLATFORM_DESKTOP
+	BattyAssert(!isnan(pos.x));
+	BattyAssert(!isnan(pos.y));
+	BattyAssert(!isnan(pos.z));
+	BattyAssert(!isinf(pos.x));
+	BattyAssert(!isinf(pos.y));
+	BattyAssert(!isinf(pos.z));
 	if (setPrevPos)
 		m_prevPos = m_pos;
 	m_pos = pos;
@@ -677,7 +667,7 @@ bool Entity::MoveOutOfBox(RayCollision rayCollision, float& overlap, Environment
 			m_velocity = newVelo;
 
 			if (envBb.max.y != 0.0f)
-				_ASSERT(!envObj.CollisionCheck(bb));
+				BattyAssert(!envObj.CollisionCheck(bb));
 		}
 
 		return true;

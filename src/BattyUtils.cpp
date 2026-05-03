@@ -345,3 +345,12 @@ int getFps()
 {
     return (int)roundf(1.0f / average);
 }
+
+void BattyAssert(bool assert)
+{
+#ifdef PLATFORM_DESKTOP
+    _ASSERT(assert);
+#elif
+    printf("ASSERT HIT\n");
+#endif
+}

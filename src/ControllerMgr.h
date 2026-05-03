@@ -154,9 +154,7 @@ public:
 		}
 
 		printf("error\n");
-#ifdef PLATFORM_DESKTOP
-		_ASSERT(false);
-#endif // PLATFORM_DESKTOP
+		BattyAssert(false);
 		return false;
 	}
 
@@ -173,9 +171,7 @@ public:
 		}
 
 		printf("error\n");
-#ifdef PLATFORM_DESKTOP
-		_ASSERT(false);
-#endif // PLATFORM_DESKTOP
+		BattyAssert(false);
 		return false;
 	}
 
@@ -192,9 +188,7 @@ public:
 		}
 
 		printf("error\n");
-#ifdef PLATFORM_DESKTOP
-		_ASSERT(false);
-#endif // PLATFORM_DESKTOP
+		BattyAssert(false);
 		return false;
 	}
 };
@@ -288,9 +282,7 @@ public:
 		}
 
 		printf("error\n");
-#ifdef PLATFORM_DESKTOP
-		_ASSERT(false);
-#endif // PLATFORM_DESKTOP
+		BattyAssert(false);
 		return false;
 	}
 
@@ -342,9 +334,7 @@ public:
 		}
 
 		printf("error\n");
-#ifdef PLATFORM_DESKTOP
-		_ASSERT(false);
-#endif // PLATFORM_DESKTOP
+		BattyAssert(false);
 		return false;
 	}
 
@@ -361,9 +351,7 @@ public:
 		}
 
 		printf("error\n");
-#ifdef PLATFORM_DESKTOP
-		_ASSERT(false);
-#endif // PLATFORM_DESKTOP
+		BattyAssert(false);
 		return false;
 	}
 
@@ -380,9 +368,7 @@ public:
 		}
 
 		printf("error\n");
-#ifdef PLATFORM_DESKTOP
-		_ASSERT(false);
-#endif // PLATFORM_DESKTOP
+		BattyAssert(false);
 		return false;
 	}
 
@@ -404,9 +390,7 @@ public:
 		}
 
 		printf("error\n");
-#ifdef PLATFORM_DESKTOP
-		_ASSERT(false);
-#endif // PLATFORM_DESKTOP
+		BattyAssert(false);
 		return nullptr;
 	}
 
@@ -447,9 +431,7 @@ public:
 		}
 
 		printf("error\n");
-#ifdef PLATFORM_DESKTOP
-		_ASSERT(false);
-#endif // PLATFORM_DESKTOP
+		BattyAssert(false);
 		return false;
 	}
 
@@ -471,9 +453,7 @@ public:
 		}
 
 		printf("error\n");
-#ifdef PLATFORM_DESKTOP
-		_ASSERT(false);
-#endif // PLATFORM_DESKTOP
+		BattyAssert(false);
 		return nullptr;
 	}
 

@@ -1,5 +1,6 @@
 #include <cstring>
 #include "BattyEngine.h"
+#include "BattyUtils.h"
 #include "Ui.h"
 #include "Menu.h"
 #include "Button.h"
@@ -96,10 +97,7 @@ bool Menu::ProcessInput(Input input)
 		return true;
 		break;
 	default:
-#ifdef PLATFORM_DESKTOP
-				// never should have come here!
-		_STATIC_ASSERT(true);
-#endif // PLATFORM_DESKTOP
+		BattyAssert(false);
 		return false;
 		break;
 	}

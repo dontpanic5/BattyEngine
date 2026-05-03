@@ -29,4 +29,6 @@ bool equalWithinTolerance(float x, float y);
 void setLastFrame(double frame);
 int getFps();
 
+void BattyAssert(bool assert);
+
 #endif // !UTILS_H_INCLUDED

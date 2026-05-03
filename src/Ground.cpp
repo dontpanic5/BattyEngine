@@ -37,9 +37,7 @@ RayCollision Ground::GetRayCollision(Ray ray, bool) const
 float Ground::getOverlapDistance(BoundingBox bb, Vector3 direction) const
 {
 	float toRet = GetOverlapDistanceBoxBox(GetBoundingBox(), bb, direction);
-#ifdef PLATFORM_DESKTOP
-	_ASSERT(!isnan(toRet));
-#endif
+	BattyAssert(!isnan(toRet));
 	return toRet;
 }
 
