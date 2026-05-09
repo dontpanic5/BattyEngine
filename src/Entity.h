@@ -66,7 +66,7 @@ public:
 
 	RayCollision GetRayCollision(Ray ray, bool addBuffer = false) const override;
 
-	virtual void HitByProjectile();
+	virtual void BeAttacked();
 
 	bool isDead() const;
 	bool isSpawned() const;

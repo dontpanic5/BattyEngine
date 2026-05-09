@@ -390,8 +390,9 @@ RayCollision Entity::GetRayCollision(Ray ray, bool addBuffer) const
 	}
 }
 
-void Entity::HitByProjectile()
+void Entity::BeAttacked()
 {
+	Die();
 }
 
 bool Entity::isDead() const
