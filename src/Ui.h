@@ -19,6 +19,8 @@ void DrawTextBorder(const char* text, int posX, int posY, FontSize fontSize, Col
 void DrawUiText(const char* text, float relX, float relY, FontSize fontSize,
 	bool bg = true, Color color = RED, Font* font = nullptr);
 
+void DrawHealthBar(Vector2 pos, float amt);
+
 void DrawOrb(int centerX, int centerY, float amt, Color color, float line = -1.f);
 
 void DrawFps();

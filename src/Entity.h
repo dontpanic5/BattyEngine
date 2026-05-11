@@ -39,6 +39,7 @@ public:
 	// all the movement and stuff before the parent method
 	// is called.
 	virtual void UpdateEntity(bool doNotMove = false, bool doNotAnimation = false);
+
 	virtual void Draw() override;
 
 	virtual void SpawnEntity();
@@ -48,7 +49,7 @@ public:
 
 	void		SetBillboardAnim(const char* animPath, int id, int frames, int speed = 1);
 	void		SetBillboardSpritesheetAnim(const char* animPath, int id, int frames, int row, int speed = 1);
-	void		SetCurAnim(int animNum);
+	void		SetCurAnim(int animNum, bool loop = true);
 
 	virtual Vector3 GetCamPos() const;
 	bool		DidMove() const;
@@ -66,7 +67,9 @@ public:
 
 	RayCollision GetRayCollision(Ray ray, bool addBuffer = false) const override;
 
-	virtual void BeAttacked();
+	// 1 is a simple default to say "damage was done". If an attack doesn't have a
+	// damage amount, no damage needs to be passed and it will use the default.
+	virtual void BeAttacked(int damage = 1);
 
 	bool isDead() const;
 	bool isSpawned() const;

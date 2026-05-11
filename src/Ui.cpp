@@ -73,6 +73,28 @@ void DrawUiText(const char* text, float relX, float relY, FontSize fontSize,
 	DrawTextEx(*font, text, { (float)posX, (float)posY }, (float) actualFontSize, actualFontSize / SPACING, color);
 }
 
+void DrawHealthBar(Vector2 pos, float amt)
+{
+    float barWidth = 100.0f;
+    float barHeight = 15.0f;
+
+    pos.y -= 120.0f;
+    pos.x -= barWidth / 2.0f;
+
+    BeginScissorMode(
+        pos.x,
+        pos.y,
+        barWidth * amt,
+        barHeight
+    );
+    {
+        DrawRectangleV(pos, { barWidth, barHeight}, RED);
+    }
+    EndScissorMode();
+
+    DrawRectangleLines((int) pos.x, (int) pos.y, barWidth, barHeight, RED);
+}
+
 void DrawOrb(int centerX, int centerY, float amt, Color color, float line)
 {
     float radius = (float) (GetRenderWidth() / 20);

@@ -306,8 +306,10 @@ void Entity::SetBillboardSpritesheetAnim(const char* animPath, int id, int frame
 	}
 }
 
-void Entity::SetCurAnim(int animNum)
+void Entity::SetCurAnim(int animNum, bool loop)
 {
+	m_animLoop = loop;
+
 	if (m_curAnim == animNum)
 		return;
 
@@ -390,9 +392,10 @@ RayCollision Entity::GetRayCollision(Ray ray, bool addBuffer) const
 	}
 }
 
-void Entity::BeAttacked()
+void Entity::BeAttacked(int damage)
 {
-	Die();
+	if (damage > 0)
+		Die();
 }
 
 bool Entity::isDead() const
