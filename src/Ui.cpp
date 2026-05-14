@@ -92,7 +92,7 @@ void DrawHealthBar(Vector2 pos, float amt)
     }
     EndScissorMode();
 
-    DrawRectangleLines((int) pos.x, (int) pos.y, barWidth, barHeight, RED);
+    DrawRectangleLines((int) pos.x, (int) pos.y, barWidth, barHeight, WHITE);
 }
 
 void DrawOrb(int centerX, int centerY, float amt, Color color, float line)
