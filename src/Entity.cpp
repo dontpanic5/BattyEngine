@@ -542,13 +542,6 @@ void Entity::Animate(int& frame)
 				reset = true;
 		}
 
-		// if it's time to reset and we don't want to reset, leave early
-		if (reset && !m_resetToFirstAnimFrame)
-		{
-			m_curAnim = -1;
-			return;
-		}
-
 		if (reset)
 		{
 			m_curAnim = -1;
