@@ -492,7 +492,10 @@ void Entity::Animate(Model mdl, int& frame)
 		bool reset = false;
 
 		if (
-			frame >= m_anims->m_anims[m_curAnim].frameCount ||
+			// the animation struct used to have a field called frameCount or
+			// something like that but it got removed and now it's keyframeCount.
+			// I guess we'll use keyframeCount, this is untested.
+			frame >= m_anims->m_anims[m_curAnim].keyframeCount ||
 			(m_animFrameToStopAt != -1 && frame >= m_animFrameToStopAt)
 			)
 		{
@@ -508,7 +511,7 @@ void Entity::Animate(Model mdl, int& frame)
  			return;
 		}
 
-		UpdateModelAnimationBones(mdl, m_anims->m_anims[m_curAnim], frame);
+		UpdateModelAnimation(mdl, m_anims->m_anims[m_curAnim], (float) frame);
 
 		if (reset)
 		{

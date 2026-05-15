@@ -40,10 +40,7 @@ void AnimationMgr::Unload()
 {
 	for (auto& animW : m_animations)
 	{
-		for (int i = 0; i < animW.second.m_numOfAnims; i++)
-		{
-			UnloadModelAnimation(animW.second.m_anims[i]);
-		}
+        UnloadModelAnimations(animW.second.m_anims, animW.second.m_numOfAnims);
 
 #ifndef PLATFORM_WEB
 #pragma warning(push)
