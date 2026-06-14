@@ -191,6 +191,7 @@ void Entity::SetBillboardAnim(const char* animPath, int id, int frames, int spee
 	}
 }
 
+// TODO: this needs to account for facing different directions
 void Entity::SetBillboardSpritesheetAnim(const char* animPath, int id, int frames, int row, int speed)
 {
 	BattyAssert(frames < MAX_BILLBOARD_FRAMES);
