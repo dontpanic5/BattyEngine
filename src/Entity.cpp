@@ -114,7 +114,7 @@ void Entity::Draw()
 			DrawBoundingBox(GetBoundingBox(), GREEN);
 #endif // DEBUG
 	}
-	else
+	else if (m_curAnim >= 0)
 	{
 		Texture2D toDraw = m_billboardAnims[m_curAnim][m_animFrameCounter];
 		Rectangle source = { m_facingRight ? 0.0f : -10.0f, 0.0f, (float)toDraw.width, (float)toDraw.height };
