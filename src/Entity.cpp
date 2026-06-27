@@ -56,8 +56,12 @@ Entity::Entity(Mesh mesh, float scale,
 
 void Entity::UpdateEntity(bool doNotMove, bool doNotAnimate)
 {
+	m_didMove = false;
+
 	if (!m_spawned)
 		return;
+
+	ChildUpdateEntity(doNotMove);
 
 	if (!m_isBillboard)
 	{
@@ -73,9 +77,8 @@ void Entity::UpdateEntity(bool doNotMove, bool doNotAnimate)
 
 		if (DidMove())
 		{
-			// TODO decide what direction to use. Perhaps use velocity? Also need to take camera into account
-			// get the vector from the camera, compare to velocity
-			float angle = Vector3Angle(GetPos() - m_cam->GetPosition(), m_velocity);
+			// TODO flatten this to vector2s
+			float angle = Vector3Angle(GetPos() - m_cam->GetPosition(), GetPos() - m_prevPos);
 			
 			if (angle >= -PI && angle <= -PI / 2.0f)
 			{
@@ -341,9 +344,7 @@ Vector3 Entity::GetCamPos() const
 
 bool Entity::DidMove() const
 {
-	float magnitude = Vector3Distance(GetPos(), m_prevPos);
-	bool didMove = magnitude > 0.3f;
-	return didMove;
+	return m_didMove;
 }
 
 float Entity::GetScale() const
@@ -580,6 +581,9 @@ void Entity::SetPos(Vector3 pos, bool setPrevPos)
 	BattyAssert(!isinf(pos.z));
 	if (setPrevPos)
 		m_prevPos = m_pos;
+	float newDist = Vector3Distance(m_pos, pos);
+	if (newDist > 0.3f)
+		m_didMove = true;
 	m_pos = pos;
 
 	SetTransformAndBb(m_scale, m_anims != nullptr);
@@ -654,6 +658,12 @@ RayCollision Entity::ResolveCollision(EnvironmentalObject& envObj)
 		return pointToPointRayCollision;
 	else
 		return velocityRayCollision;
+}
+
+void Entity::ChildUpdateEntity(bool doNotMove)
+{
+	// do nothing
+	(void) doNotMove;
 }
 
 // TODO envObj should be const but CollisionCheck needs to be const first

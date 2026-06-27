@@ -38,7 +38,7 @@ public:
 	// NOTE: makes the assumption that the child will resolve
 	// all the movement and stuff before the parent method
 	// is called.
-	virtual void UpdateEntity(bool doNotMove = false, bool doNotAnimation = false);
+	void UpdateEntity(bool doNotMove = false, bool doNotAnimation = false);
 
 	virtual void Draw() override;
 
@@ -97,6 +97,8 @@ protected:
 
 	RayCollision ResolveCollision(EnvironmentalObject& envObj);
 
+	virtual void ChildUpdateEntity(bool doNotMove = false);
+
 	static constexpr int MAX_BILLBOARD_ANIMS = 8;
 	static constexpr int BILLBOARD_DIRECTIONS = 4;
 	static constexpr int MAX_BILLBOARD_FRAMES = 64;
@@ -125,6 +127,7 @@ protected:
 	float			m_scale = 1.0f;
 
 	Vector3			m_prevPos		= {0.0f, 0.0f, 0.0f};
+	bool			m_didMove		= false;
 	Vector3			m_velocity		= Vector3Zero();
 	Quaternion		m_prevVisualRot	= QuaternionIdentity();
 
