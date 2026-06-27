@@ -47,8 +47,10 @@ public:
 
 	void SetCamera(GameCamera* cam);
 
+	// This one grabs each frame from a separate file
 	void		SetBillboardAnim(const char* animPath, int id, int frames, int speed = 1);
-	void		SetBillboardSpritesheetAnim(const char* animPath, int id, int frames, int row, int speed = 1);
+	// This one uses a spritesheet
+	void		SetBillboardSpritesheetAnim(const char* animPath, int id, int frames, int speed = 1);
 	void		SetCurAnim(int animNum, bool loop = true);
 
 	virtual Vector3 GetCamPos() const;
@@ -96,12 +98,20 @@ protected:
 	RayCollision ResolveCollision(EnvironmentalObject& envObj);
 
 	static constexpr int MAX_BILLBOARD_ANIMS = 8;
+	static constexpr int BILLBOARD_DIRECTIONS = 4;
 	static constexpr int MAX_BILLBOARD_FRAMES = 64;
-	Texture2D		m_billboardAnims[MAX_BILLBOARD_ANIMS][MAX_BILLBOARD_FRAMES];
+	Texture2D		m_billboardAnims[MAX_BILLBOARD_ANIMS][BILLBOARD_DIRECTIONS][MAX_BILLBOARD_FRAMES];
 	int				m_numBillboardFrames[MAX_BILLBOARD_ANIMS];
 	int				m_billboardAnimSpeed[MAX_BILLBOARD_ANIMS];
 
-	bool			m_facingRight			= true;
+	enum class BILLBOARD_DIR
+	{
+		FRONT_RIGHT,
+		FRONT_LEFT,
+		BACK_RIGHT,
+		BACK_LEFT,
+	};
+	BILLBOARD_DIR m_billboardDir = BILLBOARD_DIR::FRONT_RIGHT;
 
 	GameCamera*		m_cam;
 

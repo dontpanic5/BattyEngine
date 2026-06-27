@@ -73,14 +73,25 @@ void Entity::UpdateEntity(bool doNotMove, bool doNotAnimate)
 
 		if (DidMove())
 		{
-			Vector3 calcPos = GetPos() - m_cam->GetPosition();
-			Vector2 pos = { calcPos.x, calcPos.z };
-			Vector3 calcPrevPos = m_prevPos - m_cam->GetPosition();
-			Vector2 prevPos = { calcPrevPos.x, calcPrevPos.z };
-			float angle = Vector2Angle(prevPos, pos);
-			if (fabs(angle) > 0.001f)
+			// TODO decide what direction to use. Perhaps use velocity? Also need to take camera into account
+			// get the vector from the camera, compare to velocity
+			float angle = Vector3Angle(GetPos() - m_cam->GetPosition(), m_velocity);
+			
+			if (angle >= -PI && angle <= -PI / 2.0f)
 			{
-				m_facingRight = Vector2Angle(prevPos, pos) > 0;
+				m_billboardDir = BILLBOARD_DIR::FRONT_LEFT;
+			}
+			else if (angle > -PI / 2.0f && angle <= 0.0f)
+			{
+				m_billboardDir = BILLBOARD_DIR::BACK_LEFT;
+			}
+			else if (angle > 0.0f && angle <= PI / 2.0f)
+			{
+				m_billboardDir = BILLBOARD_DIR::BACK_RIGHT;
+			}
+			else
+			{
+				m_billboardDir = BILLBOARD_DIR::FRONT_RIGHT;
 			}
 		}
 	}
@@ -116,12 +127,11 @@ void Entity::Draw()
 	}
 	else if (m_curAnim >= 0)
 	{
-		Texture2D toDraw = m_billboardAnims[m_curAnim][m_animFrameCounter];
-		Rectangle source = { m_facingRight ? 0.0f : -10.0f, 0.0f, (float)toDraw.width, (float)toDraw.height };
+		Texture2D toDraw = m_billboardAnims[m_curAnim][(int) m_billboardDir][m_animFrameCounter];
+
 		Vector3 myPos = GetPos();
-		Vector2 size = { m_scale * fabsf((float)source.width / source.height) * (m_facingRight ? 1.0f : -1.0f), m_scale };
-		myPos.y += size.y / 2;
-		DrawBillboardRec(m_cam->GetCamera(), toDraw, source, myPos, size, WHITE);
+		myPos.y += toDraw.height * 2;
+		DrawBillboard(m_cam->GetCamera(), toDraw, myPos, m_scale, WHITE);
 #ifdef DEBUG
 		DrawSphereWires(myPos, 10.0f, 4, 6, GREEN);
 #endif // DEBUG
@@ -164,6 +174,7 @@ void Entity::SetCamera(GameCamera* cam)
 	m_cam = cam;
 }
 
+// This one grabs each frame from a separate file
 void Entity::SetBillboardAnim(const char* animPath, int id, int frames, int speed)
 {
 	BattyAssert(frames < MAX_BILLBOARD_FRAMES);
@@ -187,12 +198,14 @@ void Entity::SetBillboardAnim(const char* animPath, int id, int frames, int spee
 		rec.width = 170.0f - 112.0f;
 		rec.height = 128.0f - 74.0f;
 		image = ImageFromImage(image, rec);
-		m_billboardAnims[id][i - 1] = LoadTextureFromImage(image);
+		// for now, assume this one doesn't use directions
+		m_billboardAnims[id][0][i - 1] = LoadTextureFromImage(image);
 	}
 }
 
+// This one uses a spritesheet
 // TODO: this needs to account for facing different directions
-void Entity::SetBillboardSpritesheetAnim(const char* animPath, int id, int frames, int row, int speed)
+void Entity::SetBillboardSpritesheetAnim(const char* animPath, int id, int frames, int speed)
 {
 	BattyAssert(frames < MAX_BILLBOARD_FRAMES);
 
@@ -207,14 +220,53 @@ void Entity::SetBillboardSpritesheetAnim(const char* animPath, int id, int frame
 
 	int x = 0, y = 0;
 	bool rowHasContent = false;
-	for (int i = 1; i < row; i++)
+	//for (int i = 1; i < row; i++)
+	//{
+	//	for (y = 0; y < totalSheet.height; y++)
+	//	{
+	//		for (x = 0; x < totalSheet.width; x++)
+	//		{
+	//			rowHasContent = false;
+	//			if (pixels[y * totalSheet.width + x].a != 0)
+	//			{
+	//				rowHasContent = true;
+	//				break;
+	//			}
+	//		}
+	//		if (!rowHasContent)
+	//		{
+	//			break;
+	//		}
+	//	}
+	//	// at this point y is a row of blank pixels, so we passed the slice
+	//	// then we pass the content
+	//	for (y = 0; y < totalSheet.height; y++)
+	//	{
+	//		rowHasContent = false;
+	//		for (x = 0; x < totalSheet.width; x++)
+	//		{
+	//			if (pixels[y * totalSheet.width + x].a != 0)
+	//			{
+	//				rowHasContent = true;
+	//				break;
+	//			}
+	//		}
+	//		if (rowHasContent)
+	//		{
+	//			break;
+	//		}
+	//	}
+	//}
+
+	for (int direction = 0; direction < BILLBOARD_DIRECTIONS; direction++)
 	{
-		for (y = 0; y < totalSheet.height; y++)
+		int bottom;
+		for (bottom = y; bottom < totalSheet.height; bottom++)
 		{
+			rowHasContent = false;
 			for (x = 0; x < totalSheet.width; x++)
 			{
-				rowHasContent = false;
-				if (pixels[y * totalSheet.width + x].a != 0)
+				if (pixels[bottom * totalSheet.width + x].a != 0)
 				{
 					rowHasContent = true;
 					break;
@@ -225,46 +277,9 @@ void Entity::SetBillboardSpritesheetAnim(const char* animPath, int id, int frame
 				break;
 			}
 		}
-		// at this point y is a row of blank pixels, so we passed the slice
-		// then we pass the content
-		for (y = 0; y < totalSheet.height; y++)
-		{
-			rowHasContent = false;
-			for (x = 0; x < totalSheet.width; x++)
-			{
-				if (pixels[y * totalSheet.width + x].a != 0)
-				{
-					rowHasContent = true;
-					break;
-				}
-			}
-			if (rowHasContent)
-			{
-				break;
-			}
-		}
-	}
 
-	int bottom;
-	for (bottom = y; bottom < totalSheet.height; bottom++)
-	{
-		rowHasContent = false;
-		for (x = 0; x < totalSheet.width; x++)
-		{
-			if (pixels[bottom * totalSheet.width + x].a != 0)
-			{
-				rowHasContent = true;
-				break;
-			}
-		}
-		if (!rowHasContent)
-		{
-			break;
-		}
-	}
-
-	int x2 = 0;
-	for (int i = 0; i <= frames; i++)
+		int x2 = 0;
+		for (int i = 0; i <= frames; i++)
 	{
 		Rectangle rect;
 		rect.y = y;
@@ -288,7 +303,7 @@ void Entity::SetBillboardSpritesheetAnim(const char* animPath, int id, int frame
 		rect.width = x2 - rect.x;
 
 		Image frame = ImageFromImage(totalSheet, rect);
-		m_billboardAnims[id][i] = LoadTextureFromImage(frame);
+		m_billboardAnims[id][direction][i] = LoadTextureFromImage(frame);
 
 		for (; x2 < totalSheet.width; x2++)
 		{
@@ -304,6 +319,7 @@ void Entity::SetBillboardSpritesheetAnim(const char* animPath, int id, int frame
 			if (rowHasContent)
 				break;
 		}
+	}
 	}
 }
 
@@ -469,7 +485,7 @@ void Entity::SetUid(int uid)
 
 void Entity::Init()
 {
-	memset(m_billboardAnims, 0, sizeof(Texture2D*) * MAX_BILLBOARD_ANIMS * MAX_BILLBOARD_FRAMES);
+	memset(m_billboardAnims, 0, sizeof(Texture2D*) * MAX_BILLBOARD_ANIMS * BILLBOARD_DIRECTIONS * MAX_BILLBOARD_FRAMES);
 	memset(m_numBillboardFrames, 0, sizeof(int) * MAX_BILLBOARD_ANIMS);
 
 	memset(m_noiseCancelSets, -1, sizeof(int) * m_MAX_NOISE_CANCEL_SETS * m_MAX_NOISE_CANCEL_SET_SZ);
