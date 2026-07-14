@@ -78,7 +78,11 @@ void Entity::UpdateEntity(bool doNotMove, bool doNotAnimate)
 		if (DidMove())
 		{
 			// TODO flatten this to vector2s
-			float angle = Vector3Angle(GetPos() - m_cam->GetPosition(), GetPos() - m_prevPos);
+			Vector3 camToEntity = GetPos() - m_cam->GetPosition();
+			Vector2 flattenedCamToEntity = { camToEntity.x, camToEntity.z };
+			Vector3 velocity = GetPos() - m_prevPos;
+			Vector2 flattenedVelocity = { velocity.x, velocity.z };
+			float angle = Vector2Angle(flattenedCamToEntity, flattenedVelocity);
 			
 			if (angle >= -PI && angle <= -PI / 2.0f)
 			{
@@ -130,7 +134,10 @@ void Entity::Draw()
 	}
 	else if (m_curAnim >= 0)
 	{
-		Texture2D toDraw = m_billboardAnims[m_curAnim][(int) m_billboardDir][m_animFrameCounter];
+		int dir = m_billboardAnimDirs[m_curAnim] > (int)m_billboardDir ?
+				(int) m_billboardDir : 0;
+
+		Texture2D toDraw = m_billboardAnims[m_curAnim][dir][m_animFrameCounter];
 
 		Vector3 myPos = GetPos();
 		myPos.y += toDraw.height * 2;
@@ -221,7 +228,7 @@ void Entity::SetBillboardSpritesheetAnim(const char* animPath, int id, int frame
 	ImageAlphaCrop(&totalSheet, 0.0f);
 	Color* pixels = LoadImageColors(totalSheet);
 
-	int x = 0, y = 0;
+	int y = 0;
 	bool rowHasContent = false;
 	//for (int i = 1; i < row; i++)
 	//{
@@ -263,66 +270,101 @@ void Entity::SetBillboardSpritesheetAnim(const char* animPath, int id, int frame
 
 	for (int direction = 0; direction < BILLBOARD_DIRECTIONS; direction++)
 	{
+		// there's no more directions to grab
+		if (y >= totalSheet.height)
+		{
+			break;
+		}
+
+		// count to the bottom of the current sprites we're looking at
 		int bottom;
 		for (bottom = y; bottom < totalSheet.height; bottom++)
 		{
 			rowHasContent = false;
-			for (x = 0; x < totalSheet.width; x++)
+			for (int x = 0; x < totalSheet.width; x++)
 			{
 				if (pixels[bottom * totalSheet.width + x].a != 0)
 				{
+					// this row is part of the sprites
 					rowHasContent = true;
 					break;
 				}
 			}
+			// this is a blank row, we're done
 			if (!rowHasContent)
 			{
 				break;
 			}
 		}
 
+		// now we snip each frame individually
 		int x2 = 0;
 		for (int i = 0; i <= frames; i++)
-	{
-		Rectangle rect;
-		rect.y = y;
-		rect.x = x2;
-		rect.height = bottom;
-
-		for (; x2 < totalSheet.width; x2++)
 		{
-			for (int y2 = 0; y2 < bottom; y2++)
+			Rectangle rect;
+			rect.y = y;
+			rect.x = x2;
+			rect.height = bottom - y;
+
+			for (; x2 < totalSheet.width; x2++)
+			{
+				bool columnHasContent = false;
+				for (int y2 = 0; y2 < bottom; y2++)
+				{
+					if (pixels[y2 * totalSheet.width + x2].a != 0)
+					{
+						columnHasContent = true;
+						break;
+					}
+				}
+				if (!columnHasContent)
+					break;
+			}
+			rect.width = x2 - rect.x;
+
+			Image frame = ImageFromImage(totalSheet, rect);
+			m_billboardAnims[id][direction][i] = LoadTextureFromImage(frame);
+
+			// go through the white space after
+			for (; x2 < totalSheet.width; x2++)
+			{
+				bool columnHasContent = false;
+				for (int y2 = 0; y2 < bottom; y2++)
+				{
+					if (pixels[y2 * totalSheet.width + x2].a != 0)
+					{
+						columnHasContent = true;
+						break;
+					}
+				}
+				if (columnHasContent)
+					break;
+			}
+		}
+
+		// go through the white space on the bottom of that row if we're not
+		// at the end. Then set y to where the white space ends.
+		for (y = bottom; y < totalSheet.height; y++)
+		{
 			{
 				rowHasContent = false;
-				if (pixels[y2 * totalSheet.width + x2].a != 0)
+				for (int x = 0; x < totalSheet.width; x++)
 				{
-					rowHasContent = true;
+					if (pixels[y * totalSheet.width + x].a != 0)
+					{
+						rowHasContent = true;
+						break;
+					}
+				}
+				if (rowHasContent)
+				{
 					break;
 				}
 			}
-			if (!rowHasContent)
-				break;
 		}
-		rect.width = x2 - rect.x;
 
-		Image frame = ImageFromImage(totalSheet, rect);
-		m_billboardAnims[id][direction][i] = LoadTextureFromImage(frame);
-
-		for (; x2 < totalSheet.width; x2++)
-		{
-			for (int y2 = 0; y2 < bottom; y2++)
-			{
-				rowHasContent = false;
-				if (pixels[y2 * totalSheet.width + x2].a != 0)
-				{
-					rowHasContent = true;
-					break;
-				}
-			}
-			if (rowHasContent)
-				break;
-		}
-	}
+		// we finished, set this now
+		m_billboardAnimDirs[id] = direction + 1;
 	}
 }
 
@@ -488,6 +530,7 @@ void Entity::Init()
 {
 	memset(m_billboardAnims, 0, sizeof(Texture2D*) * MAX_BILLBOARD_ANIMS * BILLBOARD_DIRECTIONS * MAX_BILLBOARD_FRAMES);
 	memset(m_numBillboardFrames, 0, sizeof(int) * MAX_BILLBOARD_ANIMS);
+	memset(m_billboardAnimDirs, 0, sizeof(int) * BILLBOARD_DIRECTIONS);
 
 	memset(m_noiseCancelSets, -1, sizeof(int) * m_MAX_NOISE_CANCEL_SETS * m_MAX_NOISE_CANCEL_SET_SZ);
 

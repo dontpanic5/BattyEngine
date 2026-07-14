@@ -105,6 +105,8 @@ protected:
 	Texture2D		m_billboardAnims[MAX_BILLBOARD_ANIMS][BILLBOARD_DIRECTIONS][MAX_BILLBOARD_FRAMES];
 	int				m_numBillboardFrames[MAX_BILLBOARD_ANIMS];
 	int				m_billboardAnimSpeed[MAX_BILLBOARD_ANIMS];
+	// how many directions for each animation. Some only have 1 rather than 4
+	int				m_billboardAnimDirs[MAX_BILLBOARD_ANIMS];
 
 	enum class BILLBOARD_DIR
 	{
