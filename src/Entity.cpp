@@ -77,7 +77,6 @@ void Entity::UpdateEntity(bool doNotMove, bool doNotAnimate)
 
 		if (DidMove())
 		{
-			// TODO flatten this to vector2s
 			Vector3 camToEntity = GetPos() - m_cam->GetPosition();
 			Vector2 flattenedCamToEntity = { camToEntity.x, camToEntity.z };
 			Vector3 velocity = GetPos() - m_prevPos;
