@@ -138,11 +138,12 @@ void Entity::Draw()
 
 		Texture2D toDraw = m_billboardAnims[m_curAnim][dir][m_animFrameCounter];
 
-		Vector3 myPos = GetPos();
-		myPos.y += toDraw.height * 2;
-		DrawBillboard(m_cam->GetCamera(), toDraw, myPos, m_scale, WHITE);
+		m_center = { GetPos().x, GetPos().y + toDraw.height * 2, GetPos().z };
+		DrawBillboard(m_cam->GetCamera(), toDraw, m_center, m_scale, WHITE);
 #ifdef DEBUG
-		DrawSphereWires(myPos, 10.0f, 4, 6, GREEN);
+		// TODO 10 is a magic number also used in screen space click logic for
+		// attacking
+		DrawSphereWires(m_center, 10.0f, 4, 6, GREEN);
 #endif // DEBUG
 	}
 }
@@ -444,10 +445,8 @@ RayCollision Entity::GetRayCollision(Ray ray, bool addBuffer) const
 	}
 	else
 	{
-		float radius = 10.0f;
-		if (addBuffer)
-			radius += 5.0f;
-		return GetRayCollisionSphere(ray, GetPos(), radius);
+		// TODO 10 is a magic number also used in draw function
+		return GetRayCollisionSphere(ray, m_center, 10.0f);
 	}
 }
 

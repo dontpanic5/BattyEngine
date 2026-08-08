@@ -149,6 +149,8 @@ private:
 		EnvironmentalObject& envObj,
 		Ray ray
 	);
+
+	Vector3 m_center;
 };
 
 #endif // !ENTITY_H_INCLUDED
