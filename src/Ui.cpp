@@ -78,7 +78,6 @@ void DrawHealthBar(Vector2 pos, float amt)
     float barWidth = 100.0f;
     float barHeight = 15.0f;
 
-    pos.y -= 120.0f;
     pos.x -= barWidth / 2.0f;
 
     BeginScissorMode(

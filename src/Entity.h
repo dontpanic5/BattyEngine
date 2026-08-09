@@ -142,6 +142,9 @@ protected:
 	constexpr static int m_MAX_NOISE_CANCEL_SET_SZ = 8;
 	int				m_noiseCancelSets[m_MAX_NOISE_CANCEL_SETS][m_MAX_NOISE_CANCEL_SET_SZ];
 
+	// TODO just throwing a magic number in here for now. This is obviously terrible
+	float			m_billboardHeight = 33.0f;
+
 private:
 	bool MoveOutOfBox(
 		RayCollision rayCollision,
@@ -149,8 +152,6 @@ private:
 		EnvironmentalObject& envObj,
 		Ray ray
 	);
-
-	Vector3 m_center;
 };
 
 #endif // !ENTITY_H_INCLUDED

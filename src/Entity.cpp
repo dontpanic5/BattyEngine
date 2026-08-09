@@ -83,15 +83,15 @@ void Entity::UpdateEntity(bool doNotMove, bool doNotAnimate)
 			Vector2 flattenedVelocity = { velocity.x, velocity.z };
 			float angle = Vector2Angle(flattenedCamToEntity, flattenedVelocity);
 			
-			if (angle >= -PI && angle <= -PI / 2.0f)
+			if (angle >= -PI && angle <= -PI / 3.0f)
 			{
 				m_billboardDir = BILLBOARD_DIR::FRONT_LEFT;
 			}
-			else if (angle > -PI / 2.0f && angle <= 0.0f)
+			else if (angle > -PI / 3.0f && angle <= 0.0f)
 			{
 				m_billboardDir = BILLBOARD_DIR::BACK_LEFT;
 			}
-			else if (angle > 0.0f && angle <= PI / 2.0f)
+			else if (angle > 0.0f && angle <= PI / 3.0f)
 			{
 				m_billboardDir = BILLBOARD_DIR::BACK_RIGHT;
 			}
@@ -138,12 +138,13 @@ void Entity::Draw()
 
 		Texture2D toDraw = m_billboardAnims[m_curAnim][dir][m_animFrameCounter];
 
-		m_center = { GetPos().x, GetPos().y + toDraw.height * 2, GetPos().z };
-		DrawBillboard(m_cam->GetCamera(), toDraw, m_center, m_scale, WHITE);
+		Vector3 middle = GetPos();
+		middle.y += m_billboardHeight / 2;
+		DrawBillboard(m_cam->GetCamera(), toDraw, middle, m_scale, WHITE);
 #ifdef DEBUG
 		// TODO 10 is a magic number also used in screen space click logic for
 		// attacking
-		DrawSphereWires(m_center, 10.0f, 4, 6, GREEN);
+		DrawSphereWires(middle, 10.0f, 4, 6, GREEN);
 #endif // DEBUG
 	}
 }
@@ -323,6 +324,7 @@ void Entity::SetBillboardSpritesheetAnim(const char* animPath, int id, int frame
 			rect.width = x2 - rect.x;
 
 			Image frame = ImageFromImage(totalSheet, rect);
+			ImageAlphaCrop(&frame, 0.0f);
 			m_billboardAnims[id][direction][i] = LoadTextureFromImage(frame);
 
 			// go through the white space after
@@ -446,7 +448,9 @@ RayCollision Entity::GetRayCollision(Ray ray, bool addBuffer) const
 	else
 	{
 		// TODO 10 is a magic number also used in draw function
-		return GetRayCollisionSphere(ray, m_center, 10.0f);
+		Vector3 middle = GetPos();
+		middle.y += m_billboardHeight / 2;
+		return GetRayCollisionSphere(ray, middle, 10.0f);
 	}
 }
 
